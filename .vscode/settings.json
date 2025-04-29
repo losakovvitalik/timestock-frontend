@@ -3,6 +3,7 @@
     "auth",
     "readme",
     "metadata",
-    "theme"
+    "theme",
+    "layout"
   ]
 }

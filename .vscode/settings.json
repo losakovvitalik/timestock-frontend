@@ -5,6 +5,7 @@
     "metadata",
     "theme",
     "layout",
-    "start-timer"
+    "start-timer",
+    "start-stop-timer"
   ]
 }

@@ -8,4 +8,8 @@ export const paths = {
   projects: {
     link: '/projects',
   },
+  auth: {
+    link: '/auth',
+    code: '/auth/code',
+  },
 };

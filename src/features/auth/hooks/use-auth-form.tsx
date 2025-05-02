@@ -8,4 +8,4 @@ const useAuthForm = () => {
   });
 };
 
-export default useAuthForm;
+export { useAuthForm };

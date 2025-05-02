@@ -27,7 +27,7 @@ interface TypographyProps
   asChild?: boolean;
 }
 
-const Typography = ({ asChild, className, size, variant, ...props }: TypographyProps) => {
+function Typography({ asChild, className, size, variant, ...props }: TypographyProps) {
   const Comp = asChild ? Slot : 'div';
   return (
     <Comp
@@ -41,6 +41,6 @@ const Typography = ({ asChild, className, size, variant, ...props }: TypographyP
       {...props}
     />
   );
-};
+}
 
-export default Typography;
+export { Typography };

@@ -11,16 +11,16 @@ import {
   FormMessage,
 } from '@/shared/ui/form';
 import { Input } from '@/shared/ui/input';
-import useAuthForm from '../hooks/use-auth-form';
-import { useLoginMutation } from '../hooks/use-login-mutation';
+import { useAuthForm } from '../hooks/use-auth-form';
+import { useSendOtp } from '../hooks/use-send-otp';
 import { AuthFormSchemaType } from '../model/auth-form-schema';
 
 function AuthForm() {
   const form = useAuthForm();
-  const login = useLoginMutation();
+  const { sendOTP, isSendOTPPending } = useSendOtp();
 
   const onSubmit = (values: AuthFormSchemaType) => {
-    login.mutate(values);
+    sendOTP(values);
   };
 
   return (
@@ -45,7 +45,7 @@ function AuthForm() {
                 </FormItem>
               )}
             />
-            <Button className="w-full" type="submit">
+            <Button className="w-full" disabled={isSendOTPPending} type="submit">
               Войти
             </Button>
           </form>

@@ -1,7 +1,6 @@
 import { AuthOTPForm } from '@/features/auth/ui/auth-otp-form';
 import { paths } from '@/shared/constants';
 import { PageParams } from '@/shared/types/next';
-import { Typography } from '@/shared/ui/typography';
 import { redirect } from 'next/navigation';
 
 export default async function AuthCodePage(props: PageParams<any, { email: string }>) {

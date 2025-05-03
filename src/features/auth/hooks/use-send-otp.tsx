@@ -15,7 +15,7 @@ export const useSendOtp = () => {
       router.push(`${paths.auth.code}?email=${vars.email}`);
     },
     onError: (err) => {
-      let msg = 'Что-то пошло не так при регистрации';
+      let msg = 'Что-то пошло не так при авторизации';
 
       if (err instanceof AxiosError) {
         const response = err.response?.data as ApiError;

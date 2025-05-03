@@ -30,7 +30,11 @@ export function AuthOTPForm({ email }: AuthOTPFormProps) {
   });
 
   const onSubmit = (data: AuthOTPFormSchemaType) => {
-    confirmOTP.mutate(data);
+    confirmOTP.mutate(data, {
+      onError: () => {
+        form.setError('code', { message: 'Неверный код' });
+      },
+    });
   };
 
   return (
@@ -70,10 +74,10 @@ export function AuthOTPForm({ email }: AuthOTPFormProps) {
                       </InputOTPGroup>
                     </InputOTP>
                   </FormControl>
+                  <FormMessage className="mx-auto" />
                   <FormDescription className="text-center">
                     Пожалуйста, введите код отправленный на {email}
                   </FormDescription>
-                  <FormMessage />
                 </FormItem>
               )}
             />

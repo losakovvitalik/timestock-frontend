@@ -21,7 +21,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html className={'h-dvh max-h-dvh overflow-hidden rounded'} lang="ru" suppressHydrationWarning>
+    <html className={'h-dvh max-h-dvh rounded'} lang="ru" suppressHydrationWarning>
       <body className={`${inter.variable} $pb-safe-area !h-dvh antialiased`}>
         <ThemeProvider
           attribute="class"

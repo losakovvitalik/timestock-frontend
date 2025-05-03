@@ -11,7 +11,10 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: 'Timestock',
+  title: {
+    template: '%s - Timestock',
+    default: 'Timestock',
+  },
   description: 'Приложения для трекинга времени',
 };
 
@@ -39,7 +42,7 @@ export default function RootLayout({
                   color: 'var(--secondary-foreground)',
                   borderColor: 'var(--border)',
                   borderWidth: '1px',
-                  borderRadius: 'var(--radius)'
+                  borderRadius: 'var(--radius)',
                 },
               }}
             />

@@ -1,3 +1,4 @@
+import Header from '@/shared/ui/layout/header';
 import { Tabbar } from '@/shared/ui/layout/tabbar';
 
 export default function AuthorizedLayout({
@@ -6,9 +7,9 @@ export default function AuthorizedLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <div className="grid h-full w-full grid-rows-[auto_1fr_auto] overflow-hidden">
-      <div></div>
-      <main className="w-full overflow-auto p-2 lg:px-10 lg:py-4">{children}</main>
+    <div className="grid h-full w-full grid-rows-[auto_1fr_auto] gap-2 overflow-hidden">
+      <Header />
+      <main className="w-full overflow-auto px-2 lg:px-10 lg:py-4">{children}</main>
       <Tabbar />
     </div>
   );

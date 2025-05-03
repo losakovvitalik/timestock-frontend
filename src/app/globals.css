@@ -45,7 +45,7 @@
 }
 
 :root {
-  --radius: 0.75rem;
+  --radius: 0.5rem;
   --background: oklch(1 0 0);
   --foreground: oklch(0.141 0.005 285.823);
   --card: oklch(1 0 0);
@@ -120,4 +120,15 @@
   body {
     @apply bg-background text-foreground font-inter;
   }
+}
+
+/* Удаляем крестики в инпутах для поиска */
+/* Для Chrome, Safari, Edge */
+input[type="search"]::-webkit-search-cancel-button {
+  display: none;
+}
+
+/* Для Firefox */
+input[type="search"]::-moz-search-clear-button {
+  display: none;
 }

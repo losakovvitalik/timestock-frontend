@@ -1,9 +1,9 @@
 'use client';
 
 import { PropsWithChildren } from 'react';
-import usePageTitle from '../hooks/use-page-title';
+import { usePageTitle } from '../hooks/use-page-title';
 
-const PageTitle = ({ children }: PropsWithChildren) => {
+export function PageTitle({ children }: PropsWithChildren) {
   usePageTitle(children);
 
   // useEffect(() => {
@@ -13,6 +13,4 @@ const PageTitle = ({ children }: PropsWithChildren) => {
   // }, [children]);
 
   return null;
-};
-
-export default PageTitle;
+}

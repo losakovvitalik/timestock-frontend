@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-export const createProjectFormSchema = z.object({
+export const projectFormSchema = z.object({
   name: z
     .string({
       required_error: 'Название проекта не может быть пустым',
@@ -10,4 +10,4 @@ export const createProjectFormSchema = z.object({
   description: z.string().max(500, 'Описание проекта не может быть больше 500 символов').optional(),
 });
 
-export type CreateProjectFormSchemaType = z.infer<typeof createProjectFormSchema>;
+export type ProjectFormSchemaType = z.infer<typeof projectFormSchema>;

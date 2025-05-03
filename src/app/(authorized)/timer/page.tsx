@@ -1,6 +1,6 @@
 import { StartTimerButton } from '@/features/start-stop-timer/ui/start-timer-button';
 import { Timer } from '@/features/start-stop-timer/ui/timer';
-import PageTitle from '@/shared/ui/page-title';
+import { PageTitle } from '@/shared/ui/page-title';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {

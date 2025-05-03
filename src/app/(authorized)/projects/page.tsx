@@ -1,6 +1,6 @@
-import { ProjectsSearchInput } from '@/entities/projects/ui/projects-search-input';
+import { ProjectsSearchInput } from '@/entities/project/ui/projects-search-input';
 import { CreateProjectLink } from '@/features/create-project/ui/create-project-link';
-import PageTitle from '@/shared/ui/page-title';
+import { PageTitle } from '@/shared/ui/page-title';
 import { Typography } from '@/shared/ui/typography';
 import { Edit } from 'lucide-react';
 import { Metadata } from 'next';

@@ -1,11 +1,11 @@
 import { $api } from '@/shared/lib/api';
 
-export interface userConfirmOTPPayload {
+export interface UserConfirmOTPPayload {
   email: string;
   code: string;
 }
 
-export interface userConfirmOTPResponse {
+export interface UserConfirmOTPResponse {
   jwt: string;
   user: {
     id: string;
@@ -13,7 +13,7 @@ export interface userConfirmOTPResponse {
   };
 }
 
-export const userConfirmOTP = async (data: userConfirmOTPPayload) => {
-  const res = await $api.post<userConfirmOTPResponse>('/auth/confirm-otp', data);
+export const userConfirmOTP = async (data: UserConfirmOTPPayload) => {
+  const res = await $api.post<UserConfirmOTPResponse>('/auth/confirm-otp', data);
   return res.data;
 };

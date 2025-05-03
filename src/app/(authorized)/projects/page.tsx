@@ -1,4 +1,5 @@
 import { ProjectsSearchInput } from '@/entities/projects/ui/projects-search-input';
+import { CreateProjectLink } from '@/features/create-project/ui/create-project-link';
 import PageTitle from '@/shared/ui/page-title';
 import { Typography } from '@/shared/ui/typography';
 import { Edit } from 'lucide-react';
@@ -25,6 +26,10 @@ export default function ProjectsPage() {
           <Typography className="text-lg font-semibold">Timestock</Typography>
           <Edit className="ml-auto size-5" />
         </div>
+      </div>
+
+      <div className="fixed bottom-20 left-1/2 -translate-x-1/2">
+        <CreateProjectLink />
       </div>
     </div>
   );

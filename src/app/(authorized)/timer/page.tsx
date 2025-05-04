@@ -1,5 +1,5 @@
-import { TimerButton } from '@/features/start-stop-timer/ui/timer-button';
-import { Timer } from '@/features/start-stop-timer/ui/timer';
+import { TimerForm } from '@/features/timer/ui/timer-form';
+import { Timer } from '@/features/timer/ui/timer';
 import { PageTitle } from '@/shared/ui/page-title';
 import { Metadata } from 'next';
 
@@ -13,7 +13,7 @@ export default function TimerPage() {
       <PageTitle>Таймер</PageTitle>
       <div className="border-border flex items-center justify-center border-b-2">
         <div className="flex flex-col items-center gap-4">
-          <TimerButton />
+          <TimerForm />
           <Timer />
         </div>
       </div>

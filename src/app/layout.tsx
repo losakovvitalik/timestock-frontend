@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { SessionProvider } from 'next-auth/react';
 import { Inter } from 'next/font/google';
 import { Toaster } from 'react-hot-toast';
 import './globals.css';
@@ -32,21 +33,23 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <TanstackProvider>
-            {children}
-            <Toaster
-              position="top-center"
-              toastOptions={{
-                style: {
-                  background: 'var(--secondary)',
-                  color: 'var(--secondary-foreground)',
-                  borderColor: 'var(--border)',
-                  borderWidth: '1px',
-                  borderRadius: 'var(--radius)',
-                },
-              }}
-            />
-          </TanstackProvider>
+          <SessionProvider>
+            <TanstackProvider>
+              {children}
+              <Toaster
+                position="top-center"
+                toastOptions={{
+                  style: {
+                    background: 'var(--secondary)',
+                    color: 'var(--secondary-foreground)',
+                    borderColor: 'var(--border)',
+                    borderWidth: '1px',
+                    borderRadius: 'var(--radius)',
+                  },
+                }}
+              />
+            </TanstackProvider>
+          </SessionProvider>
         </ThemeProvider>
       </body>
     </html>

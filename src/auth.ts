@@ -26,9 +26,9 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             jwt: res.jwt,
             ...res.user,
           };
-        } catch(e) {
+        } catch (e) {
           console.error(e);
-          throw new Error("Invalid credentials.")
+          throw new Error('Invalid credentials.');
         }
       },
     }),
@@ -36,6 +36,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   callbacks: {
     async jwt({ token, user }) {
       if (user) {
+        // @ts-expect-error странное поведение ts
         token.id = user.id;
         token.email = user.email;
         token.jwt = user.jwt;
@@ -45,6 +46,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     },
     async session({ session, token }) {
       session.user.name = token.name;
+      // @ts-expect-error странное поведение ts
       session.user.id = token.id;
       session.user.jwt = token.jwt;
       session.user.email = token.email;

@@ -8,7 +8,7 @@ export interface UserConfirmOTPPayload {
 export interface UserConfirmOTPResponse {
   jwt: string;
   user: {
-    id: string;
+    id: number;
     email: string;
   };
 }

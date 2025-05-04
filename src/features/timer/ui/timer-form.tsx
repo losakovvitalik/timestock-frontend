@@ -1,5 +1,6 @@
 'use client';
 
+import { ProjectSelect } from '@/entities/project/ui/project-select';
 import { useActiveTimeEntry } from '@/entities/time-entry/hooks/use-active-time-entry';
 import { Button } from '@/shared/ui/button';
 import { TextField } from '@/shared/ui/fields';
@@ -43,6 +44,8 @@ export function TimerForm() {
             placeholder="Описание"
             disabled={isPending}
           />
+
+          <ProjectSelect />
 
           <Button className="size-24 rounded-full" disabled={isPending} type="submit">
             {activeTimeEntry ? (

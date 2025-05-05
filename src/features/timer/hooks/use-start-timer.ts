@@ -10,7 +10,7 @@ export function useStartTimer() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (vars?: Omit<TimeEntryCreatePayload, 'start_time' | 'end_time'> | undefined) => {
+    mutationFn: (vars?: Omit<TimeEntryCreatePayload, 'start_time' | 'end_time'> ) => {
       return timeEntryCreate({
         ...vars,
         start_time: new Date(),

@@ -1,7 +1,7 @@
 export interface TimeEntry {
   id: number;
   documentId: string;
-  name: string | null;
+  description: string | null;
   start_time: string;
   end_time: string | null;
   createdAt: string;

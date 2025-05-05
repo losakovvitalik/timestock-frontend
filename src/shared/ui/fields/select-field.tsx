@@ -1,18 +1,18 @@
 import { FieldValues } from 'react-hook-form';
-import { TextareaAutosize, TextareaAutosizeProps } from '../textarea-autosize';
+import Select, { SelectProps } from '../select';
 import FieldControl, { FieldControlProps } from './field-control';
 
-export interface TextareaFieldProps<T extends FieldValues>
+export interface SelectFieldProps<T extends FieldValues, OpType = Record<any, any>>
   extends Omit<FieldControlProps<T>, 'render'>,
-    Omit<TextareaAutosizeProps, 'name'> {}
+    Omit<SelectProps<OpType>, 'onChange' | 'value'> {}
 
-export function TextareaField<T extends FieldValues>({
+export function SelectField<T extends FieldValues, OpType extends Record<any, any>>({
   name,
   control,
   description,
   label,
   ...props
-}: TextareaFieldProps<T>) {
+}: SelectFieldProps<T, OpType>) {
   return (
     <FieldControl
       name={name}
@@ -20,7 +20,7 @@ export function TextareaField<T extends FieldValues>({
       description={description}
       label={label}
       required={props.required}
-      render={({ field }) => <TextareaAutosize {...props} {...field} />}
+      render={({ field }) => <Select {...props} {...field} />}
     />
   );
 }

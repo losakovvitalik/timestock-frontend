@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
 export const timerFormSchema = z.object({
-  name: z.string().optional(),
+  description: z.string().optional(),
   project: z.number().optional(),
 });
 

@@ -10,46 +10,59 @@ import {
 } from '@/shared/ui/command';
 import { Popover, PopoverContent, PopoverTrigger } from '@/shared/ui/popover';
 import { ChevronsUpDown } from 'lucide-react';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { Typography } from './typography';
 
-type ValueType = number | string;
-
-export interface SelectOption<T = ValueType> {
-  value: T;
-  label: string;
-}
-
-export interface SelectProps<T = ValueType> {
-  options?: SelectOption<T>[];
+export interface SelectProps<T = Record<any, any>> {
+  options?: T[];
+  labelKey: keyof T;
+  valueKey: keyof T;
   emptyText?: string;
   placeholder?: string;
-  value?: T | null;
-  onChange?: (value: T | null) => void;
+  value?: T[keyof T] | null;
+  onChange?: (value: T[keyof T] | null) => void;
   searchable?: boolean;
+  renderItem?: (item: T) => React.ReactNode;
 }
 
-export function Select<T extends ValueType>({
+export function Select<T = Record<string, any>>({
   options = [],
   emptyText = 'Ничего не найдено',
   placeholder = 'Выберите значение',
   value: selectedValue,
   onChange,
   searchable,
+  labelKey,
+  valueKey,
+  renderItem,
 }: SelectProps<T>) {
   const [open, setOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
 
-  const handleChange = (currentOptions: SelectOption<T>) => {
-    onChange?.(currentOptions.value);
+  const handleChange = (currentOption: T) => {
+    onChange?.(currentOption[valueKey]);
     setOpen(false);
   };
 
-  const filteredOptions = options.filter((option) =>
-    String(option.label).toLowerCase().includes(searchTerm.toLowerCase()),
-  );
+  const filteredOptions = useMemo(() => {
+    return options.filter((option) =>
+      String(option[labelKey]).toLowerCase().includes(searchTerm.toLowerCase())
+    )
+  }, [options, labelKey, searchTerm])
 
-  const currentOption = options.find((op) => op.value === selectedValue);
+  const currentOption = useMemo(
+    () => options.find((op) => op[valueKey] === selectedValue),
+    [options, valueKey, selectedValue]
+  )
+
+  const displayItem = (item: T) =>
+    renderItem ? (
+      renderItem(item)
+    ) : (
+      <Typography className="flex flex-wrap gap-1" title={String(item[labelKey])}>
+        {String(item[labelKey])}
+      </Typography>
+    );
 
   return (
     <Popover modal open={open} onOpenChange={setOpen}>
@@ -60,12 +73,10 @@ export function Select<T extends ValueType>({
           role="combobox"
           aria-haspopup="listbox"
           aria-expanded={open}
-          aria-label={currentOption ? String(currentOption.label) : placeholder}
+          aria-label={currentOption ? String(currentOption[labelKey]) : placeholder}
         >
           {currentOption ? (
-            <Typography className="flex flex-wrap gap-1" title={currentOption?.label}>
-              {currentOption?.label}
-            </Typography>
+            displayItem(currentOption)
           ) : (
             <Typography className="w-full truncate text-left" variant={'muted'}>
               {placeholder}
@@ -90,12 +101,12 @@ export function Select<T extends ValueType>({
               {filteredOptions.map((option) => (
                 <CommandItem
                   className="cursor-pointer"
-                  key={option.value}
+                  key={String(option[valueKey])}
                   onSelect={() => handleChange(option)}
                   role="option"
-                  aria-selected={option.value === selectedValue}
+                  aria-selected={option[labelKey] === selectedValue}
                 >
-                  <Typography>{option.label}</Typography>
+                  {displayItem(option)}
                 </CommandItem>
               ))}
             </CommandGroup>

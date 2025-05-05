@@ -1,3 +1,5 @@
+'use client';
+
 import { useQuery } from '@tanstack/react-query';
 import { useEffect } from 'react';
 import { userGetMe, UserGetMeResponse } from '../api/user-get-me';

@@ -12,7 +12,7 @@ export interface TimeEntryCreateResponse {
   data: TimeEntry;
 }
 
-export const timeEntryCreate = async (data: TimeEntryCreatePayload) => {
+export const timeEntryCreate = async (data?: TimeEntryCreatePayload) => {
   const res = await $api.post<TimeEntryCreateResponse>('/time-entries', { data });
   return res.data;
 };

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { timerFormatDuration } from '../utils/timer-format-duration';
+import { formatDuration } from '../utils/format-duration';
 
 export function useDuration(startTime?: Date | string | null | undefined): string {
   const [duration, setDuration] = useState('');
@@ -10,7 +10,7 @@ export function useDuration(startTime?: Date | string | null | undefined): strin
     }
 
     const updateDuration = () => {
-      setDuration(timerFormatDuration(new Date(startTime)));
+      setDuration(formatDuration(new Date(startTime)));
     };
 
     updateDuration(); // обновим сразу при маунте

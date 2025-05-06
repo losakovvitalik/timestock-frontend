@@ -15,6 +15,7 @@ export function SelectProjectField<T extends FieldValues>(
       options={options}
       labelKey="name"
       valueKey="documentId"
+      placeholder={allProjects.isLoading ? 'Загрузка...' : 'Выберите проект'}
       renderItem={(project) => (
         <div className="flex items-center gap-1">
           <div

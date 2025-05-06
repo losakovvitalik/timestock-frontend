@@ -1,8 +1,6 @@
-import {
-  timeEntryCreate,
-  TimeEntryCreatePayload,
-} from '@/entities/time-entry/api/time-entry-create';
+import { timeEntryApi } from '@/entities/time-entry/api/time-entry-api';
 import { useActiveTimeEntryKey } from '@/entities/time-entry/hooks/use-active-time-entry';
+import { TimeEntryPayload } from '@/entities/time-entry/model/types';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import toast from 'react-hot-toast';
 
@@ -10,8 +8,8 @@ export function useStartTimer() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (vars?: Omit<TimeEntryCreatePayload, 'start_time' | 'end_time'> ) => {
-      return timeEntryCreate({
+    mutationFn: (vars?: Pick<TimeEntryPayload, 'description' | 'project'>) => {
+      return timeEntryApi.create({
         ...vars,
         start_time: new Date(),
       });

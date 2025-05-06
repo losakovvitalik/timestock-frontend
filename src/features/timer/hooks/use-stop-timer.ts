@@ -1,4 +1,4 @@
-import { timeEntryUpdate } from '@/entities/time-entry/api/time-entry-update';
+import { timeEntryApi } from '@/entities/time-entry/api/time-entry-api';
 import {
   useActiveTimeEntry,
   useActiveTimeEntryKey,
@@ -16,7 +16,7 @@ export function useStopTimer() {
         throw new Error('Сначала запустите таймер');
       }
 
-      return timeEntryUpdate(activeTimeEntry.data.documentId, {
+      return timeEntryApi.update(activeTimeEntry.data.documentId, {
         end_time: new Date(),
       });
     },

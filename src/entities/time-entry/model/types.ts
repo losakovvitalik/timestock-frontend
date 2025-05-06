@@ -1,10 +1,17 @@
-export interface TimeEntry {
-  id: number;
-  documentId: string;
+import { Project } from '@/entities/project/models/types';
+import { ApiEntityBase } from '@/shared/types/api';
+
+export interface TimeEntry extends ApiEntityBase {
   description: string | null;
   start_time: string;
   end_time: string | null;
-  createdAt: string;
-  updatedAt: string;
-  publishedAt: string;
+  user?: string | null;
+  project?: Project;
+}
+
+export interface TimeEntryPayload {
+  description?: string;
+  project?: string;
+  start_time?: string | Date;
+  end_time?: string | Date;
 }

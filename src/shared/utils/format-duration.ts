@@ -1,6 +1,6 @@
 import { intervalToDuration } from 'date-fns';
 
-export function timerFormatDuration(from: Date, to: Date = new Date()): string {
+export function formatDuration(from: Date | string, to: Date | string = new Date()): string {
   const duration = intervalToDuration({ start: from, end: to });
 
   const pad = (num: number) => String(num).padStart(2, '0');

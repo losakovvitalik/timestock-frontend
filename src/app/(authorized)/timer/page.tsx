@@ -1,8 +1,8 @@
-import { TimeEntryList } from '@/widgets/time-entry-list';
 import { Timer } from '@/features/timer/ui/timer';
-import { TimerInfoDrawer } from '@/entities/time-entry/ui/timer-info-drawer';
+import { TimerInfoDrawer } from '@/features/timer/ui/timer-info-drawer';
 import { TimerToggleButton } from '@/features/timer/ui/timer-toggle-button';
 import { PageTitle } from '@/shared/ui/page-title';
+import { TimeEntryList } from '@/widgets/time-entry-list';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {

@@ -1,23 +1,33 @@
 import { useEffect, useState } from 'react';
 import { formatDuration } from '../utils/format-duration';
 
-export function useDuration(startTime?: Date | string | null | undefined): string {
+type TimeUnion = Date | string | null | undefined;
+
+export function useDuration(startTime?: TimeUnion, endTime?: TimeUnion): string {
   const [duration, setDuration] = useState('');
 
   useEffect(() => {
-    if (!startTime) {
+    if (!startTime) return;
+
+    const start = new Date(startTime);
+    const end = endTime ? new Date(endTime) : null;
+
+    if (end) {
+      // Статическая продолжительность
+      setDuration(formatDuration(start, end));
       return;
     }
 
+    // Динамическое обновление
     const updateDuration = () => {
-      setDuration(formatDuration(new Date(startTime)));
+      setDuration(formatDuration(start, new Date()));
     };
 
-    updateDuration(); // обновим сразу при маунте
+    updateDuration();
     const intervalId = setInterval(updateDuration, 1000);
 
     return () => clearInterval(intervalId);
-  }, [startTime]); // следим за изменением времени старта
+  }, [startTime, endTime]);
 
   return duration;
 }

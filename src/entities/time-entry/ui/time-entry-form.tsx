@@ -1,29 +1,29 @@
-import { SelectProjectField } from '@/entities/time-entry/ui/select-project-field';
+import { SelectProjectField } from '@/entities/project/ui/select-project-field';
 import { cn } from '@/shared/lib/utils';
 import { Button } from '@/shared/ui/button';
 import { TextareaField } from '@/shared/ui/fields';
 import { Form } from '@/shared/ui/form';
-import { useTimerInfoForm } from '../hooks/use-timer-info-form';
-import { TimerFormSchemaType } from '../model/timer-form-schema';
+import { useTimeEntryInfoForm } from '../hooks/use-time-entry-info-form';
+import { TimeEntryFormSchemaType } from '../model/time-entry-form-schema';
 
-export interface TimerInfoProps {
+export interface TimeEntryFormProps {
   className?: string;
-  onSubmit?: (data: TimerFormSchemaType) => void;
+  onSubmit?: (data: TimeEntryFormSchemaType) => void;
   submitText?: string;
-  defaultValues?: Partial<TimerFormSchemaType>;
+  defaultValues?: Partial<TimeEntryFormSchemaType>;
 }
 
-export function TimerInfoForm({
+export function TimeEntryForm({
   className,
   onSubmit,
   submitText = 'Сохранить',
   defaultValues,
-}: TimerInfoProps) {
-  const form = useTimerInfoForm({
+}: TimeEntryFormProps) {
+  const form = useTimeEntryInfoForm({
     defaultValues,
   });
 
-  const handleSubmit = (data: TimerFormSchemaType) => {
+  const handleSubmit = (data: TimeEntryFormSchemaType) => {
     onSubmit?.(data);
   };
 

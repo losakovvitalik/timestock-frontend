@@ -11,7 +11,12 @@ export interface TimeEntryListProps {
 
 export function TimeEntryList({ params }: TimeEntryListProps) {
   const timeEntries = timeEntryApiHooks.useList({
-    ...params,
+    filters: {
+      ...params?.filters,
+      end_time: params?.filters?.end_time || {
+        $notNull: true,
+      },
+    },
     populate: {
       ...params?.populate,
       project: params?.populate?.project ? params?.populate?.project : true,

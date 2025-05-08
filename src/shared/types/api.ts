@@ -30,6 +30,7 @@ export interface Pagination {
 export interface ApiGetParams<T extends Record<any, any>> {
   filters?: Partial<Record<keyof T, any>>;
   populate?: Partial<Record<keyof T, any>>;
+  sort?: Partial<Record<keyof T, 'asc' | 'desc'>>;
 }
 
 // Base Entity Fields

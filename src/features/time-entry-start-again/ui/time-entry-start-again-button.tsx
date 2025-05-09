@@ -1,9 +1,9 @@
 import { Button } from '@/shared/ui/button';
 import ConfirmPopup from '@/shared/ui/confirm-popup';
 import { Play } from 'lucide-react';
-import { useActiveTimeEntry } from '../hooks/use-active-time-entry';
+import { useActiveTimeEntry } from '../../../entities/time-entry/hooks/use-active-time-entry';
+import { TimeEntry } from '../../../entities/time-entry/model/types';
 import { useTimeEntryStartAgain } from '../hooks/use-time-entry-start-again';
-import { TimeEntry } from '../model/types';
 
 export interface TimeEntryStartAgainButtonProps {
   entry: TimeEntry;

@@ -17,7 +17,7 @@ export interface ConfirmPopupProps {
   onOpenChange?: (open: boolean) => void;
   open?: boolean;
   title: string;
-  description?: string;
+  description?: React.ReactNode;
   trigger?: React.ReactNode;
 }
 

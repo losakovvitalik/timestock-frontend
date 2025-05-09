@@ -82,7 +82,7 @@ export function createApiHooks<Entity extends Record<any, any>, Payload = Partia
       mutationFn: (id: Id) => api.delete(id.toString()),
       onMutate: config?.onMutate,
       onSuccess: () => {
-        queryClient.invalidateQueries({ queryKey: [entityName + 'List'] });
+        queryClient.invalidateQueries({ queryKey: [entityName, 'list'] });
         config?.onSuccess?.();
       },
       onError: config?.onError,

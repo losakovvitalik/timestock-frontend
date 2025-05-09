@@ -2,8 +2,8 @@
 
 import { timeEntryApiHooks } from '@/entities/time-entry/api/time-entry-api-hooks';
 import { TimeEntry } from '@/entities/time-entry/model/types';
-import { TimeEntryItem } from '@/entities/time-entry/ui/time-entry-item';
 import { ApiGetParams } from '@/shared/types/api';
+import { TimeEntryItem } from './time-entry-item';
 
 export interface TimeEntryListProps {
   params?: ApiGetParams<TimeEntry>;

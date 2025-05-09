@@ -1,5 +1,10 @@
 'use client';
 
+import { timeEntryApiHooks } from '@/entities/time-entry/api/time-entry-api-hooks';
+import { TimeEntryFormSchemaType } from '@/entities/time-entry/model/time-entry-form-schema';
+import { TimeEntry } from '@/entities/time-entry/model/types';
+import { TimeEntryForm } from '@/entities/time-entry/ui/time-entry-form';
+import { TimeEntryStartAgainButton } from '@/features/time-entry-start-again/ui/time-entry-start-again-button';
 import { useDuration } from '@/shared/hooks/use-duration';
 import { Button } from '@/shared/ui/button';
 import {
@@ -14,18 +19,13 @@ import {
 } from '@/shared/ui/drawer';
 import { useState } from 'react';
 import toast from 'react-hot-toast';
-import { TimerToggleButton } from '../../../features/timer/ui/timer-toggle-button';
-import { timeEntryApiHooks } from '../api/time-entry-api-hooks';
-import { TimeEntryFormSchemaType } from '../model/time-entry-form-schema';
-import { TimeEntry } from '../model/types';
-import { TimeEntryForm } from './time-entry-form';
 
-export interface TimeEntryDrawerProps {
+export interface TimeEntryViewProps {
   entry: TimeEntry;
   trigger: React.ReactNode;
 }
 
-export function TimeEntryDrawer({ entry, trigger }: TimeEntryDrawerProps) {
+export function TimeEntryView({ entry, trigger }: TimeEntryViewProps) {
   const [open, setOpen] = useState(false);
 
   const duration = useDuration(entry?.start_time, entry?.end_time);
@@ -57,7 +57,7 @@ export function TimeEntryDrawer({ entry, trigger }: TimeEntryDrawerProps) {
             <DrawerTitle>Информация</DrawerTitle>
             <DrawerDescription>{duration}</DrawerDescription>
           </div>
-          <TimerToggleButton className="size-11 !p-0.5" />
+          <TimeEntryStartAgainButton entry={entry} />
         </DrawerHeader>
         {entry && (
           <TimeEntryForm

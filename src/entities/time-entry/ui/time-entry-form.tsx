@@ -3,7 +3,7 @@ import { cn } from '@/shared/lib/utils';
 import { Button } from '@/shared/ui/button';
 import { TextareaField } from '@/shared/ui/fields';
 import { Form } from '@/shared/ui/form';
-import { useTimeEntryInfoForm } from '../hooks/use-time-entry-info-form';
+import { useTimeEntryForm } from '../hooks/use-time-entry-form';
 import { TimeEntryFormSchemaType } from '../model/time-entry-form-schema';
 
 export interface TimeEntryFormProps {
@@ -19,7 +19,7 @@ export function TimeEntryForm({
   submitText = 'Сохранить',
   defaultValues,
 }: TimeEntryFormProps) {
-  const form = useTimeEntryInfoForm({
+  const form = useTimeEntryForm({
     defaultValues,
   });
 

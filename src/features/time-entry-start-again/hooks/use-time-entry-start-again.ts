@@ -2,7 +2,7 @@ import { timeEntryApiHooks } from '@/entities/time-entry/api/time-entry-api-hook
 import { useActiveTimeEntry } from '@/entities/time-entry/hooks/use-active-time-entry';
 import { TimeEntry } from '@/entities/time-entry/model/types';
 import { useMutation } from '@tanstack/react-query';
-import { timeEntryApi } from '../api/time-entry-api';
+import { timeEntryApi } from '../../../entities/time-entry/api/time-entry-api';
 
 interface UseTimeEntryStartAgainProps {
   entry: TimeEntry;

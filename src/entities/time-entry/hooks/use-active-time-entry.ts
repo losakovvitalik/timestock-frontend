@@ -1,6 +1,6 @@
 import { useUser } from '@/entities/user/hooks/use-user';
-import { useQuery } from '@tanstack/react-query';
-import { timeEntryApi } from '../api/time-entry-api';
+import { timeEntryApiHooks } from '../api/time-entry-api-hooks';
+import { TimeEntry } from '../model/types';
 
 export const useActiveTimeEntryKey = ['active-time-entry'];
 
@@ -8,23 +8,21 @@ export function useActiveTimeEntry() {
   const user = useUser();
   const userId = user.data?.id;
 
-  return useQuery({
-    queryKey: ['active-time-entry', userId],
-    queryFn: async () => {
-      const timeEntry = await timeEntryApi.list({
-        filters: {
-          user: userId,
-          end_time: {
-            $null: true,
-          },
+  return timeEntryApiHooks.useList<TimeEntry | null>(
+    {
+      filters: {
+        user: userId,
+        end_time: {
+          $null: true,
         },
-        populate: {
-          project: true,
-        }
-      });
-
-      return timeEntry.data[0] || null;
+      },
+      populate: {
+        project: true,
+      },
     },
-    enabled: Boolean(userId),
-  });
+    {
+      select: (res) => res.data[0] || null,
+      enabled: Boolean(userId),
+    },
+  );
 }

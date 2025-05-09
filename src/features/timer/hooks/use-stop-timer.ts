@@ -1,25 +1,16 @@
-import { timeEntryApi } from '@/entities/time-entry/api/time-entry-api';
+import { timeEntryApiHooks } from '@/entities/time-entry/api/time-entry-api-hooks';
 import {
   useActiveTimeEntry,
   useActiveTimeEntryKey,
 } from '@/entities/time-entry/hooks/use-active-time-entry';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useQueryClient } from '@tanstack/react-query';
 import toast from 'react-hot-toast';
 
 export function useStopTimer() {
-  const activeTimeEntry = useActiveTimeEntry();
   const queryClient = useQueryClient();
 
-  return useMutation({
-    mutationFn: () => {
-      if (!activeTimeEntry.data) {
-        throw new Error('Сначала запустите таймер');
-      }
-
-      return timeEntryApi.update(activeTimeEntry.data.documentId, {
-        end_time: new Date(),
-      });
-    },
+  const activeTimeEntry = useActiveTimeEntry();
+  const timeEntryUpdate = timeEntryApiHooks.useUpdate({
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: useActiveTimeEntryKey,
@@ -29,4 +20,38 @@ export function useStopTimer() {
       toast.error('Не удалось остановить таймер. Что-то пошло не так.');
     },
   });
+
+  const mutate = () => {
+    if (!activeTimeEntry.data) {
+      toast.error('Нет активного таймера. Сначала запустите таймер.');
+      return;
+    }
+
+    return timeEntryUpdate.mutate({
+      id: activeTimeEntry.data.documentId,
+      data: {
+        end_time: new Date(),
+      },
+    });
+  };
+
+  const mutateAsync = () => {
+    if (!activeTimeEntry.data) {
+      toast.error('Нет активного таймера. Сначала запустите таймер.');
+      return Promise.resolve();
+    }
+
+    return timeEntryUpdate.mutateAsync({
+      id: activeTimeEntry.data.documentId,
+      data: {
+        end_time: new Date(),
+      },
+    });
+  };
+
+  return {
+    ...timeEntryUpdate,
+    mutate,
+    mutateAsync,
+  };
 }

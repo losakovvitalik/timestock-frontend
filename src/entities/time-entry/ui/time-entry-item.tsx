@@ -4,9 +4,10 @@ import { Button } from '@/shared/ui/button';
 import { Card, CardContent, CardTitle } from '@/shared/ui/card';
 import { Typography } from '@/shared/ui/typography';
 import { formatDuration } from '@/shared/utils/format-duration';
-import { Play, Trash } from 'lucide-react';
+import { Trash } from 'lucide-react';
 import { TimeEntry } from '../model/types';
 import { TimeEntryDrawer } from './time-entry-drawer';
+import { TimeEntryStartAgainButton } from './time-entry-start-again-button';
 
 export interface TimeEntryItemProps {
   entry: TimeEntry;
@@ -14,14 +15,22 @@ export interface TimeEntryItemProps {
 
 export function TimeEntryItem({ entry }: TimeEntryItemProps) {
   return (
-    <TimeEntryDrawer
-      entry={entry}
-      trigger={
-        <Card className="py-2">
-          <CardContent className="grid grid-cols-[1fr_auto] items-center gap-4 px-2">
-            <div className="flex flex-col gap-1">
+    <Card
+      className="py-2"
+      onClick={(e) => {
+        if ((e.target as HTMLElement).closest('button')) {
+          e.preventDefault();
+          e.stopPropagation();
+        }
+      }}
+    >
+      <CardContent className="grid grid-cols-[1fr_auto] items-center gap-4 px-2">
+        <TimeEntryDrawer
+          entry={entry}
+          trigger={
+            <button className="flex cursor-pointer flex-col items-start gap-1">
               <CardTitle
-                className={cn('line-clamp-1 leading-5', {
+                className={cn('line-clamp-1 leading-5 text-left', {
                   'opacity-70': !entry.description,
                 })}
               >
@@ -45,25 +54,16 @@ export function TimeEntryItem({ entry }: TimeEntryItemProps) {
                   </Typography>
                 </Badge>
               </div>
-            </div>
-            <div className="flex gap-2">
-              <Button
-                onClick={(e) => {
-                  e.preventDefault();
-                  console.log('test');
-                }}
-                className="size-8"
-                variant={'outline'}
-              >
-                <Play />
-              </Button>
-              <Button className="size-8" variant={'destructive'}>
-                <Trash />
-              </Button>
-            </div>
-          </CardContent>
-        </Card>
-      }
-    />
+            </button>
+          }
+        />
+        <div className="flex gap-2">
+          <TimeEntryStartAgainButton entry={entry} />
+          <Button className="size-8" variant={'destructive'}>
+            <Trash />
+          </Button>
+        </div>
+      </CardContent>
+    </Card>
   );
 }

@@ -9,8 +9,9 @@ import {
   CommandList,
 } from '@/shared/ui/command';
 import { Popover, PopoverContent, PopoverTrigger } from '@/shared/ui/popover';
-import { ChevronsUpDown } from 'lucide-react';
+import { Check, ChevronsUpDown } from 'lucide-react';
 import { useMemo, useState } from 'react';
+import { cn } from '../lib/utils';
 import { Typography } from './typography';
 
 export interface SelectProps<T = Record<any, any>> {
@@ -46,14 +47,14 @@ export function Select<T = Record<string, any>>({
 
   const filteredOptions = useMemo(() => {
     return options.filter((option) =>
-      String(option[labelKey]).toLowerCase().includes(searchTerm.toLowerCase())
-    )
-  }, [options, labelKey, searchTerm])
+      String(option[labelKey]).toLowerCase().includes(searchTerm.toLowerCase()),
+    );
+  }, [options, labelKey, searchTerm]);
 
   const currentOption = useMemo(
     () => options.find((op) => op[valueKey] === selectedValue),
-    [options, valueKey, selectedValue]
-  )
+    [options, valueKey, selectedValue],
+  );
 
   const displayItem = (item: T) =>
     renderItem ? (
@@ -100,13 +101,20 @@ export function Select<T = Record<string, any>>({
             <CommandGroup className="overflow-auto">
               {filteredOptions.map((option) => (
                 <CommandItem
-                  className="cursor-pointer"
+                  className={cn('cursor-pointer')}
                   key={String(option[valueKey])}
+                  value={String(option[valueKey])}
                   onSelect={() => handleChange(option)}
                   role="option"
-                  aria-selected={option[labelKey] === selectedValue}
+                  aria-selected={option[valueKey] === selectedValue}
                 >
                   {displayItem(option)}
+                  <Check
+                    className={cn(
+                      'ml-auto',
+                      option[valueKey] === selectedValue ? 'opacity-100' : 'opacity-0',
+                    )}
+                  />
                 </CommandItem>
               ))}
             </CommandGroup>

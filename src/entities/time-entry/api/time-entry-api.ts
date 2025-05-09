@@ -1,4 +1,4 @@
 import { createApiEndpoint } from '@/shared/api/create-api-endpoint';
-import { TimeEntry } from '../model/types';
+import { TimeEntry, TimeEntryPayload } from '../model/types';
 
-export const timeEntryApi = createApiEndpoint<TimeEntry>('/time-entries');
+export const timeEntryApi = createApiEndpoint<TimeEntry, TimeEntryPayload>('/time-entries');

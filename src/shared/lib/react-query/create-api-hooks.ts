@@ -21,11 +21,14 @@ export function createApiHooks<Entity extends Record<any, any>, Payload = Partia
       ...options,
     });
 
-  const useList = (
+  const useList = <TData = ApiCollectionResponse<Entity>>(
     params?: ApiGetParams<Entity>,
-    options?: Omit<UseQueryOptions<ApiCollectionResponse<Entity>>, 'queryKey' | 'queryFn'>,
+    options?: Omit<
+      UseQueryOptions<ApiCollectionResponse<Entity>, unknown, TData>,
+      'queryKey' | 'queryFn'
+    >,
   ) =>
-    useQuery({
+    useQuery<ApiCollectionResponse<Entity>, unknown, TData>({
       queryKey: [entityName, 'list', params],
       queryFn: () => api.list(params),
       ...options,

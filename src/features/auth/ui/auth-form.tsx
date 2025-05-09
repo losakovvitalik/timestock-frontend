@@ -35,7 +35,7 @@ function AuthForm() {
                 <FormItem>
                   <FormLabel>Email</FormLabel>
                   <FormControl>
-                    <Input type="email" {...field} />
+                    <Input type="email" autoComplete="email" {...field} />
                   </FormControl>
                   <FormDescription>
                     Введите email, чтобы войти. Если у вас ещё нет аккаунта, то он будет{' '}

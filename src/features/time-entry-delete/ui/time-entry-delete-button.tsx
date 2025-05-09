@@ -1,6 +1,5 @@
 import { Button } from '@/shared/ui/button';
 import ConfirmPopup from '@/shared/ui/confirm-popup';
-import { Typography } from '@/shared/ui/typography';
 import { Trash } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { timeEntryApiHooks } from '../../../entities/time-entry/api/time-entry-api-hooks';
@@ -24,11 +23,7 @@ export function TimeEntryDeleteButton({ entry }: TimeEntryDeleteButtonProps) {
   return (
     <ConfirmPopup
       title="Вы уверены что хотите удалить запись?"
-      description={
-        <Typography className="italic" size={'xs'}>
-          {entry.description || 'Без описания'}
-        </Typography>
-      }
+      description={<span className="italic">{entry.description || 'Без описания'}</span>}
       onConfirm={handleDelete}
       trigger={
         <Button className="size-8" variant={'destructive'}>

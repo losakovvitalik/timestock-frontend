@@ -3,6 +3,7 @@
 import { timeEntryApiHooks } from '@/entities/time-entry/api/time-entry-api-hooks';
 import { TimeEntry } from '@/entities/time-entry/model/types';
 import { ApiGetParams } from '@/shared/types/api';
+import { Typography } from '@/shared/ui/typography';
 import { TimeEntryItem } from './time-entry-item';
 
 export interface TimeEntryListProps {
@@ -27,12 +28,15 @@ export function TimeEntryList({ params }: TimeEntryListProps) {
   });
 
   return (
-    <ul className="flex flex-col gap-2">
-      {timeEntries.data?.data.map((timeEntry) => (
-        <li key={timeEntry.documentId}>
-          <TimeEntryItem entry={timeEntry} />
-        </li>
-      ))}
-    </ul>
+    <div className="flex flex-col gap-2">
+      <Typography variant={'subtitle'}>Последнии записи</Typography>
+      <ul className="flex flex-col gap-2">
+        {timeEntries.data?.data.map((timeEntry) => (
+          <li key={timeEntry.documentId}>
+            <TimeEntryItem entry={timeEntry} />
+          </li>
+        ))}
+      </ul>
+    </div>
   );
 }

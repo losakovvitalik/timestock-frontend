@@ -20,7 +20,13 @@ export function TimeEntryList({ params }: TimeEntryListProps) {
     },
     populate: {
       ...params?.populate,
-      project: params?.populate?.project ? params?.populate?.project : true,
+      project: params?.populate?.project
+        ? params?.populate?.project
+        : {
+            populate: {
+              color: true,
+            },
+          },
     },
     sort: params?.sort || {
       start_time: 'desc',

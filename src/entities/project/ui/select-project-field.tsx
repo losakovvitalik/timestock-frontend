@@ -1,12 +1,16 @@
-import { useProjectGetAll } from '@/entities/project/hooks/use-project-get-all';
 import { SelectField, SelectFieldProps } from '@/shared/ui/fields/select-field';
 import { Typography } from '@/shared/ui/typography';
 import { FieldValues } from 'react-hook-form';
+import { projectApiHooks } from '../api/project-api-hooks';
 
 export function SelectProjectField<T extends FieldValues>(
   props: Omit<SelectFieldProps<T>, 'options' | 'labelKey' | 'valueKey'>,
 ) {
-  const allProjects = useProjectGetAll();
+  const allProjects = projectApiHooks.useList({
+    populate: {
+      color: true,
+    },
+  });
   const options = allProjects.data?.data || [];
 
   return (
@@ -21,7 +25,7 @@ export function SelectProjectField<T extends FieldValues>(
           <div
             className="size-4 rounded-full"
             style={{
-              backgroundColor: project.color,
+              backgroundColor: project.color.hex,
             }}
           />
           <Typography>{project.name}</Typography>

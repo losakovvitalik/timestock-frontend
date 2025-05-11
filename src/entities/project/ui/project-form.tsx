@@ -1,6 +1,7 @@
 import { Button } from '@/shared/ui/button';
 import { Card, CardContent } from '@/shared/ui/card';
 import { TextareaField, TextField } from '@/shared/ui/fields';
+import { ColorField } from '@/shared/ui/fields/color-field';
 import { Form } from '@/shared/ui/form';
 import { Typography } from '@/shared/ui/typography';
 import { useProjectForm } from '../hooks/use-project-form';
@@ -22,7 +23,10 @@ export function ProjectForm({ onSubmit, submitBtnText = 'Сохранить' }: 
             <Typography variant={'subtitle'}>Основная информация</Typography>
 
             <div className="flex flex-col gap-4">
-              <TextField control={form.control} name="name" label="Название" />
+              <div className="grid grid-cols-[auto_1fr] gap-2">
+                <ColorField control={form.control} name="color" />
+                <TextField control={form.control} name="name" placeholder="Название проекта" />
+              </div>
               <TextareaField control={form.control} name="description" label="Описание" />
             </div>
           </CardContent>

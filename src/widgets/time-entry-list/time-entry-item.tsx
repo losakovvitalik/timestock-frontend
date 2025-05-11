@@ -36,7 +36,7 @@ export function TimeEntryItem({ entry }: TimeEntryItemProps) {
                     <div
                       className="size-2.5 rounded-full"
                       style={{
-                        backgroundColor: entry.project?.color,
+                        backgroundColor: entry.project.color.hex,
                       }}
                     />
                   )}

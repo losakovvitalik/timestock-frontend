@@ -17,7 +17,11 @@ export function useActiveTimeEntry() {
         },
       },
       populate: {
-        project: true,
+        project: {
+          populate: {
+            color: true,
+          },
+        },
       },
     },
     {

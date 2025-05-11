@@ -17,10 +17,14 @@ export default function TimerPage() {
         <div className="border-border border-b-2">
           <TimeEntryList />
         </div>
-        <div className="flex flex-col items-center gap-4 py-4">
-          <TimerToggleButton />
-          <Timer />
-          <TimerInfoDrawer />
+        <div className="flex items-center justify-between gap-8 py-4">
+          <div className="flex w-full flex-col gap-4">
+            <Timer />
+            <TimerInfoDrawer />
+          </div>
+          <div>
+            <TimerToggleButton />
+          </div>
         </div>
       </div>
     </div>

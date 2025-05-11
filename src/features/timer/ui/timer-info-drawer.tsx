@@ -50,9 +50,9 @@ export function TimerInfoDrawer() {
   return (
     <Drawer open={open} onOpenChange={setOpen}>
       <DrawerTrigger asChild>
-        <Button className="flex gap-1 rounded-full">
-          <Plus className="stroke-3" />
-          <Typography>Добавить информацию</Typography>
+        <Button className="flex gap-1 rounded-full" size={'sm'}>
+          <Plus className="size-4 stroke-3" />
+          <Typography size={'sm'}>Добавить информацию</Typography>
         </Button>
       </DrawerTrigger>
       <DrawerContent>

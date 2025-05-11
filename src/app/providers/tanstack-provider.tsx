@@ -39,5 +39,10 @@ const queryClient = new QueryClient({
 });
 
 export function TanstackProvider({ children }: PropsWithChildren) {
-  return <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>;
+  return (
+    <QueryClientProvider client={queryClient}>
+      {children}
+      {/* <ReactQueryDevtools  /> */}
+    </QueryClientProvider>
+  );
 }

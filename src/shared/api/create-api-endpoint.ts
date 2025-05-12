@@ -1,24 +1,68 @@
 import { $api } from '../lib/api';
 import { ApiCollectionResponse, ApiGetParams } from '../types/api';
 
-export const createApiEndpoint = <
-  Entity extends Record<any, any>,
+// Перегрузки
+// Без mapFn
+export function createApiEndpoint<
+  EntityDTO extends Record<any, any>,
   EntityPayload = Record<any, any>,
 >(
   basePath: string,
-) => {
+): {
+  get: (id: string) => Promise<EntityDTO>;
+  list: (params?: ApiGetParams<EntityDTO>) => Promise<ApiCollectionResponse<EntityDTO>>;
+  create: (data: EntityPayload) => Promise<EntityDTO>;
+  update: (id: string, data: EntityPayload) => Promise<EntityDTO>;
+  delete: (id: string) => Promise<void>;
+};
+// C mapFn
+export function createApiEndpoint<
+  EntityDTO extends Record<any, any>,
+  EntityPayload = Record<any, any>,
+  Entity = Record<any, any>,
+>(
+  basePath: string,
+  mapFn: (dto: EntityDTO) => Entity,
+): {
+  get: (id: string) => Promise<Entity>;
+  list: (params?: ApiGetParams<EntityDTO>) => Promise<ApiCollectionResponse<Entity>>;
+  create: (data: EntityPayload) => Promise<Entity>;
+  update: (id: string, data: EntityPayload) => Promise<Entity>;
+  delete: (id: string) => Promise<void>;
+};
+// Реализация
+export function createApiEndpoint<
+  EntityDTO extends Record<any, any>,
+  EntityPayload = Record<any, any>,
+  Entity = Record<any, any>,
+>(basePath: string, mapFn?: (dto: EntityDTO) => Entity) {
   return {
-    get: (id: string) => $api.get<{ data: Entity }>(`${basePath}/${id}`).then((r) => r.data),
-    list: (params?: ApiGetParams<Entity>) =>
+    get: (id: string) =>
       $api
-        .get<ApiCollectionResponse<Entity>>(basePath, {
+        .get<{ data: EntityDTO }>(`${basePath}/${id}`)
+        .then((r) => (mapFn ? mapFn(r.data.data) : r.data.data)),
+
+    list: (params?: ApiGetParams<EntityDTO>) =>
+      $api
+        .get<ApiCollectionResponse<EntityDTO>>(basePath, {
           params,
         })
-        .then((r) => r.data),
+        .then((r) =>
+          mapFn
+            ? ({ data: r.data.data.map(mapFn), meta: r.data.meta } as ApiCollectionResponse<Entity>)
+            : r.data,
+        ),
+
     create: (data: EntityPayload) =>
-      $api.post<{ data: Entity }>(basePath, { data }).then((r) => r.data),
+      $api
+        .post<{ data: EntityDTO }>(basePath, { data })
+        .then((r) => (mapFn ? mapFn(r.data.data) : r.data.data)),
+
     update: (id: string, data: EntityPayload) =>
-      $api.put<{ data: Entity }>(`${basePath}/${id}`, { data }).then((r) => r.data),
-    delete: <T = void>(id: string) => $api.delete<T>(`${basePath}/${id}`),
+      $api
+        .put<{ data: EntityDTO }>(`${basePath}/${id}`, { data })
+        .then((r) => (mapFn ? mapFn(r.data.data) : r.data.data)),
+
+    delete: (id: string) => $api.delete<void>(`${basePath}/${id}`).then((r) => r.data),
   };
-};
+}

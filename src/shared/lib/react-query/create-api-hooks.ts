@@ -4,16 +4,70 @@ import { useMutation, useQuery, useQueryClient, UseQueryOptions } from '@tanstac
 
 type Id = string | number;
 
-export function createApiHooks<Entity extends Record<any, any>, Payload = Partial<Entity>>(
+type ReturnTypeInternal<EntityDTO, Payload, Entity = EntityDTO> = {
+  useGet: (
+    id: Id,
+    options?: Omit<UseQueryOptions<Entity>, 'queryKey' | 'queryFn'>,
+  ) => ReturnType<typeof useQuery<Entity>>;
+
+  useList: <TData = ApiCollectionResponse<Entity>>(
+    params?: ApiGetParams<EntityDTO>,
+    options?: Omit<
+      UseQueryOptions<ApiCollectionResponse<Entity>, unknown, TData>,
+      'queryKey' | 'queryFn'
+    >,
+  ) => ReturnType<typeof useQuery<ApiCollectionResponse<Entity>, unknown, TData>>;
+
+  useCreate: (config?: {
+    onMutate?: (data: Payload) => any;
+    onSuccess?: () => void;
+    onError?: (err: unknown) => void;
+  }) => ReturnType<typeof useMutation<Entity, unknown, Payload>>;
+
+  useUpdate: (config?: {
+    onMutate?: (data: { id: Id; data: Payload }) => any;
+    onSuccess?: () => void;
+    onError?: (err: unknown) => void;
+  }) => ReturnType<typeof useMutation<Entity, unknown, { id: Id; data: Payload }>>;
+
+  useDelete: (config?: {
+    onMutate?: (id: Id) => any;
+    onSuccess?: () => void;
+    onError?: (err: unknown) => void;
+  }) => ReturnType<typeof useMutation<void, unknown, Id>>;
+};
+
+// Без mapFn
+export function createApiHooks<EntityDTO extends Record<any, any>, Payload = Partial<EntityDTO>>(
   entityName: string,
   basePath: string,
-) {
-  const api = createApiEndpoint<Entity, Payload>(basePath);
+): ReturnTypeInternal<EntityDTO, Payload>;
 
-  const useGet = (
-    id: Id,
-    options?: Omit<UseQueryOptions<{ data: Entity }>, 'queryKey' | 'queryFn'>,
-  ) =>
+// С mapFn
+export function createApiHooks<
+  EntityDTO extends Record<any, any>,
+  Payload = Partial<EntityDTO>,
+  Entity = Record<any, any>,
+>(
+  entityName: string,
+  basePath: string,
+  mapFn: (dto: EntityDTO) => Entity,
+): ReturnTypeInternal<EntityDTO, Payload, Entity>;
+
+export function createApiHooks<
+  EntityDTO extends Record<any, any>,
+  Payload = Partial<EntityDTO>,
+  Entity = Record<any, any>,
+>(
+  entityName: string,
+  basePath: string,
+  mapFn?: (dto: EntityDTO) => Entity,
+): ReturnTypeInternal<EntityDTO, Payload, Entity> {
+  const api = mapFn
+    ? createApiEndpoint<EntityDTO, Payload, Entity>(basePath, mapFn)
+    : createApiEndpoint<EntityDTO, Payload>(basePath);
+
+  const useGet = (id: Id, options?: Omit<UseQueryOptions<Entity>, 'queryKey' | 'queryFn'>) =>
     useQuery({
       queryKey: [entityName, id],
       queryFn: () => api.get(id.toString()),
@@ -22,7 +76,7 @@ export function createApiHooks<Entity extends Record<any, any>, Payload = Partia
     });
 
   const useList = <TData = ApiCollectionResponse<Entity>>(
-    params?: ApiGetParams<Entity>,
+    params?: ApiGetParams<EntityDTO>,
     options?: Omit<
       UseQueryOptions<ApiCollectionResponse<Entity>, unknown, TData>,
       'queryKey' | 'queryFn'

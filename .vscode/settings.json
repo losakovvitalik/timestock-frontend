@@ -11,5 +11,6 @@
     "timer",
     "time entry",
     "button"
-  ]
+  ],
+  "typescript.tsdk": "node_modules/typescript/lib"
 }

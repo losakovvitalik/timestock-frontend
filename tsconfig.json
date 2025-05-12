@@ -13,9 +13,15 @@
     "isolatedModules": true,
     "jsx": "preserve",
     "incremental": true,
+    "baseUrl": ".",
     "plugins": [
       {
         "name": "next"
+      },
+      {
+        "name": "ts-plugin-sort-import-suggestions",
+        // По умолчанию плагин уже поднимает все, что начинается с "./" или "../"
+        "moveUpPatterns": ["\\./", "\\.\\./"]
       }
     ],
     "paths": {

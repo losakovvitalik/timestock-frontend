@@ -1,12 +1,12 @@
 import { $api } from '@/shared/lib/api';
 import { ApiCollectionResponse } from '@/shared/types/api';
-import { TimeEntry } from '../model/types';
+import { TimeEntryDTO } from '../model/types';
 
 export interface TimeEntryGetActivePayload {
   user: number;
 }
 
-export interface TimeEntryGetActiveResponse extends ApiCollectionResponse<TimeEntry | null> {}
+export interface TimeEntryGetActiveResponse extends ApiCollectionResponse<TimeEntryDTO | null> {}
 
 export const timeEntryGetActive = async ({ user }: TimeEntryGetActivePayload) => {
   const res = await $api.get<TimeEntryGetActiveResponse>('/time-entries', {

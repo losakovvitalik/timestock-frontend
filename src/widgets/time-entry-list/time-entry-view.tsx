@@ -1,8 +1,8 @@
 'use client';
 
 import { timeEntryApiHooks } from '@/entities/time-entry/api/time-entry-api-hooks';
+import { TimeEntry } from '@/entities/time-entry/api/time-entry-mapper';
 import { TimeEntryFormSchemaType } from '@/entities/time-entry/model/time-entry-form-schema';
-import { TimeEntry } from '@/entities/time-entry/model/types';
 import { TimeEntryForm } from '@/entities/time-entry/ui/time-entry-form';
 import { TimeEntryStartAgainButton } from '@/features/time-entry-start-again/ui/time-entry-start-again-button';
 import { useDuration } from '@/shared/hooks/use-duration';
@@ -66,6 +66,7 @@ export function TimeEntryView({ entry, trigger }: TimeEntryViewProps) {
             defaultValues={{
               description: entry?.description || undefined,
               project: entry?.project?.documentId,
+              duration: entry.duration,
             }}
           />
         )}

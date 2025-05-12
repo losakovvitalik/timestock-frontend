@@ -1,11 +1,10 @@
-import { TimeEntry } from '@/entities/time-entry/model/types';
+import { TimeEntry } from '@/entities/time-entry/api/time-entry-mapper';
 import { TimeEntryDeleteButton } from '@/features/time-entry-delete/ui/time-entry-delete-button';
 import { TimeEntryStartAgainButton } from '@/features/time-entry-start-again/ui/time-entry-start-again-button';
 import { cn } from '@/shared/lib/utils';
 import { Badge } from '@/shared/ui/badge';
 import { Card, CardContent, CardTitle } from '@/shared/ui/card';
 import { Typography } from '@/shared/ui/typography';
-import { formatDuration } from '@/shared/utils/format-duration';
 import { TimeEntryView } from '@/widgets/time-entry-list/time-entry-view';
 
 export interface TimeEntryItemProps {
@@ -28,9 +27,7 @@ export function TimeEntryItem({ entry }: TimeEntryItemProps) {
                 {entry.description || 'Без описания'}
               </CardTitle>
               <div className="flex items-center gap-1">
-                <Typography className="text-xs font-semibold">
-                  {formatDuration(entry.start_time, entry.end_time || undefined)}
-                </Typography>
+                <Typography className="text-xs font-semibold">{entry.duration}</Typography>
                 <Badge variant={'secondary'}>
                   {entry.project && (
                     <div

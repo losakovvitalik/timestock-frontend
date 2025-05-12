@@ -3,10 +3,10 @@ import ConfirmPopup from '@/shared/ui/confirm-popup';
 import { Trash } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { timeEntryApiHooks } from '../../../entities/time-entry/api/time-entry-api-hooks';
-import { TimeEntry } from '../../../entities/time-entry/model/types';
+import { TimeEntryDTO } from '../../../entities/time-entry/model/types';
 
 export interface TimeEntryDeleteButtonProps {
-  entry: TimeEntry;
+  entry: TimeEntryDTO;
 }
 
 export function TimeEntryDeleteButton({ entry }: TimeEntryDeleteButtonProps) {

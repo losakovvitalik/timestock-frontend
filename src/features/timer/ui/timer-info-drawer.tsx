@@ -70,6 +70,7 @@ export function TimerInfoDrawer() {
             defaultValues={{
               description: entry?.description || undefined,
               project: entry?.project?.documentId,
+              duration: duration,
             }}
           />
         )}

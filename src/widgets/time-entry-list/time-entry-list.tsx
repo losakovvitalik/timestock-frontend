@@ -1,13 +1,13 @@
 'use client';
 
 import { timeEntryApiHooks } from '@/entities/time-entry/api/time-entry-api-hooks';
-import { TimeEntry } from '@/entities/time-entry/model/types';
+import { TimeEntryDTO } from '@/entities/time-entry/model/types';
 import { ApiGetParams } from '@/shared/types/api';
 import { Typography } from '@/shared/ui/typography';
 import { TimeEntryItem } from './time-entry-item';
 
 export interface TimeEntryListProps {
-  params?: ApiGetParams<TimeEntry>;
+  params?: ApiGetParams<TimeEntryDTO>;
 }
 
 export function TimeEntryList({ params }: TimeEntryListProps) {

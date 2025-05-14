@@ -26,6 +26,7 @@ export function useActiveTimeEntry() {
     {
       select: (res) => res.data[0] || null,
       enabled: Boolean(userId),
+      refetchOnWindowFocus: true,
     },
   );
 }

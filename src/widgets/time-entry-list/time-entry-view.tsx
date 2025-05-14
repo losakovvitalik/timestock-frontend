@@ -17,6 +17,7 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from '@/shared/ui/drawer';
+import { addDurationToDate } from '@/shared/utils/add-duration-to-date';
 import { useState } from 'react';
 import toast from 'react-hot-toast';
 
@@ -27,7 +28,6 @@ export interface TimeEntryViewProps {
 
 export function TimeEntryView({ entry, trigger }: TimeEntryViewProps) {
   const [open, setOpen] = useState(false);
-
   const duration = useDuration(entry?.start_time, entry?.end_time);
 
   const timeEntryUpdate = timeEntryApiHooks.useUpdate({
@@ -42,7 +42,9 @@ export function TimeEntryView({ entry, trigger }: TimeEntryViewProps) {
       timeEntryUpdate.mutate({
         id: entry.documentId,
         data: {
-          ...data,
+          description: data.description,
+          project: data.project,
+          end_time: data.duration ? addDurationToDate(entry.start_time, data.duration) : undefined,
         },
       });
     }

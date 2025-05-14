@@ -63,17 +63,15 @@ export function TimerInfoDrawer() {
           </div>
           <TimerToggleButton className="size-11 !p-0.5" />
         </DrawerHeader>
-        {entry && (
-          <TimeEntryForm
-            className="px-4"
-            onSubmit={handleSubmit}
-            defaultValues={{
-              description: entry?.description || undefined,
-              project: entry?.project?.documentId,
-              duration: duration,
-            }}
-          />
-        )}
+        <TimeEntryForm
+          className="px-4"
+          onSubmit={handleSubmit}
+          defaultValues={{
+            description: entry?.description || undefined,
+            project: entry?.project?.documentId,
+            duration: duration,
+          }}
+        />
         <DrawerFooter>
           <DrawerClose asChild>
             <Button variant="outline">Отменить</Button>

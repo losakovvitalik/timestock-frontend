@@ -6,9 +6,10 @@ import React, { PropsWithChildren } from 'react';
 const typographyVariants = cva('', {
   variants: {
     size: {
-      default: 'text-base',
+      tiny: 'text-tiny',
       xs: 'text-xs',
       sm: 'text-sm',
+      default: 'text-base',
     },
     variant: {
       subtitle: 'text-xl font-bold',

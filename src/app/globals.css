@@ -1,5 +1,5 @@
-@import "tailwindcss";
-@import "tw-animate-css";
+@import 'tailwindcss';
+@import 'tw-animate-css';
 
 @custom-variant dark (&:is(.dark *));
 
@@ -42,6 +42,7 @@
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
   --spacing-safe-area: env(safe-area-inset-bottom, 8px);
+  --text-tiny: 0.625rem;
 }
 
 :root {
@@ -124,11 +125,11 @@
 
 /* Удаляем крестики в инпутах для поиска */
 /* Для Chrome, Safari, Edge */
-input[type="search"]::-webkit-search-cancel-button {
+input[type='search']::-webkit-search-cancel-button {
   display: none;
 }
 
 /* Для Firefox */
-input[type="search"]::-moz-search-clear-button {
+input[type='search']::-moz-search-clear-button {
   display: none;
 }

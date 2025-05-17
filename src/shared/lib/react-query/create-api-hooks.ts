@@ -7,7 +7,10 @@ type Id = string | number;
 type ReturnTypeInternal<EntityDTO, Payload, Entity = EntityDTO> = {
   useGet: (
     id: Id,
-    options?: Omit<UseQueryOptions<Entity>, 'queryKey' | 'queryFn'>,
+    props: {
+      options?: Omit<UseQueryOptions<Entity>, 'queryKey' | 'queryFn'>;
+      params?: ApiGetParams<EntityDTO>;
+    },
   ) => ReturnType<typeof useQuery<Entity>>;
 
   useList: <TData = ApiCollectionResponse<Entity>>(
@@ -67,10 +70,19 @@ export function createApiHooks<
     ? createApiEndpoint<EntityDTO, Payload, Entity>(basePath, mapFn)
     : createApiEndpoint<EntityDTO, Payload>(basePath);
 
-  const useGet = (id: Id, options?: Omit<UseQueryOptions<Entity>, 'queryKey' | 'queryFn'>) =>
+  const useGet = (
+    id: Id,
+    {
+      options,
+      params,
+    }: {
+      options?: Omit<UseQueryOptions<Entity>, 'queryKey' | 'queryFn'>;
+      params?: ApiGetParams<EntityDTO>;
+    } = {},
+  ) =>
     useQuery({
       queryKey: [entityName, id],
-      queryFn: () => api.get(id.toString()),
+      queryFn: () => api.get(id.toString(), params),
       enabled: !!id,
       ...options,
     });

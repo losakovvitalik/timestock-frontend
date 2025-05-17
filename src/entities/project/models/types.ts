@@ -1,12 +1,15 @@
 import { User } from '@/entities/user/model/types';
 import { ApiEntityBase } from '@/shared/types/api';
-import { Color } from '@/shared/ui/color-picker';
 
 export interface Project extends ApiEntityBase {
   name: string;
   color: Color;
-  description?: string;
+  description?: string | null;
   user?: User;
+}
+
+export interface Color extends ApiEntityBase {
+  hex?: string;
 }
 
 export interface ProjectPayload {

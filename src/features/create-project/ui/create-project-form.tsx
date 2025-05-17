@@ -1,10 +1,10 @@
 'use client';
 
+import { projectApiHooks } from '@/entities/project/api/project-api-hooks';
 import { ProjectForm } from '@/entities/project/ui/project-form';
-import { useCreateProject } from '../hooks/use-create-project';
 
 export function CreateProjectForm() {
-  const createProject = useCreateProject();
+  const createProject = projectApiHooks.useCreate();
 
-  return <ProjectForm onSubmit={createProject.mutate} />;
+  return <ProjectForm onSubmit={createProject.mutateAsync} />;
 }

@@ -9,7 +9,7 @@ export function createApiEndpoint<
 >(
   basePath: string,
 ): {
-  get: (id: string) => Promise<EntityDTO>;
+  get: (id: string, params?: ApiGetParams<EntityDTO>) => Promise<EntityDTO>;
   list: (params?: ApiGetParams<EntityDTO>) => Promise<ApiCollectionResponse<EntityDTO>>;
   create: (data: EntityPayload) => Promise<EntityDTO>;
   update: (id: string, data: EntityPayload) => Promise<EntityDTO>;
@@ -24,7 +24,7 @@ export function createApiEndpoint<
   basePath: string,
   mapFn: (dto: EntityDTO) => Entity,
 ): {
-  get: (id: string) => Promise<Entity>;
+  get: (id: string, params?: ApiGetParams<EntityDTO>) => Promise<Entity>;
   list: (params?: ApiGetParams<EntityDTO>) => Promise<ApiCollectionResponse<Entity>>;
   create: (data: EntityPayload) => Promise<Entity>;
   update: (id: string, data: EntityPayload) => Promise<Entity>;
@@ -37,9 +37,11 @@ export function createApiEndpoint<
   Entity = Record<any, any>,
 >(basePath: string, mapFn?: (dto: EntityDTO) => Entity) {
   return {
-    get: (id: string) =>
+    get: (id: string, params: ApiGetParams<EntityDTO>) =>
       $api
-        .get<{ data: EntityDTO }>(`${basePath}/${id}`)
+        .get<{ data: EntityDTO }>(`${basePath}/${id}`, {
+          params,
+        })
         .then((r) => (mapFn ? mapFn(r.data.data) : r.data.data)),
 
     list: (params?: ApiGetParams<EntityDTO>) =>

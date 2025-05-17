@@ -6,32 +6,42 @@ import { Form } from '@/shared/ui/form';
 import { Typography } from '@/shared/ui/typography';
 import { useProjectForm } from '../hooks/use-project-form';
 import { ProjectFormSchemaType } from '../models/create-project-form-schema';
+import { Project } from '../models/types';
 
 export interface ProjectFormProps {
   submitBtnText?: string;
-  onSubmit: (values: ProjectFormSchemaType) => void;
+  onSubmit: (values: ProjectFormSchemaType) => Promise<any>;
+  defaultValues?: Project;
 }
 
-export function ProjectForm({ onSubmit, submitBtnText = 'Сохранить' }: ProjectFormProps) {
-  const form = useProjectForm();
+export function ProjectForm({
+  onSubmit,
+  defaultValues,
+  submitBtnText = 'Сохранить',
+}: ProjectFormProps) {
+  const form = useProjectForm({
+    defaultValues,
+  });
 
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)}>
-        <Card>
-          <CardContent className="flex flex-col gap-4">
-            <Typography variant={'subtitle'}>Основная информация</Typography>
+        <fieldset disabled={form.formState.isSubmitting}>
+          <Card>
+            <CardContent className="flex flex-col gap-4">
+              <Typography variant={'subtitle'}>Основная информация</Typography>
 
-            <div className="flex flex-col gap-4">
-              <div className="grid grid-cols-[auto_1fr] gap-2">
-                <ColorField control={form.control} name="color" />
-                <TextField control={form.control} name="name" placeholder="Название проекта" />
+              <div className="flex flex-col gap-4">
+                <div className="grid grid-cols-[auto_1fr] gap-2">
+                  <ColorField control={form.control} name="color" />
+                  <TextField control={form.control} name="name" placeholder="Название проекта" />
+                </div>
+                <TextareaField control={form.control} name="description" label="Описание" />
               </div>
-              <TextareaField control={form.control} name="description" label="Описание" />
-            </div>
-          </CardContent>
-        </Card>
-        <Button className="mt-4 w-full" type="submit">
+            </CardContent>
+          </Card>
+        </fieldset>
+        <Button className="mt-4 w-full" disabled={form.formState.isSubmitting} type="submit">
           {submitBtnText}
         </Button>
       </form>

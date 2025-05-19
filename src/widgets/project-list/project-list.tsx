@@ -1,12 +1,23 @@
 'use client';
 
 import { projectApiHooks } from '@/entities/project/api/project-api-hooks';
+import { useQueryParams } from '@/shared/hooks/use-query-params';
+import { Loader } from '@/shared/ui/loader';
 import { ProjectListItem } from './project-list-item';
 
 export function ProjectList() {
-  const { data: projects } = projectApiHooks.useList({
+  const { value } = useQueryParams();
+
+  const search = value?.search;
+
+  const { data: projects, isLoading: isProjectsLoading } = projectApiHooks.useList({
     populate: {
       color: true,
+    },
+    filters: {
+      name: {
+        $containsi: search,
+      },
     },
   });
 
@@ -15,6 +26,7 @@ export function ProjectList() {
       {projects?.data.map((project) => (
         <ProjectListItem key={project.documentId} project={project} />
       ))}
+      {isProjectsLoading && <Loader className="mx-auto" />}
     </ul>
   );
 }

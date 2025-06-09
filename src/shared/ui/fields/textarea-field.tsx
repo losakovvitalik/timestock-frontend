@@ -1,6 +1,6 @@
 import { FieldValues } from 'react-hook-form';
 import { TextareaAutosize, TextareaAutosizeProps } from '../textarea-autosize';
-import FieldControl, { FieldControlProps } from './field-control';
+import { FieldControl, FieldControlProps } from './field-control';
 
 export interface TextareaFieldProps<T extends FieldValues>
   extends Omit<FieldControlProps<T>, 'render'>,

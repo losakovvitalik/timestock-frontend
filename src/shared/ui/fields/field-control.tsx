@@ -37,5 +37,3 @@ export function FieldControl<T extends FieldValues>({
     />
   );
 }
-
-export default FieldControl;

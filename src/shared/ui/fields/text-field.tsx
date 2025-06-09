@@ -1,6 +1,6 @@
 import { FieldValues } from 'react-hook-form';
 import { Input, InputProps } from '../input';
-import FieldControl, { FieldControlProps } from './field-control';
+import { FieldControl, FieldControlProps } from './field-control';
 
 export interface TextFieldProps<T extends FieldValues>
   extends Omit<FieldControlProps<T>, 'render'>,

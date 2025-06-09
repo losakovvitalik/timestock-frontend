@@ -10,7 +10,8 @@
     "projects",
     "timer",
     "time entry",
-    "button"
+    "button",
+    "toggle-theme"
   ],
   "typescript.tsdk": "node_modules/typescript/lib"
 }

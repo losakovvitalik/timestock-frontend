@@ -4,7 +4,7 @@ import { useQuery } from '@tanstack/react-query';
 import { FieldValues } from 'react-hook-form';
 import { ColorPicker, ColorPickerItem } from '../color-picker';
 import { InputProps } from '../input';
-import FieldControl, { FieldControlProps } from './field-control';
+import { FieldControl, FieldControlProps } from './field-control';
 
 export interface ColorFieldProps<T extends FieldValues>
   extends Omit<FieldControlProps<T>, 'render'>,

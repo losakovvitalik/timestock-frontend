@@ -1,6 +1,6 @@
 import { FieldValues } from 'react-hook-form';
 import Select, { SelectProps } from '../select';
-import FieldControl, { FieldControlProps } from './field-control';
+import { FieldControl, FieldControlProps } from './field-control';
 
 export interface SelectFieldProps<T extends FieldValues, OpType = Record<any, any>>
   extends Omit<FieldControlProps<T>, 'render'>,

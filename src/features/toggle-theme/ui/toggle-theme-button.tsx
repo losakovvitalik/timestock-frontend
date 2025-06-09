@@ -10,7 +10,7 @@ interface ToggleThemeButtonProps {
 }
 
 const ToggleThemeButton = ({ className }: ToggleThemeButtonProps) => {
-  const { theme, setTheme } = useTheme();
+  const { resolvedTheme: theme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {

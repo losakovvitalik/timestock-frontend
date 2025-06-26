@@ -28,7 +28,7 @@ export function TimerToggleButton({ className }: TimerToggleButtonProps) {
 
   return (
     <AnimatedButton
-      className={cn('size-24 rounded-full', className)}
+      className={cn('size-20 rounded-full', className)}
       disabled={isPending}
       onClick={handleClick}
       whileTap={{ scale: 0.8 }}

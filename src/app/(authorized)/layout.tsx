@@ -7,9 +7,9 @@ export default function AuthorizedLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <div className="grid h-full w-full grid-rows-[auto_1fr_auto] gap-2 overflow-hidden">
+    <div className="grid h-full w-full grid-rows-[auto_1fr_auto] overflow-hidden">
       <Header />
-      <main className="w-full overflow-auto px-2 lg:px-10 lg:py-4">{children}</main>
+      <main className="w-full overflow-auto px-2 pt-2 lg:px-10 lg:py-4">{children}</main>
       <Tabbar />
     </div>
   );

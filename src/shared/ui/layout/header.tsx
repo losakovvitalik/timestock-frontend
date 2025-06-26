@@ -31,11 +31,11 @@ const Header = () => {
     }
   };
 
-  if (!page) {
+  const isChildPage = pathname.split('/').length > 2;
+
+  if (!page || !isChildPage) {
     return <div />;
   }
-
-  const isChildPage = pathname.split('/').length > 2;
 
   return (
     <header

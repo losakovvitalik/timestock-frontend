@@ -13,13 +13,16 @@ export const useSendOtp = () => {
     mutationFn: userSendOTP,
     onSuccess: (_, vars) => {
       router.push(`${paths.auth.code}?email=${vars.email}`);
+      toast.success('Отправили код Вам на почту');
     },
     onError: (err) => {
       let msg = 'Что-то пошло не так при авторизации';
 
+      console.log(err);
+
       if (err instanceof AxiosError) {
         const response = err.response?.data as ApiError;
-        const code = response.error.code;
+        const code = response?.error?.code;
 
         if (code === 'FAILED_SEND_EMAIL') {
           msg = 'Не удалось отправить email. Попробуйте позже';

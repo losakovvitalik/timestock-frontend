@@ -4,7 +4,7 @@ import type { MotionProps } from 'motion/react';
 import { motion } from 'motion/react';
 import { Button, ButtonProps } from '../button';
 
-const MotionButton = motion(Button);
+const MotionButton = motion.create(Button);
 
 export type AnimatedButtonProps = ButtonProps & MotionProps;
 

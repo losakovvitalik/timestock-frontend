@@ -11,7 +11,8 @@
     "timer",
     "time entry",
     "button",
-    "toggle-theme"
+    "toggle-theme",
+    "push-notifications"
   ],
   "typescript.tsdk": "node_modules/typescript/lib"
 }

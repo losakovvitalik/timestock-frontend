@@ -1,6 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
-import { projectFormSchema } from '../models/create-project-form-schema';
+import { projectFormSchema } from '../models/project-form-schema';
 import { Project } from '../models/types';
 
 export interface UseProjectFormProps {

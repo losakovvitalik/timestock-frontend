@@ -9,6 +9,8 @@ export interface TimeInputProps {
   placeholder?: string;
   className?: string;
   disabled?: boolean;
+  format?: 'HH:mm' | 'HH:mm:ss';
+  unmask?: boolean;
 }
 
 const TimeInput = ({
@@ -18,15 +20,18 @@ const TimeInput = ({
   placeholder = '00:00:00',
   className,
   disabled,
+  unmask = true,
+  format = 'HH:mm:ss',
   ...props
 }: TimeInputProps) => {
   return (
     <IMaskInput
-      mask="HH:mm:ss"
-      unmask={true}
+      mask={format}
+      unmask={unmask}
       lazy={false}
       overwrite
       placeholderChar="0"
+      defaultValue={'000000'}
       blocks={{
         HH: {
           mask: IMask.MaskedRange,
@@ -40,12 +45,14 @@ const TimeInput = ({
           to: 59,
           maxLength: 2,
         },
-        ss: {
-          mask: IMask.MaskedRange,
-          from: 0,
-          to: 59,
-          maxLength: 2,
-        },
+        ...(format === 'HH:mm:ss' && {
+          ss: {
+            mask: IMask.MaskedRange,
+            from: 0,
+            to: 59,
+            maxLength: 2,
+          },
+        }),
       }}
       onAccept={(value) => onChange?.(value)}
       type="tel"

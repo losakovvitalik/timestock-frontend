@@ -12,7 +12,7 @@ export function createApiEndpoint<
   get: (id: string, params?: ApiGetParams<EntityDTO>) => Promise<EntityDTO>;
   list: (params?: ApiGetParams<EntityDTO>) => Promise<ApiCollectionResponse<EntityDTO>>;
   create: (data: EntityPayload) => Promise<EntityDTO>;
-  update: (id: string, data: EntityPayload) => Promise<EntityDTO>;
+  update: (id: string, data: Partial<EntityPayload>) => Promise<EntityDTO>;
   delete: (id: string) => Promise<void>;
 };
 // C mapFn
@@ -27,7 +27,7 @@ export function createApiEndpoint<
   get: (id: string, params?: ApiGetParams<EntityDTO>) => Promise<Entity>;
   list: (params?: ApiGetParams<EntityDTO>) => Promise<ApiCollectionResponse<Entity>>;
   create: (data: EntityPayload) => Promise<Entity>;
-  update: (id: string, data: EntityPayload) => Promise<Entity>;
+  update: (id: string, data: Partial<EntityPayload>) => Promise<Entity>;
   delete: (id: string) => Promise<void>;
 };
 // Реализация

@@ -7,7 +7,7 @@ type Id = string | number;
 type ReturnTypeInternal<EntityDTO, Payload, Entity = EntityDTO> = {
   useGet: (
     id: Id,
-    props: {
+    props?: {
       options?: Omit<UseQueryOptions<Entity>, 'queryKey' | 'queryFn'>;
       params?: ApiGetParams<EntityDTO>;
     },
@@ -28,10 +28,10 @@ type ReturnTypeInternal<EntityDTO, Payload, Entity = EntityDTO> = {
   }) => ReturnType<typeof useMutation<Entity, unknown, Payload>>;
 
   useUpdate: (config?: {
-    onMutate?: (data: { id: Id; data: Payload }) => any;
+    onMutate?: (data: { id: Id; data: Partial<Payload> }) => any;
     onSuccess?: () => void;
     onError?: (err: unknown) => void;
-  }) => ReturnType<typeof useMutation<Entity, unknown, { id: Id; data: Payload }>>;
+  }) => ReturnType<typeof useMutation<Entity, unknown, { id: Id; data: Partial<Payload> }>>;
 
   useDelete: (config?: {
     onMutate?: (id: Id) => any;
@@ -119,14 +119,15 @@ export function createApiHooks<
   };
 
   const useUpdate = (config?: {
-    onMutate?: (data: { id: Id; data: Payload }) => any;
+    onMutate?: (data: { id: Id; data: Partial<Payload> }) => any;
     onSuccess?: () => void;
     onError?: (err: unknown) => void;
   }) => {
     const queryClient = useQueryClient();
 
     return useMutation({
-      mutationFn: ({ id, data }: { id: Id; data: Payload }) => api.update(id.toString(), data),
+      mutationFn: ({ id, data }: { id: Id; data: Partial<Payload> }) =>
+        api.update(id.toString(), data),
       onMutate: config?.onMutate,
       onSuccess: (_, variables) => {
         queryClient.invalidateQueries({ queryKey: [entityName, 'list'] });

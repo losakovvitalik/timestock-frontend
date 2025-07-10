@@ -17,7 +17,7 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from '@/shared/ui/drawer';
-import { addDurationToDate } from '@/shared/utils/add-duration-to-date';
+import { addDurationToDate } from '@/shared/utils/duration';
 import { useState } from 'react';
 import toast from 'react-hot-toast';
 
@@ -38,6 +38,7 @@ export function TimeEntryView({ entry, trigger }: TimeEntryViewProps) {
   });
 
   const handleSubmit = (data: TimeEntryFormSchemaType) => {
+    console.log(data);
     if (entry) {
       timeEntryUpdate.mutate({
         id: entry.documentId,

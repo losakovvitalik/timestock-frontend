@@ -9,7 +9,6 @@ export function ProjectsSearchInput() {
 
   const onChange = useCallback(
     (v: string) => {
-      console.log('called');
       set({ search: v });
     },
     [set],

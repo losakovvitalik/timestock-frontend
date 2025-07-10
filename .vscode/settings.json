@@ -12,7 +12,8 @@
     "time entry",
     "button",
     "toggle-theme",
-    "push-notifications"
+    "push-notifications",
+    "project-reminder"
   ],
   "typescript.tsdk": "node_modules/typescript/lib"
 }

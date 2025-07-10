@@ -17,6 +17,7 @@ import {
   DrawerTrigger,
 } from '@/shared/ui/drawer';
 import { Typography } from '@/shared/ui/typography';
+import { subtractDurationFromDate } from '@/shared/utils/duration';
 import { Plus } from 'lucide-react';
 import { useState } from 'react';
 import toast from 'react-hot-toast';
@@ -41,7 +42,11 @@ export function TimerInfoDrawer() {
       timeEntryUpdate.mutate({
         id: entry.documentId,
         data: {
-          ...data,
+          description: data.description,
+          project: data.project,
+          ...(data.duration
+            ? { start_time: subtractDurationFromDate(new Date(), data.duration) }
+            : {}),
         },
       });
     }

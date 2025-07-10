@@ -1,11 +1,10 @@
 import { FieldValues } from 'react-hook-form';
-import { TextareaAutosizeProps } from '../textarea-autosize';
-import TimeInput from '../time-input';
+import TimeInput, { TimeInputProps } from '../time-input';
 import { FieldControl, FieldControlProps } from './field-control';
 
 export interface TimeFieldProps<T extends FieldValues>
   extends Omit<FieldControlProps<T>, 'render'>,
-    Omit<TextareaAutosizeProps, 'name'> {}
+    Omit<TimeInputProps, 'name'> {}
 
 export function TimeField<T extends FieldValues>({
   name,

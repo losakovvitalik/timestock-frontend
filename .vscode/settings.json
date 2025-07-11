@@ -13,7 +13,8 @@
     "button",
     "toggle-theme",
     "push-notifications",
-    "project-reminder"
+    "project-reminder",
+    "ui"
   ],
   "typescript.tsdk": "node_modules/typescript/lib"
 }

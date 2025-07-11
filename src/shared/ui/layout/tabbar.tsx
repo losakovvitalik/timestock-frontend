@@ -42,13 +42,13 @@ export function Tabbar() {
     <nav className="lg:hidden">
       <ul className="flex justify-between border border-t px-10 py-3">
         <li className="flex flex-col items-center gap-1">
-          <TabbarLink icon={<FolderOpen />} link={paths.projects.link} />
+          <TabbarLink icon={<FolderOpen />} link={paths.projects.list} />
         </li>
         <li className="flex flex-col items-center gap-1">
-          <TabbarLink icon={<Clock />} link={paths.timer.link} />
+          <TabbarLink icon={<Clock />} link={paths.timer} />
         </li>
         <li className="flex flex-col items-center gap-1">
-          <TabbarLink icon={<Menu />} link={paths.menu.link} />
+          <TabbarLink icon={<Menu />} link={paths.menu} />
         </li>
       </ul>
     </nav>

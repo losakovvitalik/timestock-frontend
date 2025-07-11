@@ -19,7 +19,7 @@ export async function middleware(request: NextRequest) {
     pathname === '/manifest.webmanifest'
   ) {
     if (session) {
-      const loginUrl = new URL(paths.timer.link, origin);
+      const loginUrl = new URL(paths.timer, origin);
       return NextResponse.redirect(loginUrl);
     }
 

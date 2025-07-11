@@ -27,7 +27,7 @@ const Header = () => {
     if (previousPath && previousPath !== window.location.pathname) {
       router.back();
     } else {
-      router.push(paths.timer.link);
+      router.push(paths.timer);
     }
   };
 

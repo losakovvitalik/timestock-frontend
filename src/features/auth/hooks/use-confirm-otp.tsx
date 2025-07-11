@@ -21,7 +21,7 @@ export const useConfirmOTP = () => {
     },
     onSuccess: () => {
       toast.success('Вы успешно вошли в аккаунт');
-      router.replace(paths.timer.link);
+      router.replace(paths.timer);
     },
   });
 };

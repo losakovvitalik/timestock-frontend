@@ -1,12 +1,8 @@
 export const paths = {
-  timer: {
-    link: '/timer',
-  },
-  menu: {
-    link: '/menu',
-  },
+  timer: '/timer',
+  menu: '/menu',
   projects: {
-    link: '/projects',
+    list: '/projects',
     create: '/projects/create',
     edit: (id: string) => `/projects/edit/${id}`,
   },

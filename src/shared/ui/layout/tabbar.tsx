@@ -33,7 +33,6 @@ export function TabbarLink({ icon, link }: TabbarLinkProps) {
 export function Tabbar() {
   const pathname = usePathname();
   const isChildPage = pathname.split('/').length > 2;
-  console.log('isChildPage', isChildPage);
   if (isChildPage) {
     return null;
   }

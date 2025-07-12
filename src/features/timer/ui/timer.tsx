@@ -4,6 +4,7 @@ import { useActiveTimeEntry } from '@/entities/time-entry/hooks/use-active-time-
 import { useDuration } from '@/shared/hooks/use-duration';
 import { cn } from '@/shared/lib/utils';
 import { Badge } from '@/shared/ui/badge';
+import { PageTitle } from '@/shared/ui/page-title';
 import { Typography } from '@/shared/ui/typography';
 
 export function Timer() {
@@ -13,6 +14,7 @@ export function Timer() {
   if (activeTimeEntry) {
     return (
       <div className="flex flex-col gap-2">
+        <PageTitle>{duration}</PageTitle>
         <div className="flex gap-2">
           <Typography className="font-bold">{duration}</Typography>
           {activeTimeEntry.project && (

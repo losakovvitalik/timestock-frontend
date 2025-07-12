@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 export default function TimerPage() {
   return (
     <div className="h-full">
-      <PageTitle>Таймер</PageTitle>
+      <PageTitle>Таймер123</PageTitle>
       <div className="grid h-full grid-rows-[1fr_112px] overflow-auto">
         <div className="border-border h-full overflow-auto border-b-2">
           <TimeEntryList />

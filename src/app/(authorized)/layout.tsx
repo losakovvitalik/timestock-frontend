@@ -9,13 +9,13 @@ export default function AuthorizedLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <div className="grid h-full w-full grid-rows-[auto_1fr_auto] overflow-hidden">
-      <Header />
-      <SidebarProvider>
+    <div>
+      <SidebarProvider className="grid h-full max-h-svh w-full grid-rows-[auto_1fr_auto] overflow-hidden lg:flex">
+        <Header />
         <AppSidebar />
-        <main className="w-full overflow-auto px-2 pt-2 lg:px-10 lg:py-4">{children}</main>
+        <main className="h-full w-full overflow-auto px-2 pt-2 lg:px-10 lg:py-4">{children}</main>
+        <Tabbar />
       </SidebarProvider>
-      <Tabbar />
     </div>
   );
 }

@@ -13,8 +13,8 @@ export default function TimerPage() {
   return (
     <div className="h-full">
       <PageTitle>Таймер</PageTitle>
-      <div className="grid h-full grid-rows-[1fr_auto]">
-        <div className="border-border border-b-2">
+      <div className="grid h-full grid-rows-[1fr_112px] overflow-auto">
+        <div className="border-border h-full overflow-auto border-b-2">
           <TimeEntryList />
         </div>
         <div className="flex items-center justify-between gap-8 py-4">

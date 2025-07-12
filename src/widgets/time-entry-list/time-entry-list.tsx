@@ -34,9 +34,9 @@ export function TimeEntryList({ params }: TimeEntryListProps) {
   });
 
   return (
-    <div className="flex flex-col gap-2">
+    <div className="flex h-full flex-col gap-2 overflow-auto">
       <Typography variant={'subtitle'}>Последнии записи</Typography>
-      <ul className="flex flex-col gap-2">
+      <ul className="flex h-full flex-col gap-2 overflow-auto">
         {timeEntries.data?.data.map((timeEntry) => (
           <li key={timeEntry.documentId}>
             <TimeEntryItem entry={timeEntry} />

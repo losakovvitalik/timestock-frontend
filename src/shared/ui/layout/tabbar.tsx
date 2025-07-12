@@ -33,13 +33,13 @@ export function TabbarLink({ icon, link }: TabbarLinkProps) {
 export function Tabbar() {
   const pathname = usePathname();
   const isChildPage = pathname.split('/').length > 2;
-
+  console.log('isChildPage', isChildPage);
   if (isChildPage) {
     return null;
   }
 
   return (
-    <nav className="lg:hidden">
+    <nav className="block lg:hidden">
       <ul className="flex justify-between border border-t px-10 py-3">
         <li className="flex flex-col items-center gap-1">
           <TabbarLink icon={<FolderOpen />} link={paths.projects.list} />

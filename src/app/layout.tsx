@@ -4,6 +4,7 @@ import { Inter } from 'next/font/google';
 import { Toaster } from 'react-hot-toast';
 import './globals.css';
 import { TanstackProvider } from './providers/tanstack-provider';
+import ThemeHandler from './providers/theme-handler';
 import { ThemeProvider } from './providers/theme-provider';
 
 const inter = Inter({
@@ -33,23 +34,25 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <SessionProvider>
-            <TanstackProvider>
-              {children}
-              <Toaster
-                position="top-center"
-                toastOptions={{
-                  style: {
-                    background: 'var(--secondary)',
-                    color: 'var(--secondary-foreground)',
-                    borderColor: 'var(--border)',
-                    borderWidth: '1px',
-                    borderRadius: 'var(--radius)',
-                  },
-                }}
-              />
-            </TanstackProvider>
-          </SessionProvider>
+          <ThemeHandler>
+            <SessionProvider>
+              <TanstackProvider>
+                {children}
+                <Toaster
+                  position="top-center"
+                  toastOptions={{
+                    style: {
+                      background: 'var(--secondary)',
+                      color: 'var(--secondary-foreground)',
+                      borderColor: 'var(--border)',
+                      borderWidth: '1px',
+                      borderRadius: 'var(--radius)',
+                    },
+                  }}
+                />
+              </TanstackProvider>
+            </SessionProvider>
+          </ThemeHandler>
         </ThemeProvider>
       </body>
     </html>

@@ -1,3 +1,5 @@
+'use client';
+
 import { Button } from '@/shared/ui/button';
 import {
   Dialog,
@@ -7,6 +9,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/shared/ui/dialog';
+import { useState } from 'react';
 import { CreateProjectReminderForm } from './create-project-reminder-form';
 
 export interface CreateProjectReminderDialogProps {
@@ -14,8 +17,14 @@ export interface CreateProjectReminderDialogProps {
 }
 
 export function CreateProjectReminderDialog({ projectId }: CreateProjectReminderDialogProps) {
+  const [open, setOpen] = useState(false);
+
+  const handleOnSuccess = () => {
+    setOpen(false);
+  };
+
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button className="mt-2 w-full border-dashed" variant={'outline'}>
           Добавить напоминание
@@ -28,7 +37,7 @@ export function CreateProjectReminderDialog({ projectId }: CreateProjectReminder
             Это напоминание будет приходить Вам в пуш-уведомлении
           </DialogDescription>
         </DialogHeader>
-        <CreateProjectReminderForm projectId={projectId} />
+        <CreateProjectReminderForm onSuccess={handleOnSuccess} projectId={projectId} />
       </DialogContent>
     </Dialog>
   );

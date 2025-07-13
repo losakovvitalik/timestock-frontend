@@ -7,7 +7,6 @@ export function PageTitle({ children }: PropsWithChildren) {
   usePageTitle(children);
 
   useEffect(() => {
-    console.log(children, typeof children);
     if (children && typeof children === 'string') {
       document.title = children;
     }

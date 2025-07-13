@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { SessionProvider } from 'next-auth/react';
 import { Inter } from 'next/font/google';
 import { Toaster } from 'react-hot-toast';
+import { ActiveTimeEntryTitle } from './(authorized)/active-time-entry-title';
 import './globals.css';
 import { TanstackProvider } from './providers/tanstack-provider';
 import ThemeHandler from './providers/theme-handler';
@@ -38,6 +39,7 @@ export default function RootLayout({
             <SessionProvider>
               <TanstackProvider>
                 {children}
+                <ActiveTimeEntryTitle />
                 <Toaster
                   position="top-center"
                   toastOptions={{

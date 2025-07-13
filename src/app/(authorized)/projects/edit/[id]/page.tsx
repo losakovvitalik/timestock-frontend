@@ -1,7 +1,7 @@
 import { EditProjectForm } from '@/features/edit-project/ui/edit-project-form';
-import { ProjectReminderList } from '@/features/project-reminder/ui/project-reminder-list';
 import { PageParams } from '@/shared/types/next';
 import { PageTitle } from '@/shared/ui/page-title';
+import { ProjectReminderList } from '@/widgets/reminder-list/project-reminder-list';
 
 export default async function ProjectEditPage({ params }: PageParams<{ id: string }>) {
   const { id } = await params;

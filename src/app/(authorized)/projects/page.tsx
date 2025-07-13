@@ -10,13 +10,13 @@ export const metadata: Metadata = {
 
 export default function ProjectsPage() {
   return (
-    <div>
+    <div className="relative h-full">
       <PageTitle>Проекты</PageTitle>
       <ProjectsSearchInput />
 
       <ProjectList />
 
-      <div className="fixed bottom-20 left-1/2 -translate-x-1/2">
+      <div className="absolute bottom-20 left-1/2 -translate-x-1/2 lg:bottom-10">
         <CreateProjectLink />
       </div>
     </div>

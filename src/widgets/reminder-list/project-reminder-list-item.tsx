@@ -6,7 +6,7 @@ import { Card, CardContent } from '@/shared/ui/card';
 import { Switch } from '@/shared/ui/switch';
 import { Bell, BellOff, Edit } from 'lucide-react';
 import toast from 'react-hot-toast';
-import { formatReminderDate } from '../utils/format-reminder-date';
+import { formatReminderDate } from '../../entities/project-reminder/utils/format-reminder-date';
 
 export interface ProjectReminderListItemProps {
   item: ProjectReminder;

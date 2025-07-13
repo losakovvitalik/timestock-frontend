@@ -14,7 +14,8 @@
     "toggle-theme",
     "push-notifications",
     "project-reminder",
-    "ui"
+    "ui",
+    "create-project-reminder"
   ],
   "typescript.tsdk": "node_modules/typescript/lib"
 }

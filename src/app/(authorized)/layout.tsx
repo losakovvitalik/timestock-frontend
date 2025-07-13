@@ -12,7 +12,7 @@ export default function AuthorizedLayout({
     <div>
       <SidebarProvider>
         <AppSidebar />
-        <div className="pb-safe-area grid h-svh max-h-svh w-full grid-rows-[auto_1fr_auto] overflow-hidden lg:flex">
+        <div className="pb-safe-area grid h-svh max-h-svh w-full grid-rows-[auto_1fr_auto] overflow-hidden">
           <Header />
           <main className="h-full w-full overflow-auto px-2 pt-2 lg:px-10 lg:py-4">{children}</main>
           <Tabbar />

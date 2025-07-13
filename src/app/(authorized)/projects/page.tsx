@@ -16,7 +16,7 @@ export default function ProjectsPage() {
 
       <ProjectList />
 
-      <div className="absolute bottom-20 left-1/2 -translate-x-1/2 lg:bottom-10">
+      <div className="absolute bottom-10 left-1/2 -translate-x-1/2">
         <CreateProjectLink />
       </div>
     </div>

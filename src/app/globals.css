@@ -41,7 +41,7 @@
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
-  --spacing-safe-area: 20px;
+  --spacing-safe-area: env(safe-area-inset-bottom, 8px);
   --text-tiny: 0.625rem;
 }
 

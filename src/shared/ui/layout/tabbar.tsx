@@ -39,7 +39,7 @@ export function Tabbar() {
 
   return (
     <nav className="block lg:hidden">
-      <ul className="flex justify-between border border-t px-10 py-3">
+      <ul className="flex justify-between border-t px-10 py-3">
         <li className="flex flex-col items-center gap-1">
           <TabbarLink icon={<FolderOpen />} link={paths.projects.list} />
         </li>

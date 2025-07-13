@@ -10,11 +10,11 @@ export default function AuthorizedLayout({
 }>) {
   return (
     <div>
-      <SidebarProvider className="grid h-full max-h-svh w-full grid-rows-[auto_1fr_auto] overflow-hidden lg:flex">
+      <SidebarProvider className="">
         <AppSidebar />
-        <div className="w-full">
+        <div className="grid h-svh max-h-svh w-full grid-rows-[auto_1fr_auto] overflow-hidden lg:flex">
           <Header />
-          <main className="h-svh w-full overflow-auto px-2 pt-2 lg:px-10 lg:py-4">{children}</main>
+          <main className="h-full w-full overflow-auto px-2 pt-2 lg:px-10 lg:py-4">{children}</main>
           <Tabbar />
         </div>
       </SidebarProvider>

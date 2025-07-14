@@ -2,6 +2,12 @@ import { AppSidebar } from '@/shared/ui/app-sidebar';
 import Header from '@/shared/ui/layout/header';
 import { Tabbar } from '@/shared/ui/layout/tabbar';
 import { SidebarProvider } from '@/shared/ui/sidebar';
+import { Viewport } from 'next';
+
+export const viewport: Viewport = {
+  viewportFit: 'cover',
+  userScalable: false,
+};
 
 export default function AuthorizedLayout({
   children,

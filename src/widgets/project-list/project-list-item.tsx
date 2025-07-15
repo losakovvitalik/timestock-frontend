@@ -18,7 +18,9 @@ export function ProjectListItem({ project }: ProjectListItemProps) {
           background: project.color.hex,
         }}
       />
-      <Typography className="text-lg font-semibold">{project.name}</Typography>
+      <Typography className="text-lg font-semibold">
+        {project.name} | {(project.time_spent / 3600).toFixed(2)} ч
+      </Typography>
       <Button className="ml-auto size-8" size={'icon'} asChild>
         <Link href={paths.projects.edit(project.documentId)}>
           <Edit />

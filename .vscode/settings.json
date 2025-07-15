@@ -15,7 +15,8 @@
     "push-notifications",
     "project-reminder",
     "ui",
-    "create-project-reminder"
+    "create-project-reminder",
+    "projects-list"
   ],
   "typescript.tsdk": "node_modules/typescript/lib"
 }

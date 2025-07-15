@@ -6,6 +6,7 @@ export interface Project extends ApiEntityBase {
   color: Color;
   description?: string | null;
   user?: User;
+  time_spent: number;
 }
 
 export interface Color extends ApiEntityBase {

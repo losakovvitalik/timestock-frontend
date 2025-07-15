@@ -2,7 +2,8 @@
 
 import { useActiveTimeEntry } from '@/entities/time-entry/hooks/use-active-time-entry';
 import { useDuration } from '@/shared/hooks/use-duration';
-import { PageTitle } from '@/shared/ui/page-title';
+import useLayoutStore from '@/shared/stores/use-layout-store';
+import { usePathname } from 'next/navigation';
 import { useEffect } from 'react';
 
 export function formatDurationForTitle(duration: string): string | null {
@@ -17,24 +18,54 @@ export function formatDurationForTitle(duration: string): string | null {
   return duration;
 }
 
+let lastFavicon: HTMLLinkElement | null = null;
+
+function updateFavicon(href: string) {
+  requestAnimationFrame(() => {
+    const head = document.head;
+    if (!head) return;
+
+    if (lastFavicon && lastFavicon.parentNode) {
+      lastFavicon.parentNode.removeChild(lastFavicon);
+    }
+
+    const newLink = document.createElement('link');
+    newLink.rel = 'icon';
+    newLink.href = href;
+    head.appendChild(newLink);
+    lastFavicon = newLink;
+  });
+}
+
 export function ActiveTimeEntryTitle() {
+  const pathname = usePathname();
   const { data: activeTimeEntry } = useActiveTimeEntry();
   const duration = useDuration(activeTimeEntry?.start_time);
+  const { setTitle, title } = useLayoutStore();
+
+  console.log('test');
 
   useEffect(() => {
-    console.log(document.querySelectorAll("link[rel~='icon']"));
-    const links = document.querySelectorAll("link[rel~='icon']") as NodeListOf<HTMLLinkElement>;
-
-    for (const link of links) {
-      if (link) {
-        if (activeTimeEntry) {
-          link.href = '/icons/active-favicon.ico';
-        } else {
-          link.href = '/icons/favicon.ico';
-        }
-      }
+    if (!title) {
+      setTitle(document.title);
     }
-  }, [activeTimeEntry]);
+  }, [title, setTitle]);
 
-  return <PageTitle>{formatDurationForTitle(duration)}</PageTitle>;
+  useEffect(() => {
+    if (activeTimeEntry) {
+      document.title = String(formatDurationForTitle(duration));
+    } else if (title && typeof title === 'string') {
+      document.title = title;
+    }
+  }, [title, duration, activeTimeEntry]);
+
+  useEffect(() => {
+    if (activeTimeEntry) {
+      updateFavicon('/icons/active-favicon.ico');
+    } else {
+      updateFavicon('/icons/favicon.ico');
+    }
+  }, [activeTimeEntry, pathname]);
+
+  return null;
 }

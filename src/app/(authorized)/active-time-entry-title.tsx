@@ -43,8 +43,6 @@ export function ActiveTimeEntryTitle() {
   const duration = useDuration(activeTimeEntry?.start_time);
   const { setTitle, title } = useLayoutStore();
 
-  console.log('test');
-
   useEffect(() => {
     if (!title) {
       setTitle(document.title);

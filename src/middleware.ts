@@ -1,7 +1,7 @@
-import { paths } from '@/shared/constants';
 import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
 import { auth } from './auth';
+import { paths } from './shared/constants';
 
 export async function middleware(request: NextRequest) {
   const { pathname, origin } = request.nextUrl;

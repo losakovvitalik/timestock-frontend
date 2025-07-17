@@ -20,7 +20,6 @@ export function ProjectReminderForm({
   submitBtnText = 'Сохранить',
 }: ProjectReminderFormProps) {
   const form = useProjectReminderForm({ defaultValues });
-  console.log(form.formState.errors);
 
   return (
     <Form {...form}>

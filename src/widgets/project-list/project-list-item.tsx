@@ -11,21 +11,24 @@ export interface ProjectListItemProps {
 
 export function ProjectListItem({ project }: ProjectListItemProps) {
   return (
-    <div className="bg-secondary border-border flex items-center gap-2 rounded-lg border p-2">
-      <div
-        className="size-4 rounded-full"
-        style={{
-          background: project.color.hex,
-        }}
-      />
+    <div className="grid grid-cols-[70px_1fr] items-center gap-4">
       <Typography className="text-lg font-semibold">
-        {project.name} | {(project.time_spent / 3600).toFixed(2)} ч
+        {(project.time_spent / 3600).toFixed(2)} ч
       </Typography>
-      <Button className="ml-auto size-8" size={'icon'} asChild>
-        <Link href={paths.projects.edit(project.documentId)}>
-          <Edit />
-        </Link>
-      </Button>
+      <div className="bg-secondary border-border flex items-center gap-2 rounded-lg border p-2">
+        <div
+          className="size-4 rounded-full"
+          style={{
+            background: project.color.hex,
+          }}
+        />
+        <Typography className="text-lg font-semibold">{project.name}</Typography>
+        <Button className="ml-auto size-8" size={'icon'} asChild>
+          <Link href={paths.projects.edit(project.documentId)}>
+            <Edit />
+          </Link>
+        </Button>
+      </div>
     </div>
   );
 }

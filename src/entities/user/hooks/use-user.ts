@@ -1,26 +1,30 @@
 'use client';
 
 import { useQuery } from '@tanstack/react-query';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { userGetMe, UserGetMeResponse } from '../api/user-get-me';
 
-export const useUserKey = ['me'];
+export const useUserKey = ['users', 'me'];
 const STORAGE_KEY = 'me';
 
 export function useUser() {
-  const cached: UserGetMeResponse = (() => {
+  const [initialData, setInitialData] = useState<UserGetMeResponse | undefined>(undefined);
+
+  useEffect(() => {
     try {
       const json = localStorage.getItem(STORAGE_KEY);
-      return json ? JSON.parse(json) : undefined;
-    } catch {
-      return undefined;
+      const parsed = json ? JSON.parse(json) : undefined;
+      if (parsed) setInitialData(parsed);
+    } catch (err) {
+      console.log(err);
     }
-  })();
+  }, []);
 
   const query = useQuery({
     queryKey: useUserKey,
     queryFn: userGetMe,
-    initialData: cached,
+    enabled: initialData !== undefined,
+    initialData,
   });
 
   useEffect(() => {

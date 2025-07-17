@@ -16,7 +16,8 @@
     "project-reminder",
     "ui",
     "create-project-reminder",
-    "projects-list"
+    "projects-list",
+    "edit-user-profile"
   ],
   "typescript.tsdk": "node_modules/typescript/lib"
 }

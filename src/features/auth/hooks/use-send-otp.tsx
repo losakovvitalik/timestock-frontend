@@ -18,8 +18,6 @@ export const useSendOtp = () => {
     onError: (err) => {
       let msg = 'Что-то пошло не так при авторизации';
 
-      console.log(err);
-
       if (err instanceof AxiosError) {
         const response = err.response?.data as ApiError;
         const code = response?.error?.code;

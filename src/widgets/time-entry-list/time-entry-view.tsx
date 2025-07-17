@@ -38,7 +38,6 @@ export function TimeEntryView({ entry, trigger }: TimeEntryViewProps) {
   });
 
   const handleSubmit = (data: TimeEntryFormSchemaType) => {
-    console.log(data);
     if (entry) {
       timeEntryUpdate.mutate({
         id: entry.documentId,

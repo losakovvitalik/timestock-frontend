@@ -15,16 +15,21 @@ export function ProjectListItem({ project }: ProjectListItemProps) {
       <Typography className="text-lg font-semibold">
         {(project.time_spent / 3600).toFixed(2)} ч
       </Typography>
-      <div className="bg-secondary border-border flex items-center gap-2 rounded-lg border p-2">
-        <div
-          className="size-4 rounded-full"
-          style={{
-            background: project.color.hex,
-          }}
-        />
-        <Typography className="text-lg font-semibold">{project.name}</Typography>
+      <div className="bg-secondary border-border flex items-center rounded-lg border p-2">
+        <Link
+          className="flex items-center gap-2 hover:underline"
+          href={paths.project.view(project.documentId)}
+        >
+          <div
+            className="size-4 rounded-full"
+            style={{
+              background: project.color.hex,
+            }}
+          />
+          <Typography className="text-lg font-semibold">{project.name}</Typography>
+        </Link>
         <Button className="ml-auto size-8" size={'icon'} asChild>
-          <Link href={paths.projects.edit(project.documentId)}>
+          <Link href={paths.project.edit(project.documentId)}>
             <Edit />
           </Link>
         </Button>

@@ -1,4 +1,4 @@
-import { formatDuration } from '@/shared/utils/format-duration';
+import { formatDurationInterval } from '@/shared/utils/format-duration';
 import { TimeEntryDTO } from '../model/types';
 
 export interface TimeEntry extends TimeEntryDTO {
@@ -8,6 +8,6 @@ export interface TimeEntry extends TimeEntryDTO {
 export function adaptTimeEntryDto(dto: TimeEntryDTO): TimeEntry {
   return {
     ...dto,
-    duration: formatDuration(dto.start_time, dto.end_time || undefined),
+    duration: formatDurationInterval(dto.start_time, dto.end_time || undefined),
   };
 }

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { formatDuration } from '../utils/format-duration';
+import { formatDurationInterval } from '../utils/format-duration';
 
 type TimeUnion = Date | string | null | undefined;
 
@@ -14,13 +14,13 @@ export function useDuration(startTime?: TimeUnion, endTime?: TimeUnion): string 
 
     if (end) {
       // Статическая продолжительность
-      setDuration(formatDuration(start, end));
+      setDuration(formatDurationInterval(start, end));
       return;
     }
 
     // Динамическое обновление
     const updateDuration = () => {
-      setDuration(formatDuration(start, new Date()));
+      setDuration(formatDurationInterval(start, new Date()));
     };
 
     updateDuration();

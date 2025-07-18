@@ -20,7 +20,7 @@ const items = [
   },
   {
     title: 'Проекты',
-    url: paths.projects.list,
+    url: paths.project.list,
     icon: FolderOpen,
   },
   {

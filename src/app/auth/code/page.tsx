@@ -1,9 +1,9 @@
 import { AuthOTPForm } from '@/features/auth/ui/auth-otp-form';
 import { paths } from '@/shared/constants';
-import { PageParams } from '@/shared/types/next';
+import { PageProps } from '@/shared/types/next';
 import { redirect } from 'next/navigation';
 
-export default async function AuthCodePage(props: PageParams<any, { email: string }>) {
+export default async function AuthCodePage(props: PageProps<any, { email: string }>) {
   const searchParams = await props.searchParams;
   const email = searchParams?.email;
 

@@ -7,7 +7,7 @@ export function testFn() {}
 export function CreateProjectLink() {
   return (
     <Button className="rounded-full px-6" asChild>
-      <Link href={paths.projects.create}>Добавить проект</Link>
+      <Link href={paths.project.create}>Добавить проект</Link>
     </Button>
   );
 }

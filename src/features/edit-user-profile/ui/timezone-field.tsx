@@ -22,7 +22,7 @@ export function TimezoneField<T extends FieldValues>(
       {...props}
       control={props.control}
       name={props.name}
-      label="Временная зона"
+      label="Часовой пояс"
       labelKey={'label'}
       valueKey={'value'}
       options={russianTimezones}

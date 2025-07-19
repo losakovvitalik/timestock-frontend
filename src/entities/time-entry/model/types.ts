@@ -11,7 +11,7 @@ export interface TimeEntryDTO extends ApiEntityBase {
 
 export interface TimeEntryPayload {
   description?: string;
-  project?: string;
+  project?: string | null;
   start_time?: string | Date;
   end_time?: string | Date;
 }

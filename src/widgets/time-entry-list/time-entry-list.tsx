@@ -4,6 +4,7 @@ import { timeEntryApiHooks } from '@/entities/time-entry/api/time-entry-api-hook
 import { TimeEntryDTO } from '@/entities/time-entry/model/types';
 import { cn } from '@/shared/lib/utils';
 import { ApiGetParams } from '@/shared/types/api';
+import { Loader } from '@/shared/ui/loader';
 import { Typography } from '@/shared/ui/typography';
 import { TimeEntryItem } from './time-entry-item';
 
@@ -34,6 +35,10 @@ export function TimeEntryList({ params, className }: TimeEntryListProps) {
       start_time: 'desc',
     },
   });
+
+  if (timeEntries.isLoading) {
+    return <Loader absolute />;
+  }
 
   return (
     <div className={cn('flex h-full flex-col gap-2 overflow-auto', className)}>

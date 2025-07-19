@@ -6,12 +6,14 @@ import { projectApiHooks } from '../api/project-api-hooks';
 export function SelectProjectField<T extends FieldValues>(
   props: Omit<SelectFieldProps<T>, 'options' | 'labelKey' | 'valueKey'>,
 ) {
-  const allProjects = projectApiHooks.useList({
+  const { data: allProjects, isLoading: isProjectsLoading } = projectApiHooks.useList({
     populate: {
       color: true,
     },
   });
-  const options = allProjects.data?.data || [];
+  const options = allProjects
+    ? [{ name: 'Нет проекта', documentId: null }, ...allProjects?.data]
+    : [];
 
   return (
     <SelectField
@@ -19,15 +21,17 @@ export function SelectProjectField<T extends FieldValues>(
       options={options}
       labelKey="name"
       valueKey="documentId"
-      placeholder={allProjects.isLoading ? 'Загрузка...' : 'Выберите проект'}
+      placeholder={isProjectsLoading ? 'Загрузка...' : 'Выберите проект'}
       renderItem={(project) => (
         <div className="flex items-center gap-1">
-          <div
-            className="size-4 rounded-full"
-            style={{
-              backgroundColor: project.color.hex,
-            }}
-          />
+          {'color' in project && (
+            <div
+              className="size-4 rounded-full"
+              style={{
+                backgroundColor: project?.color?.hex,
+              }}
+            />
+          )}
           <Typography>{project.name}</Typography>
         </div>
       )}

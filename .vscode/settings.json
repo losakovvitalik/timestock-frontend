@@ -18,7 +18,8 @@
     "create-project-reminder",
     "projects-list",
     "edit-user-profile",
-    "view-project"
+    "view-project",
+    "leave-app-feedback"
   ],
   "typescript.tsdk": "node_modules/typescript/lib"
 }

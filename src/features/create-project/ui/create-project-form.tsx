@@ -15,7 +15,7 @@ export function CreateProjectForm() {
       onSubmit={(values) =>
         createProject.mutateAsync(values, {
           onSuccess(data) {
-            router.push(paths.project.edit(data.documentId));
+            router.replace(paths.project.edit(data.documentId));
           },
         })
       }

@@ -1,4 +1,5 @@
 'use client';
+import { AppFeedbackDialog } from '@/features/leave-app-feedback/ui/app-feedback-dialog';
 import { LogoutButton } from '@/features/logout/ui/logout-button';
 import { PushNotificationManager } from '@/features/push-notifications/ui/push-notifications-manager';
 import ToggleThemeButton from '@/features/toggle-theme/ui/toggle-theme-button';
@@ -25,6 +26,7 @@ export default function MenuPage() {
           Профиль
         </Link>
         <PushNotificationManager />
+        <AppFeedbackDialog />
         <LogoutButton />
         {/* <InstallPrompt /> */}
       </div>

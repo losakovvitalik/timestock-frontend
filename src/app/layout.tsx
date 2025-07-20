@@ -1,7 +1,8 @@
+import { Toaster } from '@/shared/ui/sonner';
 import type { Metadata } from 'next';
 import { SessionProvider } from 'next-auth/react';
 import { Inter } from 'next/font/google';
-import { Toaster } from 'react-hot-toast';
+import { Toaster as HotToaster } from 'react-hot-toast';
 import { ActiveTimeEntryTitle } from './(authorized)/active-time-entry-title';
 import './globals.css';
 import { TanstackProvider } from './providers/tanstack-provider';
@@ -40,7 +41,9 @@ export default function RootLayout({
               <TanstackProvider>
                 {children}
                 <ActiveTimeEntryTitle />
-                <Toaster
+
+                <Toaster position="top-center" />
+                <HotToaster
                   position="top-center"
                   toastOptions={{
                     style: {

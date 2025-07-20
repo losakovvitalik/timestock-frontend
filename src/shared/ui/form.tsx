@@ -7,6 +7,7 @@ import {
   Controller,
   FormProvider,
   useFormContext,
+  UseFormReturn,
   useFormState,
   type ControllerProps,
   type FieldPath,
@@ -16,7 +17,24 @@ import {
 import { cn } from '@/shared/lib/utils';
 import { Label } from '@/shared/ui/label';
 
-const Form = FormProvider;
+// const Form = FormProvider;
+
+type FormProps<TFieldValues extends FieldValues> = {
+  disabled?: boolean;
+  children: React.ReactNode;
+} & UseFormReturn<TFieldValues>;
+
+const Form = <TFieldValues extends FieldValues>({
+  disabled = false,
+  children,
+  ...formProps
+}: FormProps<TFieldValues>) => {
+  return (
+    <FormProvider {...formProps}>
+      <fieldset disabled={disabled}>{children}</fieldset>
+    </FormProvider>
+  );
+};
 
 type FormFieldContextValue<
   TFieldValues extends FieldValues = FieldValues,

@@ -5,7 +5,8 @@ export interface Project extends ApiEntityBase {
   name: string;
   color: Color;
   description?: string | null;
-  user?: User;
+  owner?: User;
+  members?: User[];
   time_spent: number;
 }
 

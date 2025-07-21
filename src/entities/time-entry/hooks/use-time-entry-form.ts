@@ -11,6 +11,7 @@ export interface UseTimeEntryFormProps {
 export function useTimeEntryForm(props?: UseTimeEntryFormProps) {
   return useForm<TimeEntryFormSchemaType>({
     resolver: zodResolver(timeEntryFormSchema),
+    reValidateMode: 'onChange',
     ...props,
   });
 }

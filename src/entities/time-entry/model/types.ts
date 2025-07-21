@@ -7,6 +7,7 @@ export interface TimeEntryDTO extends ApiEntityBase {
   end_time: string | null;
   user?: string | null;
   project?: Project;
+  duration?: number;
 }
 
 export interface TimeEntryPayload {

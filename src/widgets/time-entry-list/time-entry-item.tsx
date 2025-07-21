@@ -1,4 +1,4 @@
-import { TimeEntry } from '@/entities/time-entry/api/time-entry-mapper';
+import { TimeEntryDTO } from '@/entities/time-entry/model/types';
 import { TimeEntryDeleteButton } from '@/features/time-entry-delete/ui/time-entry-delete-button';
 import { TimeEntryStartAgainButton } from '@/features/time-entry-start-again/ui/time-entry-start-again-button';
 import { formatDisplayDate } from '@/shared/lib/date/format-display-date';
@@ -6,10 +6,11 @@ import { cn } from '@/shared/lib/utils';
 import { Badge } from '@/shared/ui/badge';
 import { Card, CardContent, CardTitle } from '@/shared/ui/card';
 import { Typography } from '@/shared/ui/typography';
+import { formatDuration } from '@/shared/utils/duration';
 import { TimeEntryView } from '@/widgets/time-entry-list/time-entry-view';
 
 export interface TimeEntryItemProps {
-  entry: TimeEntry;
+  entry: TimeEntryDTO;
 }
 
 export function TimeEntryItem({ entry }: TimeEntryItemProps) {
@@ -28,7 +29,9 @@ export function TimeEntryItem({ entry }: TimeEntryItemProps) {
                 {entry.description || 'Без описания'}
               </CardTitle>
               <div className="flex items-center gap-1">
-                <Typography className="text-sm font-semibold">{entry.duration}</Typography>
+                <Typography className="text-sm font-semibold">
+                  {formatDuration(entry.duration || 0)}
+                </Typography>
                 <Badge variant={'secondary'}>
                   {entry.project && (
                     <div

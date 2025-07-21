@@ -2,7 +2,7 @@
 
 import { timeEntryApiHooks } from '@/entities/time-entry/api/time-entry-api-hooks';
 import { useActiveTimeEntry } from '@/entities/time-entry/hooks/use-active-time-entry';
-import { TimeEntryFormSchemaType } from '@/entities/time-entry/model/time-entry-form-schema';
+import { TimeEntryPayload } from '@/entities/time-entry/model/types';
 import { TimeEntryForm } from '@/entities/time-entry/ui/time-entry-form';
 import { useDuration } from '@/shared/hooks/use-duration';
 import { Button } from '@/shared/ui/button';
@@ -17,7 +17,6 @@ import {
   DrawerTrigger,
 } from '@/shared/ui/drawer';
 import { Typography } from '@/shared/ui/typography';
-import { subtractDurationFromDate } from '@/shared/utils/duration';
 import { Plus } from 'lucide-react';
 import { useState } from 'react';
 import toast from 'react-hot-toast';
@@ -37,17 +36,11 @@ export function TimerInfoDrawer() {
     },
   });
 
-  const handleSubmit = (data: TimeEntryFormSchemaType) => {
+  const handleSubmit = (data: TimeEntryPayload) => {
     if (entry) {
       timeEntryUpdate.mutate({
         id: entry.documentId,
-        data: {
-          description: data.description,
-          project: data.project,
-          ...(data.duration
-            ? { start_time: subtractDurationFromDate(new Date(), data.duration) }
-            : {}),
-        },
+        data: data,
       });
     }
   };
@@ -73,8 +66,8 @@ export function TimerInfoDrawer() {
           onSubmit={handleSubmit}
           defaultValues={{
             description: entry?.description || undefined,
-            project: entry?.project?.documentId,
-            duration: duration,
+            project: entry?.project,
+            duration: entry?.duration,
           }}
         />
         <DrawerFooter>

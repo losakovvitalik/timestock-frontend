@@ -1,44 +1,48 @@
-import { format } from 'date-fns';
-import { CalendarIcon } from 'lucide-react';
-import { cn } from '../lib/utils';
+import { ChevronDownIcon } from 'lucide-react';
+import * as React from 'react';
 import { Button } from './button';
 import { Calendar } from './calendar';
-import { FormControl } from './form';
 import { Popover, PopoverContent, PopoverTrigger } from './popover';
 
 export interface DatePickerProps {
-  value: Date;
-  onChange: (v: Date) => void;
+  value?: Date;
+  onChange: (v: Date | undefined) => void;
 }
 
-export function DatePicker({ value, onChange }: DatePickerProps) {
+export function DatePicker({ onChange, value }: DatePickerProps) {
+  const [open, setOpen] = React.useState(false);
+
   return (
-    <Popover>
-      <PopoverTrigger asChild>
-        <FormControl>
+    <div className="flex w-full flex-col gap-3">
+      <Popover open={open} onOpenChange={setOpen}>
+        <PopoverTrigger asChild>
           <Button
-            variant={'outline'}
-            className={cn(
-              'w-[240px] pl-3 text-left font-normal',
-              !value && 'text-muted-foreground',
-            )}
+            variant="outline"
+            id="date"
+            className="w-full justify-between py-1 text-base font-normal"
           >
-            {value ? format(value, 'PPP') : <span>Pick a date</span>}
-            <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+            {value ? value.toLocaleDateString() : 'Выберите дату'}
+            <ChevronDownIcon />
           </Button>
-        </FormControl>
-      </PopoverTrigger>
-      <PopoverContent className="w-auto p-0" align="start">
-        <Calendar
-          mode="single"
-          selected={value}
-          onSelect={(date) => {
-            if (date) onChange(date);
-          }}
-          disabled={(date) => date > new Date() || date < new Date('1900-01-01')}
-          initialFocus
-        />
-      </PopoverContent>
-    </Popover>
+        </PopoverTrigger>
+        <PopoverContent
+          className="flex w-[var(--radix-popover-trigger-width)] justify-center overflow-hidden border-none bg-transparent p-0"
+          align="start"
+        >
+          <div className="bg-popover w-max">
+            <Calendar
+              mode="single"
+              className="bg-background rounded-lg border [--cell-size:--spacing(10)] md:[--cell-size:--spacing(12)]"
+              selected={value}
+              captionLayout="dropdown"
+              onSelect={(date) => {
+                onChange(date);
+                setOpen(false);
+              }}
+            />
+          </div>
+        </PopoverContent>
+      </Popover>
+    </div>
   );
 }

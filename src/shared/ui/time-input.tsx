@@ -20,7 +20,7 @@ const TimeInput = ({
   placeholder = '00:00:00',
   className,
   disabled,
-  unmask = true,
+  unmask = false,
   format = 'HH:mm:ss',
   ...props
 }: TimeInputProps) => {
@@ -31,7 +31,7 @@ const TimeInput = ({
       lazy={false}
       overwrite
       placeholderChar="0"
-      defaultValue={'000000'}
+      defaultValue={'00:00:00'}
       blocks={{
         HH: {
           mask: IMask.MaskedRange,

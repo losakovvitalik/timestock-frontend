@@ -34,3 +34,17 @@ export function formatDuration(totalSeconds: number): string {
 
   return `${hours}:${minutes}:${seconds}`;
 }
+
+export function parseDurationString(time: string): {
+  hours: number;
+  minutes: number;
+  seconds: number;
+} {
+  const [hoursStr, minutesStr, secondsStr] = time.split(':');
+
+  const hours = parseInt(hoursStr, 10);
+  const minutes = parseInt(minutesStr, 10);
+  const seconds = parseInt(secondsStr, 10);
+
+  return { hours, minutes, seconds };
+}

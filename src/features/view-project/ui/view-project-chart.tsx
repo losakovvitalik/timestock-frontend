@@ -32,8 +32,6 @@ export function ViewProjectChart({ projectId }: ViewProjectChartProps) {
     duration: val.duration,
   }));
 
-  console.log(chartData);
-
   if (isLoading) {
     return <Loader absolute />;
   }

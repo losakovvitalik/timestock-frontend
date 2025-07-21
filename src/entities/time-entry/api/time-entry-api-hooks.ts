@@ -1,9 +1,7 @@
 import { createApiHooks } from '@/shared/lib/react-query/create-api-hooks';
 import { TimeEntryDTO, TimeEntryPayload } from '../model/types';
-import { adaptTimeEntryDto, TimeEntry } from './time-entry-mapper';
 
-export const timeEntryApiHooks = createApiHooks<TimeEntryDTO, TimeEntryPayload, TimeEntry>(
+export const timeEntryApiHooks = createApiHooks<TimeEntryDTO, TimeEntryPayload>(
   'timeEntry',
   '/time-entries',
-  adaptTimeEntryDto,
 );

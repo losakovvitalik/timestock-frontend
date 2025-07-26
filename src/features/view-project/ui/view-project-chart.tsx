@@ -4,9 +4,12 @@ import { useGetDailyAggregateByProject } from '@/entities/daily-aggregate/hooks/
 import { formatDisplayDate } from '@/shared/lib/date/format-display-date';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/shared/ui/card';
 import { ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from '@/shared/ui/chart';
+import { DateRangePicker } from '@/shared/ui/date-range-picker';
 import { Loader } from '@/shared/ui/loader';
 import { formatDuration } from '@/shared/utils/duration';
 import { format, subDays } from 'date-fns';
+import { useState } from 'react';
+import { DateRange } from 'react-day-picker';
 import { Bar, BarChart, CartesianGrid, XAxis } from 'recharts';
 
 const chartConfig = {
@@ -18,14 +21,23 @@ const chartConfig = {
 
 export interface ViewProjectChartProps {
   projectId: string;
+  createdAt: string;
 }
 
-export function ViewProjectChart({ projectId }: ViewProjectChartProps) {
-  const { data, isLoading } = useGetDailyAggregateByProject({
-    projectId,
-    from: format(subDays(new Date(), 6), 'yyyy-MM-dd'),
-    to: format(new Date(), 'yyyy-MM-dd'),
+export function ViewProjectChart({ projectId, createdAt }: ViewProjectChartProps) {
+  const [range, setRange] = useState<DateRange>({
+    from: subDays(new Date(), 6),
+    to: new Date(),
   });
+
+  const { data, isLoading } = useGetDailyAggregateByProject(
+    {
+      projectId,
+      from: format(range.from!, 'yyyy-MM-dd'),
+      to: format(range.to!, 'yyyy-MM-dd'),
+    },
+    { enabled: Boolean(range.from && range.to) },
+  );
 
   const chartData = data?.data.map((val) => ({
     date: val.date,
@@ -38,9 +50,21 @@ export function ViewProjectChart({ projectId }: ViewProjectChartProps) {
 
   return (
     <Card className="mt-4">
-      <CardHeader>
-        <CardTitle>Потраченное время</CardTitle>
-        <CardDescription>10 июля - 16 июля</CardDescription>
+      <CardHeader className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+        <div className="flex flex-col">
+          <CardTitle>Потраченное время</CardTitle>
+          <CardDescription>
+            {formatDisplayDate(range.from!)} - {formatDisplayDate(range.to!)}
+          </CardDescription>
+        </div>
+        <div className="w-full sm:w-auto">
+          <DateRangePicker
+            value={range}
+            onChange={setRange}
+            min={new Date(createdAt)}
+            max={new Date()}
+          />
+        </div>
       </CardHeader>
       <CardContent>
         <ChartContainer className="h-[400px] w-full" config={chartConfig}>

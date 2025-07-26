@@ -40,7 +40,7 @@ export function ViewProject({ projectId }: ViewProjectProps) {
           <div>Потрачено времени: {(project.time_spent / 3600).toFixed(2)} ч</div>
         </CardContent>
       </Card>
-      <ViewProjectChart projectId={projectId} />
+      <ViewProjectChart projectId={projectId} createdAt={project.createdAt} />
     </div>
   );
 }

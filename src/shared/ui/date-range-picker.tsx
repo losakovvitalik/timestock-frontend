@@ -4,6 +4,7 @@ import { ChevronDownIcon } from 'lucide-react';
 import * as React from 'react';
 import { DateRange, Matcher } from 'react-day-picker';
 
+import { useEffect } from 'react';
 import { Button } from './button';
 import { Calendar } from './calendar';
 import { Popover, PopoverContent, PopoverTrigger } from './popover';
@@ -17,6 +18,13 @@ export interface DateRangePickerProps {
 
 function DateRangePicker({ value, onChange, min, max }: DateRangePickerProps) {
   const [open, setOpen] = React.useState(false);
+  const [temp, setTemp] = React.useState<DateRange | undefined>();
+
+  useEffect(() => {
+    if (!open) {
+      setTemp(undefined);
+    }
+  }, [open]);
 
   const displayValue = React.useMemo(() => {
     if (value?.from && value.to) {
@@ -44,7 +52,7 @@ function DateRangePicker({ value, onChange, min, max }: DateRangePickerProps) {
           </Button>
         </PopoverTrigger>
         <PopoverContent
-          className="flex w-[var(--radix-popover-trigger-width)] justify-center overflow-hidden border-none bg-transparent p-0"
+          className="flex max-h-[90vh] w-auto justify-center overflow-y-auto border-none bg-transparent p-0"
           align="start"
         >
           <div className="bg-popover">
@@ -52,15 +60,22 @@ function DateRangePicker({ value, onChange, min, max }: DateRangePickerProps) {
               mode="range"
               numberOfMonths={2}
               className="bg-background rounded-lg border [--cell-size:--spacing(10)] md:[--cell-size:--spacing(12)]"
-              selected={value}
+              selected={temp ?? value}
               captionLayout="dropdown"
               disabled={
                 [...(min ? [{ before: min }] : []), ...(max ? [{ after: max }] : [])] as Matcher[]
               }
               max={30}
               onSelect={(range) => {
-                if (range?.from && range.to) {
+                if (!temp) {
+                  setTemp(range ?? undefined);
+                } else if (range?.from && range.to) {
                   onChange(range as DateRange);
+                  setTemp(undefined);
+                  setOpen(false);
+                } else if (!range) {
+                  onChange({ from: temp.from!, to: temp.from! });
+                  setTemp(undefined);
                   setOpen(false);
                 }
               }}

@@ -2,7 +2,7 @@
 
 import { timeEntryApiHooks } from '@/entities/time-entry/api/time-entry-api-hooks';
 import { useActiveTimeEntry } from '@/entities/time-entry/hooks/use-active-time-entry';
-import { TimeEntryPayload } from '@/entities/time-entry/model/types';
+import { TimeEntryDTO, TimeEntryPayload } from '@/entities/time-entry/model/types';
 import { TimeEntryForm } from '@/entities/time-entry/ui/time-entry-form';
 import { useDuration } from '@/shared/hooks/use-duration';
 import { Button } from '@/shared/ui/button';
@@ -26,8 +26,6 @@ export function TimerInfoDrawer() {
   const [open, setOpen] = useState(false);
 
   const { data: entry } = useActiveTimeEntry();
-
-  const duration = useDuration(entry?.start_time, entry?.end_time);
 
   const timeEntryUpdate = timeEntryApiHooks.useUpdate({
     onSuccess: () => {
@@ -55,21 +53,10 @@ export function TimerInfoDrawer() {
       </DrawerTrigger>
       <DrawerContent>
         <DrawerHeader className="flex-row justify-between">
-          <div>
-            <DrawerTitle>Информация</DrawerTitle>
-            <DrawerDescription>{duration}</DrawerDescription>
-          </div>
+          <TimerInfoDrawerDuration entry={entry} />
           <TimerToggleButton className="size-11 !p-0.5" />
         </DrawerHeader>
-        <TimeEntryForm
-          className="px-4"
-          onSubmit={handleSubmit}
-          defaultValues={{
-            description: entry?.description || undefined,
-            project: entry?.project,
-            duration: entry?.duration,
-          }}
-        />
+        <TimeEntryForm className="px-4" onSubmit={handleSubmit} defaultValues={entry} />
         <DrawerFooter>
           <DrawerClose asChild>
             <Button variant="outline">Отменить</Button>
@@ -77,5 +64,15 @@ export function TimerInfoDrawer() {
         </DrawerFooter>
       </DrawerContent>
     </Drawer>
+  );
+}
+function TimerInfoDrawerDuration({ entry }: { entry?: TimeEntryDTO }) {
+  const duration = useDuration(entry?.start_time, entry?.end_time);
+
+  return (
+    <div>
+      <DrawerTitle>Информация</DrawerTitle>
+      <DrawerDescription>{duration}</DrawerDescription>
+    </div>
   );
 }

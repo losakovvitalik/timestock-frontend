@@ -33,7 +33,7 @@ export function TimeEntryForm({
       duration: defaultValues ? getInitialDuration(defaultValues) : '00:00:00',
       project: defaultValues?.project?.documentId,
       startTime: defaultValues?.start_time ? new Date(defaultValues?.start_time) : undefined,
-      endTime: defaultValues?.end_time ? new Date(defaultValues?.end_time) : undefined,
+      endTime: defaultValues?.end_time ? new Date(defaultValues?.end_time) : new Date(),
     },
   });
 
@@ -59,8 +59,6 @@ export function TimeEntryForm({
       seconds,
     });
 
-    console.log(startTime, newEndTime, formatDuration(differenceInSeconds(newEndTime, startTime)));
-
     // если даты отличаются на менее чем 1000мс (так как они могут отличаться по миллисекундам), то ничего не изменяем
     if (Math.abs(newEndTime.getTime() - (endTime?.getTime() || 0)) <= 1000) {
       return;
@@ -69,7 +67,7 @@ export function TimeEntryForm({
     form.setValue('endTime', newEndTime);
     /**
      * ! если в массив добавить endTime или startTime, как подсказывает ESLint,
-     * ! то будет бесконечный ререндер и утечка память
+     * ! то будет бесконечный ререндер и утечка памяти
      */
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [duration, form]);
@@ -93,6 +91,8 @@ export function TimeEntryForm({
       }
     }
   }, [endTime, form, startTime]);
+
+  console.log(endTime);
 
   return (
     <Form {...form}>

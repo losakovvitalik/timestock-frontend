@@ -6,7 +6,7 @@ import { AxiosError } from 'axios';
 import { useRouter } from 'next/navigation';
 import toast from 'react-hot-toast';
 
-export const useSendOtp = () => {
+export const useSendOtp = ({ onError }: { onError?: (err: unknown) => void } = {}) => {
   const router = useRouter();
 
   const { mutate, isPending, ...rest } = useMutation({
@@ -28,6 +28,7 @@ export const useSendOtp = () => {
       }
 
       toast.error(msg);
+      onError?.(err);
     },
   });
 

@@ -5,14 +5,14 @@ import { useEffect, useState } from 'react';
 import { userGetMe, UserGetMeResponse } from '../api/user-get-me';
 
 export const useUserKey = ['users', 'me'];
-const STORAGE_KEY = 'me';
+export const USE_USER_STORAGE_KEY = 'me';
 
 export function useUser() {
   const [initialData, setInitialData] = useState<UserGetMeResponse | undefined>(undefined);
 
   useEffect(() => {
     try {
-      const json = localStorage.getItem(STORAGE_KEY);
+      const json = localStorage.getItem(USE_USER_STORAGE_KEY);
       const parsed = json ? JSON.parse(json) : undefined;
       if (parsed) setInitialData(parsed);
     } catch (err) {
@@ -30,7 +30,7 @@ export function useUser() {
   useEffect(() => {
     if (query.isSuccess) {
       try {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(query.data));
+        localStorage.setItem(USE_USER_STORAGE_KEY, JSON.stringify(query.data));
       } catch {}
     }
   }, [query.data, query.isSuccess]);

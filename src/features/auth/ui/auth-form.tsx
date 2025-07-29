@@ -1,4 +1,5 @@
 'use client';
+import { ApiError } from '@/shared/types/api';
 import { Button } from '@/shared/ui/button';
 import { Card, CardContent } from '@/shared/ui/card';
 import {
@@ -11,13 +12,27 @@ import {
   FormMessage,
 } from '@/shared/ui/form';
 import { Input } from '@/shared/ui/input';
+import { AxiosError } from 'axios';
 import { useAuthForm } from '../hooks/use-auth-form';
 import { useSendOtp } from '../hooks/use-send-otp';
 import { AuthFormSchemaType } from '../model/auth-form-schema';
 
 function AuthForm() {
   const form = useAuthForm();
-  const { sendOTP, isSendOTPPending } = useSendOtp();
+  const { sendOTP, isSendOTPPending } = useSendOtp({
+    onError(err) {
+      if (err instanceof AxiosError) {
+        const response = err.response?.data as ApiError;
+        const code = response?.error?.code;
+
+        if (code === 'FAILED_SEND_EMAIL') {
+          form.setError('email', {
+            message: 'Не удалось отправить email. Попробуйте позже',
+          });
+        }
+      }
+    },
+  });
 
   const onSubmit = (values: AuthFormSchemaType) => {
     sendOTP(values);

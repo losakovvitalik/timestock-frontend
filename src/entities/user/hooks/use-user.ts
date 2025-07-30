@@ -14,6 +14,7 @@ export function useUser() {
     try {
       const json = localStorage.getItem(USE_USER_STORAGE_KEY);
       const parsed = json ? JSON.parse(json) : undefined;
+      // получаем кешированные данные о пользователе из ls
       if (parsed) setInitialData(parsed);
     } catch (err) {
       console.log(err);
@@ -23,17 +24,19 @@ export function useUser() {
   const query = useQuery({
     queryKey: useUserKey,
     queryFn: userGetMe,
-    enabled: initialData !== undefined,
-    initialData,
+    placeholderData: initialData,
+    staleTime: 5 * 60000,
   });
 
   useEffect(() => {
-    if (query.isSuccess) {
+    if (!query.isStale) {
       try {
+        // после выполнения запроса
+        // обновляем данные о пользователе в ls
         localStorage.setItem(USE_USER_STORAGE_KEY, JSON.stringify(query.data));
       } catch {}
     }
-  }, [query.data, query.isSuccess]);
+  }, [query.data, query.isStale]);
 
   return query;
 }

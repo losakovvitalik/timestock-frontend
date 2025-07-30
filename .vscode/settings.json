@@ -19,7 +19,8 @@
     "projects-list",
     "edit-user-profile",
     "view-project",
-    "leave-app-feedback"
+    "leave-app-feedback",
+    "user"
   ],
   "typescript.tsdk": "node_modules/typescript/lib"
 }

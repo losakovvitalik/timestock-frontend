@@ -40,7 +40,9 @@ export function ViewProjectChart({ projectId }: ViewProjectChartProps) {
     <Card className="mt-4">
       <CardHeader>
         <CardTitle>Потраченное время</CardTitle>
-        <CardDescription>10 июля - 16 июля</CardDescription>
+        <CardDescription>
+          {formatDisplayDate(subDays(new Date(), 6))} - {formatDisplayDate(new Date())}
+        </CardDescription>
       </CardHeader>
       <CardContent>
         <ChartContainer className="h-[400px] w-full" config={chartConfig}>

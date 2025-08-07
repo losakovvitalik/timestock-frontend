@@ -7,27 +7,27 @@ import { Loader } from '@/shared/ui/loader';
 import { ProjectListItem } from './project-list-item';
 
 export function ProjectList() {
-  const user = useUser();
+  const { user } = useUser();
   const { value } = useQueryParams();
 
   const search = value?.search;
 
-  const { data: projects, isLoading: isProjectsLoading } = projectApiHooks.useList(
-    {
+  const { data: projects, isLoading: isProjectsLoading } = projectApiHooks.useList({
+    params: {
       populate: {
         color: true,
       },
       filters: {
         owner: {
-          id: user.data?.id,
+          id: user?.id,
         },
         name: {
           $containsi: search,
         },
       },
     },
-    { enabled: Boolean(user.data?.id) },
-  );
+    options: { enabled: Boolean(user?.id) },
+  });
 
   return (
     <ul className="mt-2 flex flex-col gap-3">

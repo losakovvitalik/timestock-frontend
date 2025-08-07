@@ -33,10 +33,15 @@ export function useUser() {
       try {
         // после выполнения запроса
         // обновляем данные о пользователе в ls
-        localStorage.setItem(USE_USER_STORAGE_KEY, JSON.stringify(query.data));
       } catch {}
+      localStorage.setItem(USE_USER_STORAGE_KEY, JSON.stringify(query.data));
     }
   }, [query.data, query.isStale]);
 
-  return query;
+  return {
+    user: query.data,
+    isLoading: query.isLoading,
+    isErrored: query.isError,
+    isSuccess: query.isSuccess,
+  };
 }

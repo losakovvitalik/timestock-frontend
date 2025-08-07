@@ -1,10 +1,10 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { projectFormSchema } from '../models/project-form-schema';
-import { Project } from '../models/types';
+import { ProjectDTO } from '../models/types';
 
 export interface UseProjectFormProps {
-  defaultValues?: Partial<Project>;
+  defaultValues?: Partial<ProjectDTO>;
 }
 
 export function useProjectForm({ defaultValues }: UseProjectFormProps) {

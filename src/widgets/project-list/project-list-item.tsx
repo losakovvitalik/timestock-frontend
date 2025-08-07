@@ -1,4 +1,4 @@
-import { Project } from '@/entities/project/models/types';
+import { ProjectDTO } from '@/entities/project/models/types';
 import { paths } from '@/shared/constants';
 import { Button } from '@/shared/ui/button';
 import { Typography } from '@/shared/ui/typography';
@@ -6,7 +6,7 @@ import { Edit } from 'lucide-react';
 import Link from 'next/link';
 
 export interface ProjectListItemProps {
-  project: Project;
+  project: ProjectDTO;
 }
 
 export function ProjectListItem({ project }: ProjectListItemProps) {

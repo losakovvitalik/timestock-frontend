@@ -20,7 +20,7 @@ export function TimerToggleButton({ className }: TimerToggleButtonProps) {
     if (activeTimeEntry) {
       stopTimer.mutate();
     } else {
-      startTimer.mutate({});
+      startTimer.mutate();
     }
   };
 

@@ -6,7 +6,7 @@ import { Card, CardContent, CardTitle } from '@/shared/ui/card';
 import { Loader } from '@/shared/ui/loader';
 
 export default function ProfilePage() {
-  const { data: user, isSuccess } = useUser();
+  const { user, isSuccess } = useUser();
 
   if (!user) {
     return <Loader absolute />;

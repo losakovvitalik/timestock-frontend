@@ -1,8 +1,24 @@
 import { createApiEndpoint } from '@/shared/api/create-api-endpoint';
-import { ApiCollectionResponse, ApiGetParams } from '@/shared/types/api';
-import { useMutation, useQuery, useQueryClient, UseQueryOptions } from '@tanstack/react-query';
+import { ApiCollectionResponse, ApiErrorPayload, ApiGetParams } from '@/shared/types/api';
+import {
+  useMutation,
+  UseMutationOptions,
+  useQuery,
+  useQueryClient,
+  UseQueryOptions,
+} from '@tanstack/react-query';
+import { AxiosError } from 'axios';
+import { stringify } from 'qs';
 
 type Id = string | number;
+
+type UseListProps<EntityDTO, Entity = EntityDTO, TData = ApiCollectionResponse<Entity>> = {
+  params?: ApiGetParams<EntityDTO>;
+  options?: Omit<
+    UseQueryOptions<ApiCollectionResponse<Entity>, unknown, TData>,
+    'queryKey' | 'queryFn'
+  > & { queryKey?: string[] };
+};
 
 type ReturnTypeInternal<EntityDTO, Payload, Entity = EntityDTO> = {
   useGet: (
@@ -14,24 +30,20 @@ type ReturnTypeInternal<EntityDTO, Payload, Entity = EntityDTO> = {
   ) => ReturnType<typeof useQuery<Entity>>;
 
   useList: <TData = ApiCollectionResponse<Entity>>(
-    params?: ApiGetParams<EntityDTO>,
-    options?: Omit<
-      UseQueryOptions<ApiCollectionResponse<Entity>, unknown, TData>,
-      'queryKey' | 'queryFn'
-    >,
+    props?: UseListProps<EntityDTO, Entity, TData>,
   ) => ReturnType<typeof useQuery<ApiCollectionResponse<Entity>, unknown, TData>>;
 
-  useCreate: (config?: {
-    onMutate?: (data: Payload) => any;
-    onSuccess?: () => void;
-    onError?: (err: unknown) => void;
-  }) => ReturnType<typeof useMutation<Entity, unknown, Payload>>;
+  useCreate: (
+    props?: UseMutationOptions<Entity, AxiosError<ApiErrorPayload>, Payload>,
+  ) => ReturnType<typeof useMutation<Entity, unknown, Payload>>;
 
-  useUpdate: (config?: {
-    onMutate?: (data: { id: Id; data: Partial<Payload> }) => any;
-    onSuccess?: () => void;
-    onError?: (err: unknown) => void;
-  }) => ReturnType<typeof useMutation<Entity, unknown, { id: Id; data: Partial<Payload> }>>;
+  useUpdate: (
+    config?: UseMutationOptions<
+      Entity,
+      AxiosError<ApiErrorPayload>,
+      { id: Id; data: Partial<Payload> }
+    >,
+  ) => ReturnType<typeof useMutation<Entity, unknown, { id: Id; data: Partial<Payload> }>>;
 
   useDelete: (config?: {
     onMutate?: (id: Id) => any;
@@ -88,51 +100,51 @@ export function createApiHooks<
     });
 
   const useList = <TData = ApiCollectionResponse<Entity>>(
-    params?: ApiGetParams<EntityDTO>,
-    options?: Omit<
-      UseQueryOptions<ApiCollectionResponse<Entity>, unknown, TData>,
-      'queryKey' | 'queryFn'
-    >,
-  ) =>
-    useQuery<ApiCollectionResponse<Entity>, unknown, TData>({
-      queryKey: [entityName, 'list', params],
-      queryFn: () => api.list(params),
-      ...options,
-    });
+    props?: UseListProps<EntityDTO, Entity, TData>,
+  ) => {
+    const { options, params } = props || {};
+    const { queryKey, ...restOptions } = options || {};
 
-  const useCreate = (config?: {
-    onMutate?: (data: Payload) => any;
-    onSuccess?: () => void;
-    onError?: (err: unknown) => void;
-  }) => {
+    return useQuery<ApiCollectionResponse<Entity>, unknown, TData>({
+      queryKey: queryKey ? queryKey : [entityName, 'list', ...(params ? [stringify(params)] : [])],
+      queryFn: () => api.list(params),
+      ...restOptions,
+    });
+  };
+
+  const useCreate = (config?: UseMutationOptions<Entity, AxiosError<ApiErrorPayload>, Payload>) => {
     const queryClient = useQueryClient();
 
     return useMutation({
+      ...config,
       mutationFn: (data: Payload) => api.create(data),
       onMutate: config?.onMutate,
-      onSuccess: () => {
+      onSuccess: (data, vars, context) => {
         queryClient.invalidateQueries({ queryKey: [entityName, 'list'] });
-        config?.onSuccess?.();
+        config?.onSuccess?.(data, vars, context);
       },
       onError: config?.onError,
     });
   };
 
-  const useUpdate = (config?: {
-    onMutate?: (data: { id: Id; data: Partial<Payload> }) => any;
-    onSuccess?: () => void;
-    onError?: (err: unknown) => void;
-  }) => {
+  const useUpdate = (
+    config?: UseMutationOptions<
+      Entity,
+      AxiosError<ApiErrorPayload>,
+      { id: Id; data: Partial<Payload> }
+    >,
+  ) => {
     const queryClient = useQueryClient();
 
     return useMutation({
+      ...config,
       mutationFn: ({ id, data }: { id: Id; data: Partial<Payload> }) =>
         api.update(id.toString(), data),
       onMutate: config?.onMutate,
-      onSuccess: (_, variables) => {
+      onSuccess: (data, variables, context) => {
         queryClient.invalidateQueries({ queryKey: [entityName, 'list'] });
         queryClient.invalidateQueries({ queryKey: [entityName, variables.id] });
-        config?.onSuccess?.();
+        config?.onSuccess?.(data, variables, context);
       },
       onError: config?.onError,
     });

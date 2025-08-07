@@ -15,24 +15,26 @@ export interface TimeEntryListProps {
 
 export function TimeEntryList({ params, className }: TimeEntryListProps) {
   const timeEntries = timeEntryApiHooks.useList({
-    filters: {
-      ...params?.filters,
-      end_time: params?.filters?.end_time || {
-        $notNull: true,
+    params: {
+      filters: {
+        ...params?.filters,
+        end_time: params?.filters?.end_time || {
+          $notNull: true,
+        },
       },
-    },
-    populate: {
-      ...params?.populate,
-      project: params?.populate?.project
-        ? params?.populate?.project
-        : {
-            populate: {
-              color: true,
+      populate: {
+        ...params?.populate,
+        project: params?.populate?.project
+          ? params?.populate?.project
+          : {
+              populate: {
+                color: true,
+              },
             },
-          },
-    },
-    sort: params?.sort || {
-      start_time: 'desc',
+      },
+      sort: params?.sort || {
+        start_time: 'desc',
+      },
     },
   });
 

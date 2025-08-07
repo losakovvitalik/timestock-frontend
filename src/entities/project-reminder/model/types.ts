@@ -1,4 +1,4 @@
-import { Project } from '@/entities/project/models/types';
+import { ProjectDTO } from '@/entities/project/models/types';
 
 interface RecurrenceOptions {
   time: string; // формат "HH:mm"
@@ -16,7 +16,7 @@ export interface ProjectReminder {
   updatedAt: string; // ISO 8601 дата-время
   publishedAt: string; // ISO 8601 дата-время
   locale: string | null;
-  project: Project;
+  project: ProjectDTO;
 }
 
 export interface ProjectReminderPayload {

@@ -7,12 +7,12 @@ import { Form } from '@/shared/ui/form';
 import { Typography } from '@/shared/ui/typography';
 import { useProjectForm } from '../hooks/use-project-form';
 import { ProjectFormSchemaType } from '../models/project-form-schema';
-import { Project } from '../models/types';
+import { ProjectDTO } from '../models/types';
 
 export interface ProjectFormProps {
   submitBtnText?: string;
   onSubmit: (values: ProjectFormSchemaType) => Promise<any>;
-  defaultValues?: Project;
+  defaultValues?: ProjectDTO;
 }
 
 export function ProjectForm({

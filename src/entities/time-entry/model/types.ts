@@ -1,12 +1,12 @@
-import { Project } from '@/entities/project/models/types';
+import { ProjectDTO } from '@/entities/project/models/types';
 import { ApiEntityBase } from '@/shared/types/api';
 
-export interface TimeEntryDTO extends ApiEntityBase {
+export interface TimeEntryDTO extends Omit<ApiEntityBase, 'publishedAt'> {
   description: string | null;
   start_time: string;
   end_time: string | null;
   user?: string | null;
-  project?: Project;
+  project?: ProjectDTO;
   duration?: number;
 }
 

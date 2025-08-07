@@ -10,9 +10,11 @@ export interface ReminderListProps {
 
 export function ProjectReminderList({ projectId }: ReminderListProps) {
   const { data: reminders } = projectReminderApiHooks.useList({
-    filters: {
-      project: {
-        documentId: projectId,
+    params: {
+      filters: {
+        project: {
+          documentId: projectId,
+        },
       },
     },
   });

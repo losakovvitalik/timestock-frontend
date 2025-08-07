@@ -1,11 +1,20 @@
-import { timeEntryApiHooks } from '@/entities/time-entry/api/time-entry-api-hooks';
-import { TimeEntryPayload } from '@/entities/time-entry/model/types';
+import { ProjectDTO } from '@/entities/project/models/types';
+import { TimeEntryDTO, TimeEntryPayload } from '@/entities/time-entry/model/types';
+import { entities } from '@/shared/api/entities';
+import { createApiHooks } from '@/shared/lib/react-query/create-api-hooks';
 import toast from 'react-hot-toast';
 
-type Vars = Omit<TimeEntryPayload, 'start_time' | 'end_time'>;
+type Vars = Omit<TimeEntryPayload, 'start_time' | 'end_time'> & {
+  project?: ProjectDTO;
+};
 
 export function useStartTimer() {
-  const timeEntryCreate = timeEntryApiHooks.useCreate({
+  const activeTimeEntry = createApiHooks<TimeEntryDTO, TimeEntryPayload>(
+    entities.timeEntry.key,
+    entities.timeEntry.path,
+  );
+
+  const timeEntryCreate = activeTimeEntry.useCreate({
     onError: () => {
       toast.error('Не удалось запустить таймер. Попробуйте ещё раз');
     },

@@ -1,7 +1,7 @@
 import { User } from '@/entities/user/model/types';
 import { ApiEntityBase } from '@/shared/types/api';
 
-export interface Project extends ApiEntityBase {
+export interface ProjectDTO extends ApiEntityBase {
   name: string;
   color: Color;
   description?: string | null;

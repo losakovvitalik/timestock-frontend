@@ -21,12 +21,12 @@ export function EditUserProfileForm({ defaultValues }: EditUserProfileFormProps)
   });
 
   const userUpdate = useUpdateUser();
-  const user = useUser();
+  const { user } = useUser();
 
   const onSubmit = (data: UpdateUserProfileFormSchemaType) => {
     return userUpdate.mutateAsync(
       {
-        id: user.data!.id,
+        id: user!.id,
         data: {
           timezone: data.timezone,
         },

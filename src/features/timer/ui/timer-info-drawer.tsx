@@ -34,12 +34,22 @@ export function TimerInfoDrawer() {
     },
   });
 
+  const timeEntryCreate = timeEntryApiHooks.useCreate({
+    onSuccess: () => {
+      toast.success('Трек времени успешно добавлен');
+      setOpen(false);
+    },
+  });
+
   const handleSubmit = (data: TimeEntryPayload) => {
+    console.log(data);
     if (entry) {
       timeEntryUpdate.mutate({
         id: entry.documentId,
         data: data,
       });
+    } else {
+      timeEntryCreate.mutate(data);
     }
   };
 

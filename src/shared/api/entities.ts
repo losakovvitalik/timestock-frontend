@@ -32,6 +32,6 @@ export const entities = {
 
   timeEntry: {
     key: 'time-entry',
-    path: '/time-entry',
+    path: '/time-entries',
   } as EntityDef<TimeEntryDTO, TimeEntryPayload>,
 } as const;

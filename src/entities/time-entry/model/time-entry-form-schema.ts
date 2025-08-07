@@ -5,7 +5,6 @@ export const timeEntryFormSchema = z
     description: z.string().optional(),
     project: z.string().nullable().optional(),
     duration: z.string(),
-    date: z.string(),
     startTime: z.date(),
     endTime: z.date().optional(),
   })

@@ -13,7 +13,11 @@ export function useStopTimer() {
 
   const activeTimeEntry = useActiveTimeEntry();
   const timeEntryUpdate = timeEntryApiHooks.useUpdate({
-    onMutate: () => {
+    onMutate: async () => {
+      await queryClient.cancelQueries({
+        queryKey: activeTimeEntryKey,
+      });
+
       queryClient.setQueryData(
         activeTimeEntryKey,
         (prevData: ApiCollectionResponse<TimeEntryDTO>) => ({

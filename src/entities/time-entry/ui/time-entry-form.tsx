@@ -11,7 +11,7 @@ import { useEffect } from 'react';
 import { useTimeEntryForm } from '../hooks/use-time-entry-form';
 import { TimeEntryFormSchemaType } from '../model/time-entry-form-schema';
 import { TimeEntryDTO, TimeEntryPayload } from '../model/types';
-import { getInitialDuration } from '../utils/get-inital-duration';
+import { getInitialDuration } from '../utils/get-initial-duration';
 
 export interface TimeEntryFormProps {
   className?: string;
@@ -28,11 +28,10 @@ export function TimeEntryForm({
 }: TimeEntryFormProps) {
   const form = useTimeEntryForm({
     defaultValues: {
-      date: defaultValues?.start_time,
       description: defaultValues?.description || undefined,
       duration: defaultValues ? getInitialDuration(defaultValues) : '00:00:00',
       project: defaultValues?.project?.documentId,
-      startTime: defaultValues?.start_time ? new Date(defaultValues?.start_time) : undefined,
+      startTime: defaultValues?.start_time ? new Date(defaultValues?.start_time) : new Date(),
       endTime: defaultValues?.end_time ? new Date(defaultValues?.end_time) : new Date(),
     },
   });
@@ -92,7 +91,7 @@ export function TimeEntryForm({
     }
   }, [endTime, form, startTime]);
 
-  console.log(endTime);
+  console.log(form.formState.errors);
 
   return (
     <Form {...form}>

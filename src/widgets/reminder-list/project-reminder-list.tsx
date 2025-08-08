@@ -27,7 +27,7 @@ export function ProjectReminderList({ projectId }: ReminderListProps) {
     <div>
       <CreateProjectReminderDialog projectId={projectId} />
 
-      <ul className="mt-2">
+      <ul className="mt-2 flex flex-col gap-2">
         {reminders?.data.map((item) => (
           <li key={item.documentId}>
             <ProjectReminderListItem item={item} />

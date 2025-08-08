@@ -44,7 +44,7 @@ export function TimeEntryItem({ entry }: TimeEntryItemProps) {
                   <Typography size={'xs'}>{entry.project?.name || 'Проект не указан'}</Typography>
                 </Badge>
                 <Badge variant={'secondary'}>
-                  <Typography size={'xs'}>{formatDisplayDate(entry.createdAt)}</Typography>
+                  <Typography size={'xs'}>{formatDisplayDate(entry.start_time)}</Typography>
                 </Badge>
               </div>
             </button>

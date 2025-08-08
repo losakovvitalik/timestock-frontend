@@ -20,7 +20,8 @@
     "edit-user-profile",
     "view-project",
     "leave-app-feedback",
-    "user"
+    "user",
+    "time-entry-list"
   ],
   "typescript.tsdk": "node_modules/typescript/lib"
 }

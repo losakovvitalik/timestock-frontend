@@ -1,12 +1,13 @@
 import { projectReminderApiHooks } from '@/entities/project-reminder/api/project-reminder-api-hooks';
 import { INTERVAL_OPTIONS } from '@/entities/project-reminder/model/constants';
 import { ProjectReminderDTO } from '@/entities/project-reminder/model/types';
+import { DeleteProjectReminderDialog } from '@/features/project-reminder/delete/ui/delete-project-reminder-dialog';
 import { useToggleProjectReminder } from '@/features/project-reminder/toggle/hooks/use-toggle-project-reminder';
 import { cn } from '@/shared/lib/utils';
 import { Button } from '@/shared/ui/button';
 import { Card, CardContent } from '@/shared/ui/card';
 import { Switch } from '@/shared/ui/switch';
-import { Edit, Trash2 } from 'lucide-react';
+import { Edit } from 'lucide-react';
 import { formatReminderDate } from '../../entities/project-reminder/utils/format-reminder-date';
 
 export interface ProjectReminderListItemProps {
@@ -36,9 +37,7 @@ export function ProjectReminderListItem({ item }: ProjectReminderListItemProps) 
           </div>
 
           <div className="flex items-center gap-2">
-            <Button size={'icon'} variant={'destructive'}>
-              <Trash2 />
-            </Button>
+            <DeleteProjectReminderDialog projectReminder={item} />
             <Button size={'icon'} variant={'outline'}>
               <Edit />
             </Button>

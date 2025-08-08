@@ -1,7 +1,7 @@
 'use client';
 
 import { projectReminderApiHooks } from '@/entities/project-reminder/api/project-reminder-api-hooks';
-import { CreateProjectReminderDialog } from '../../features/create-reminder/ui/create-project-reminder-dialog';
+import { CreateProjectReminderDialog } from '@/features/create-reminder/ui/create-project-reminder-dialog';
 import { ProjectReminderListItem } from './project-reminder-list-item';
 
 export interface ReminderListProps {
@@ -15,6 +15,9 @@ export function ProjectReminderList({ projectId }: ReminderListProps) {
         project: {
           documentId: projectId,
         },
+      },
+      sort: {
+        enabled: 'desc',
       },
     },
   });

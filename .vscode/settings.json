@@ -21,7 +21,8 @@
     "view-project",
     "leave-app-feedback",
     "user",
-    "time-entry-list"
+    "time-entry-list",
+    "toggle-project-reminder"
   ],
   "typescript.tsdk": "node_modules/typescript/lib"
 }

@@ -1,10 +1,10 @@
 'use client';
 import { projectReminderApiHooks } from '@/entities/project-reminder/api/project-reminder-api-hooks';
-import { ProjectReminder } from '@/entities/project-reminder/model/types';
+import { ProjectReminderDTO } from '@/entities/project-reminder/model/types';
 import { ProjectReminderForm } from '@/entities/project-reminder/ui/project-reminder-form';
 
 export interface EditProjectReminderFormProps {
-  reminder: ProjectReminder;
+  reminder: ProjectReminderDTO;
 }
 
 export function EditProjectReminderForm({ reminder }: EditProjectReminderFormProps) {

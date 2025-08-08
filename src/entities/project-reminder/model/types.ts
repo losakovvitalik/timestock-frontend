@@ -5,7 +5,7 @@ interface RecurrenceOptions {
   interval: 'DAILY';
 }
 
-export interface ProjectReminder {
+export interface ProjectReminderDTO {
   id: number;
   documentId: string;
   text: string;

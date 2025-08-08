@@ -1,4 +1,7 @@
-import { ProjectReminder, ProjectReminderPayload } from '@/entities/project-reminder/model/types';
+import {
+  ProjectReminderDTO,
+  ProjectReminderPayload,
+} from '@/entities/project-reminder/model/types';
 import { ProjectDTO, ProjectPayload } from '@/entities/project/models/types';
 import {
   PushSubscriptionDTO,
@@ -23,7 +26,7 @@ export const entities = {
   projectReminder: {
     key: 'project-reminder',
     path: '/project-reminders',
-  } as EntityDef<ProjectReminder, ProjectReminderPayload>,
+  } as EntityDef<ProjectReminderDTO, ProjectReminderPayload>,
 
   pushSubscription: {
     key: 'push-subscription',

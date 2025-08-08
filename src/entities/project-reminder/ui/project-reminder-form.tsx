@@ -6,12 +6,12 @@ import { Form } from '@/shared/ui/form';
 import { useProjectReminderForm } from '../hooks/use-project-reminder-form';
 import { INTERVAL_OPTIONS } from '../model/constants';
 import { ProjectReminderFormSchemaType } from '../model/project-reminder-form-schema';
-import { ProjectReminder } from '../model/types';
+import { ProjectReminderDTO } from '../model/types';
 
 export interface ProjectReminderFormProps {
   submitBtnText?: string;
   onSubmit: (values: ProjectReminderFormSchemaType) => Promise<any>;
-  defaultValues?: ProjectReminder;
+  defaultValues?: ProjectReminderDTO;
 }
 
 export function ProjectReminderForm({

@@ -1,44 +1,25 @@
 import { projectReminderApiHooks } from '@/entities/project-reminder/api/project-reminder-api-hooks';
 import { INTERVAL_OPTIONS } from '@/entities/project-reminder/model/constants';
-import { ProjectReminder } from '@/entities/project-reminder/model/types';
+import { ProjectReminderDTO } from '@/entities/project-reminder/model/types';
+import { useToggleProjectReminder } from '@/features/project-reminder/toggle/hooks/use-toggle-project-reminder';
+import { cn } from '@/shared/lib/utils';
 import { Button } from '@/shared/ui/button';
 import { Card, CardContent } from '@/shared/ui/card';
 import { Switch } from '@/shared/ui/switch';
-import { Bell, BellOff, Edit } from 'lucide-react';
-import toast from 'react-hot-toast';
+import { Edit, Trash2 } from 'lucide-react';
 import { formatReminderDate } from '../../entities/project-reminder/utils/format-reminder-date';
 
 export interface ProjectReminderListItemProps {
-  item: ProjectReminder;
+  item: ProjectReminderDTO;
 }
 
 export function ProjectReminderListItem({ item }: ProjectReminderListItemProps) {
   const update = projectReminderApiHooks.useUpdate();
 
-  const toggleReminder = async (reminderId: string, enabled: boolean) => {
-    return await update.mutateAsync(
-      {
-        id: reminderId,
-        data: {
-          enabled,
-        },
-      },
-      {
-        onSuccess(_, variables) {
-          return variables.data.enabled
-            ? toast('Уведомление включено', {
-                icon: <Bell className="text-green-300" />,
-              })
-            : toast('Уведомление выключено', {
-                icon: <BellOff className="text-red-300" />,
-              });
-        },
-      },
-    );
-  };
+  const toggleReminder = useToggleProjectReminder();
 
   return (
-    <Card>
+    <Card className={cn({ 'opacity-80': !item.enabled })}>
       <CardContent>
         <div className="flex justify-between gap-2">
           <div>
@@ -55,7 +36,10 @@ export function ProjectReminderListItem({ item }: ProjectReminderListItemProps) 
           </div>
 
           <div className="flex items-center gap-2">
-            <Button size="icon" variant={'outline'}>
+            <Button size={'icon'} variant={'destructive'}>
+              <Trash2 />
+            </Button>
+            <Button size={'icon'} variant={'outline'}>
               <Edit />
             </Button>
             <Switch

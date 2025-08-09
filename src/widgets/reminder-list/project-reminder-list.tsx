@@ -8,17 +8,26 @@ export interface ReminderListProps {
   projectId: string;
 }
 
+const projectReminderParams = (projectId: string) =>
+  ({
+    filters: {
+      project: {
+        documentId: projectId,
+      },
+    },
+    sort: {
+      enabled: 'desc',
+    },
+  }) as const;
+
+export const projectReminderListQK = (projectId: string) =>
+  projectReminderApiHooks.keys.list(projectReminderParams(projectId));
+
 export function ProjectReminderList({ projectId }: ReminderListProps) {
   const { data: reminders } = projectReminderApiHooks.useList({
-    params: {
-      filters: {
-        project: {
-          documentId: projectId,
-        },
-      },
-      sort: {
-        enabled: 'desc',
-      },
+    params: projectReminderParams(projectId),
+    options: {
+      select: (data) => data.data,
     },
   });
 
@@ -31,9 +40,9 @@ export function ProjectReminderList({ projectId }: ReminderListProps) {
       <CreateProjectReminderDialog projectId={projectId} />
 
       <ul className="mt-2 flex flex-col gap-2">
-        {reminders?.data.map((item) => (
+        {reminders?.map((item) => (
           <li key={item.documentId}>
-            <ProjectReminderListItem item={item} />
+            <ProjectReminderListItem projectId={projectId} item={item} />
           </li>
         ))}
       </ul>

@@ -1,5 +1,6 @@
 import { createApiEndpoint } from '@/shared/api/create-api-endpoint';
 import { ApiCollectionResponse, ApiErrorPayload, ApiGetParams } from '@/shared/types/api';
+import { normalize } from '@/shared/utils/normalize';
 import {
   useMutation,
   UseMutationOptions,
@@ -8,9 +9,8 @@ import {
   UseQueryOptions,
 } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
-import { stringify } from 'qs';
 
-type Id = string | number;
+type Id = string;
 
 type UseListProps<EntityDTO, Entity = EntityDTO, TData = ApiCollectionResponse<Entity>> = {
   params?: ApiGetParams<EntityDTO>;
@@ -50,6 +50,12 @@ type ReturnTypeInternal<EntityDTO, Payload, Entity = EntityDTO> = {
     onSuccess?: () => void;
     onError?: (err: unknown) => void;
   }) => ReturnType<typeof useMutation<void, unknown, Id>>;
+
+  keys: {
+    get: (id: Id) => string[];
+    list: (params?: ApiGetParams<EntityDTO>) => any[];
+    lists: () => string[];
+  };
 };
 
 // Без mapFn
@@ -82,6 +88,16 @@ export function createApiHooks<
     ? createApiEndpoint<EntityDTO, Payload, Entity>(basePath, mapFn)
     : createApiEndpoint<EntityDTO, Payload>(basePath);
 
+  const queryKeys = {
+    get: (id: Id) => [entityName, id],
+    list: (params?: ApiGetParams<EntityDTO>) => [
+      entityName,
+      'list',
+      params ? normalize(params) : [],
+    ],
+    lists: () => [entityName, 'list'],
+  };
+
   const useGet = (
     id: Id,
     {
@@ -93,7 +109,7 @@ export function createApiHooks<
     } = {},
   ) =>
     useQuery({
-      queryKey: [entityName, id],
+      queryKey: queryKeys.get(id),
       queryFn: () => api.get(id.toString(), params),
       enabled: !!id,
       ...options,
@@ -106,7 +122,7 @@ export function createApiHooks<
     const { queryKey, ...restOptions } = options || {};
 
     return useQuery<ApiCollectionResponse<Entity>, unknown, TData>({
-      queryKey: queryKey ? queryKey : [entityName, 'list', ...(params ? [stringify(params)] : [])],
+      queryKey: queryKey ? queryKey : queryKeys.list(params),
       queryFn: () => api.list(params),
       ...restOptions,
     });
@@ -120,7 +136,7 @@ export function createApiHooks<
       mutationFn: (data: Payload) => api.create(data),
       onMutate: config?.onMutate,
       onSuccess: (data, vars, context) => {
-        queryClient.invalidateQueries({ queryKey: [entityName, 'list'] });
+        queryClient.invalidateQueries({ queryKey: queryKeys.lists() });
         config?.onSuccess?.(data, vars, context);
       },
       onError: config?.onError,
@@ -142,8 +158,8 @@ export function createApiHooks<
         api.update(id.toString(), data),
       onMutate: config?.onMutate,
       onSuccess: (data, variables, context) => {
-        queryClient.invalidateQueries({ queryKey: [entityName, 'list'] });
-        queryClient.invalidateQueries({ queryKey: [entityName, variables.id] });
+        queryClient.invalidateQueries({ queryKey: queryKeys.get(variables.id) });
+        queryClient.invalidateQueries({ queryKey: queryKeys.lists() });
         config?.onSuccess?.(data, variables, context);
       },
       onError: config?.onError,
@@ -161,7 +177,7 @@ export function createApiHooks<
       mutationFn: (id: Id) => api.delete(id.toString()),
       onMutate: config?.onMutate,
       onSuccess: () => {
-        queryClient.invalidateQueries({ queryKey: [entityName, 'list'] });
+        queryClient.invalidateQueries({ queryKey: queryKeys.lists() });
         config?.onSuccess?.();
       },
       onError: config?.onError,
@@ -174,5 +190,6 @@ export function createApiHooks<
     useCreate,
     useUpdate,
     useDelete,
+    keys: queryKeys,
   };
 }

@@ -5,18 +5,23 @@ import { TimeField } from '@/shared/ui/fields/time-field';
 import { Form } from '@/shared/ui/form';
 import { useProjectReminderForm } from '../hooks/use-project-reminder-form';
 import { INTERVAL_OPTIONS } from '../model/constants';
-import { ProjectReminderFormSchemaType } from '../model/project-reminder-form-schema';
-import { ProjectReminderDTO } from '../model/types';
+import { ProjectReminderDTO, ProjectReminderPayload } from '../model/types';
+
+export interface ProjectReminderActionContext {
+  isSubmitting?: boolean;
+}
 
 export interface ProjectReminderFormProps {
   submitBtnText?: string;
-  onSubmit: (values: ProjectReminderFormSchemaType) => Promise<any>;
+  onSubmit: (values: Omit<ProjectReminderPayload, 'project'>) => Promise<any>;
   defaultValues?: ProjectReminderDTO;
+  renderActions?: (ctx: ProjectReminderActionContext) => React.ReactNode;
 }
 
 export function ProjectReminderForm({
   onSubmit,
   defaultValues,
+  renderActions,
   submitBtnText = 'Сохранить',
 }: ProjectReminderFormProps) {
   const form = useProjectReminderForm({ defaultValues });
@@ -48,11 +53,17 @@ export function ProjectReminderForm({
               unmask={false}
             />
           </div>
-
-          <Button className="mt-4 w-full" disabled={form.formState.isSubmitting} type="submit">
-            {submitBtnText}
-          </Button>
         </fieldset>
+
+        <div className="mt-4 w-full">
+          {renderActions ? (
+            renderActions({ isSubmitting: form.formState.isSubmitting })
+          ) : (
+            <Button className="w-full" disabled={form.formState.isSubmitting} type="submit">
+              {submitBtnText}
+            </Button>
+          )}
+        </div>
       </form>
     </Form>
   );

@@ -60,8 +60,8 @@ export function ViewProjectChart({ projectId }: ViewProjectChartProps) {
             <YAxis
               dataKey="duration"
               tickLine={false}
-              tickMargin={10}
               axisLine={false}
+              tickSize={30}
               domain={[0, topDomain]} // гарантируем верхнюю границу по последнему тику
               ticks={ticks} // «красивые» тики кратные 15 минутам
               allowDecimals={false}

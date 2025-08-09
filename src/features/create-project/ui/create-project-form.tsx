@@ -8,7 +8,7 @@ import { useRouter } from 'next/navigation';
 export function CreateProjectForm() {
   const router = useRouter();
 
-  const createProject = projectApiHooks.useCreate({});
+  const createProject = projectApiHooks.useCreate();
 
   return (
     <ProjectForm

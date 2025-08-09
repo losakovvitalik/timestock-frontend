@@ -9,18 +9,20 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from '@/shared/ui/dialog';
-import { Trash2 } from 'lucide-react';
-import { useState } from 'react';
 import { toast } from 'sonner';
 
 export interface DeleteProjectReminderDialogProps {
   projectReminder: ProjectReminderDTO;
+  open: boolean;
+  setOpen: (val: boolean) => void;
 }
 
-export function DeleteProjectReminderDialog({ projectReminder }: DeleteProjectReminderDialogProps) {
-  const [open, setOpen] = useState(false);
+export function DeleteProjectReminderDialog({
+  open,
+  setOpen,
+  projectReminder,
+}: DeleteProjectReminderDialogProps) {
   const { mutate, isPending } = projectReminderApiHooks.useDelete({
     onError: () => toast.error('Не удалось удалить уведомление. Попробуйте позже.'),
     onSuccess: () => {
@@ -31,14 +33,6 @@ export function DeleteProjectReminderDialog({ projectReminder }: DeleteProjectRe
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger
-        className={buttonVariants({
-          size: 'icon',
-          variant: 'destructive',
-        })}
-      >
-        <Trash2 />
-      </DialogTrigger>
       <DialogContent>
         <DialogHeader>
           <DialogTitle className="mt-3">Вы уверены что хотите удалить это напоминание?</DialogTitle>

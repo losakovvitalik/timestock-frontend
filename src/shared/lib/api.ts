@@ -1,6 +1,7 @@
 import { USE_USER_STORAGE_KEY } from '@/entities/user/hooks/use-user';
+import { authToken } from '@/shared/api/auth-token';
 import axios from 'axios';
-import { getSession, signOut } from 'next-auth/react';
+import { signOut } from 'next-auth/react';
 import { paths } from '../constants';
 
 export const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
@@ -14,12 +15,18 @@ export const $api = axios.create({
 });
 
 $api.interceptors.request.use(async (config) => {
-  if (typeof window !== 'undefined') {
-    const session = await getSession();
-    const token = session?.user.jwt;
-    if (token) {
-      config.headers['Authorization'] = `Bearer ${token}`;
-    }
+  // if (typeof window !== 'undefined') {
+  //   const session = await getSession();
+  //   const token = session?.user.jwt;
+  //   if (token) {
+  //     config.headers['Authorization'] = `Bearer ${token}`;
+  //   }
+  // }
+
+  const token = authToken.get();
+  if (token) {
+    config.headers = config.headers ?? {};
+    config.headers.Authorization = `Bearer ${token}`;
   }
 
   return config;

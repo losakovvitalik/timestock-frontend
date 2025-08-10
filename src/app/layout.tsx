@@ -1,10 +1,12 @@
+import { auth } from '@/auth';
 import { Toaster } from '@/shared/ui/sonner';
 import type { Metadata } from 'next';
-import { SessionProvider } from 'next-auth/react';
 import { Inter } from 'next/font/google';
 import { Toaster as HotToaster } from 'react-hot-toast';
 import { ActiveTimeEntryTitle } from './(authorized)/active-time-entry-title';
 import './globals.css';
+import { AuthBridge } from './providers/session-bridge';
+import SessionClientProvider from './providers/session-client-provider';
 import { TanstackProvider } from './providers/tanstack-provider';
 import ThemeHandler from './providers/theme-handler';
 import { ThemeProvider } from './providers/theme-provider';
@@ -22,11 +24,18 @@ export const metadata: Metadata = {
   description: 'Приложения для трекинга времени',
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  /**
+   * ! из-за того что в auth используется cookie
+   * ! все страницы станут динамическими, что не критично на текущем этапе
+   * ! но в будущем может быть вопрос почему все страницы dynamic
+   */
+  const session = await auth();
+
   return (
     <html className={'h-dvh max-h-dvh rounded'} lang="ru" suppressHydrationWarning>
       <body className={`${inter.variable} !h-dvh antialiased`}>
@@ -37,7 +46,8 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <ThemeHandler>
-            <SessionProvider>
+            <SessionClientProvider session={session}>
+              <AuthBridge />
               <TanstackProvider>
                 {children}
                 <ActiveTimeEntryTitle />
@@ -56,7 +66,7 @@ export default function RootLayout({
                   }}
                 />
               </TanstackProvider>
-            </SessionProvider>
+            </SessionClientProvider>
           </ThemeHandler>
         </ThemeProvider>
       </body>

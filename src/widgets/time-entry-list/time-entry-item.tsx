@@ -58,7 +58,7 @@ export function TimeEntryItem({ entry }: TimeEntryItemProps) {
         dragDirectionLock
         dragElastic={0.1}
         dragMomentum={false}
-        dragConstraints={{ left: -ACTION_WIDTH, right: 0 }}
+        dragConstraints={{ left: -(ACTION_WIDTH + 40), right: 0 }}
         onDragStart={() => {
           closeAll();
         }}
@@ -72,7 +72,7 @@ export function TimeEntryItem({ entry }: TimeEntryItemProps) {
           }
 
           const shouldOpen =
-            Math.abs(current) > ACTION_WIDTH * OPEN_THRESHOLD || info.velocity.x < -300;
+            Math.abs(current) > (ACTION_WIDTH + 40) * OPEN_THRESHOLD || info.velocity.x < -300;
 
           if (shouldOpen) {
             open(entry.documentId);

@@ -51,7 +51,7 @@ export function TimeEntryList({ params, className }: TimeEntryListProps) {
     <SwipeActionsContext.Provider value={{ store: swipeStore }}>
       <div className={cn('flex h-full flex-col gap-2 overflow-auto', className)}>
         <Typography variant={'subtitle'}>Последнии записи</Typography>
-        <ul className="flex h-full flex-col gap-2 overflow-auto pb-2">
+        <ul className="flex h-full flex-col gap-2 overflow-auto pr-1 pb-2">
           {timeEntries.data?.data.map((timeEntry) => (
             <li key={timeEntry.documentId}>
               <TimeEntryItem entry={timeEntry} />

@@ -6,6 +6,9 @@ import { cn } from '@/shared/lib/utils';
 import { ApiGetParams } from '@/shared/types/api';
 import { Loader } from '@/shared/ui/loader';
 import { Typography } from '@/shared/ui/typography';
+import { useMemo } from 'react';
+import { SwipeActionsContext } from './model/time-entry-list.context';
+import { createTimeEntryListStore } from './model/time-entry-list.store';
 import { TimeEntryItem } from './time-entry-item';
 
 export interface TimeEntryListProps {
@@ -14,6 +17,8 @@ export interface TimeEntryListProps {
 }
 
 export function TimeEntryList({ params, className }: TimeEntryListProps) {
+  const swipeStore = useMemo(() => createTimeEntryListStore(), []);
+
   const timeEntries = timeEntryApiHooks.useList({
     params: {
       filters: {
@@ -43,15 +48,17 @@ export function TimeEntryList({ params, className }: TimeEntryListProps) {
   }
 
   return (
-    <div className={cn('flex h-full flex-col gap-2 overflow-auto', className)}>
-      <Typography variant={'subtitle'}>Последнии записи</Typography>
-      <ul className="flex h-full flex-col gap-2 overflow-auto pb-2">
-        {timeEntries.data?.data.map((timeEntry) => (
-          <li key={timeEntry.documentId}>
-            <TimeEntryItem entry={timeEntry} />
-          </li>
-        ))}
-      </ul>
-    </div>
+    <SwipeActionsContext.Provider value={{ store: swipeStore }}>
+      <div className={cn('flex h-full flex-col gap-2 overflow-auto', className)}>
+        <Typography variant={'subtitle'}>Последнии записи</Typography>
+        <ul className="flex h-full flex-col gap-2 overflow-auto pb-2">
+          {timeEntries.data?.data.map((timeEntry) => (
+            <li key={timeEntry.documentId}>
+              <TimeEntryItem entry={timeEntry} />
+            </li>
+          ))}
+        </ul>
+      </div>
+    </SwipeActionsContext.Provider>
   );
 }

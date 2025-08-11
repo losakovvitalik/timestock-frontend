@@ -1,8 +1,7 @@
 import { useUser } from '@/entities/user/hooks/use-user';
-import { entities } from '@/shared/api/entities';
 import { timeEntryApiHooks } from '../api/time-entry-api-hooks';
 
-export const activeTimeEntryKey = [entities.timeEntry.key, 'list', 'active'];
+export const activeTimeEntryKey = ['active'];
 
 export function useActiveTimeEntry() {
   const { user } = useUser();
@@ -29,7 +28,7 @@ export function useActiveTimeEntry() {
       select: (res) => res.data[0] || null,
       enabled: Boolean(userId),
       refetchOnWindowFocus: true,
-      gcTime: 15 * 1000,
+      refetchOnMount: false,
     },
   });
 }

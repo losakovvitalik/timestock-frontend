@@ -103,23 +103,23 @@ export function ProjectReminderListItem({ item, projectId }: ProjectReminderList
             </div>
           </div>
 
-          <div className="flex items-center gap-1">
-            <div className="hidden items-center gap-3 md:flex">
-              <div>
-                <Label htmlFor={`reminder-${id}`} className="sr-only">
-                  Включить напоминание
-                </Label>
-                <div className="relative">
-                  <Switch
-                    id={`reminder-${id}`}
-                    checked={enabled}
-                    disabled={isToggleReminderPending}
-                    onCheckedChange={handleToggle}
-                    aria-busy={isToggleReminderPending}
-                  />
-                </div>
+          <div className="flex items-center gap-3">
+            <div className="flex items-center">
+              <Label htmlFor={`reminder-${id}`} className="sr-only">
+                Включить напоминание
+              </Label>
+              <div className="relative flex items-center">
+                <Switch
+                  id={`reminder-${id}`}
+                  checked={enabled}
+                  disabled={isToggleReminderPending}
+                  onCheckedChange={handleToggle}
+                  aria-busy={isToggleReminderPending}
+                />
               </div>
+            </div>
 
+            <div className="hidden items-center gap-3 md:flex">
               <TooltipProvider>
                 <Tooltip>
                   <TooltipTrigger asChild>

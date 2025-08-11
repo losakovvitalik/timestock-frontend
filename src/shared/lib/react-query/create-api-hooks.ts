@@ -2,54 +2,69 @@ import { createApiEndpoint } from '@/shared/api/create-api-endpoint';
 import { ApiCollectionResponse, ApiErrorPayload, ApiGetParams } from '@/shared/types/api';
 import { normalize } from '@/shared/utils/normalize';
 import {
+  useInfiniteQuery,
+  UseInfiniteQueryOptions,
+  UseInfiniteQueryResult,
   useMutation,
   UseMutationOptions,
+  UseMutationResult,
   useQuery,
   useQueryClient,
   UseQueryOptions,
+  UseQueryResult,
 } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 
 type Id = string;
+type CustomError = AxiosError<ApiErrorPayload>;
 
 type UseListProps<EntityDTO, Entity = EntityDTO, TData = ApiCollectionResponse<Entity>> = {
   params?: ApiGetParams<EntityDTO>;
   options?: Omit<
-    UseQueryOptions<ApiCollectionResponse<Entity>, unknown, TData>,
+    UseQueryOptions<ApiCollectionResponse<Entity>, CustomError, TData>,
     'queryKey' | 'queryFn'
   > & { queryKey?: string[] };
+};
+
+type PageParam = { start: number; limit: number };
+type UseInfinityListProps<EntityDTO, Entity = EntityDTO, TData = ApiCollectionResponse<Entity>> = {
+  params?: ApiGetParams<EntityDTO>;
+  options?: Omit<
+    UseInfiniteQueryOptions<ApiCollectionResponse<Entity>, CustomError, TData, any[], PageParam>,
+    'queryFn' | 'initialPageParam' | 'getNextPageParam'
+  >;
 };
 
 type ReturnTypeInternal<EntityDTO, Payload, Entity = EntityDTO> = {
   useGet: (
     id: Id,
     props?: {
-      options?: Omit<UseQueryOptions<Entity>, 'queryKey' | 'queryFn'>;
+      options?: Omit<UseQueryOptions<Entity, CustomError>, 'queryKey' | 'queryFn'>;
       params?: ApiGetParams<EntityDTO>;
     },
-  ) => ReturnType<typeof useQuery<Entity>>;
+  ) => UseQueryResult<Entity, CustomError>;
 
   useList: <TData = ApiCollectionResponse<Entity>>(
     props?: UseListProps<EntityDTO, Entity, TData>,
-  ) => ReturnType<typeof useQuery<ApiCollectionResponse<Entity>, unknown, TData>>;
+  ) => UseQueryResult<TData, CustomError>;
+
+  useInfinityList: <TData = ApiCollectionResponse<Entity>>(
+    props?: UseInfinityListProps<EntityDTO, Entity, TData>,
+  ) => UseInfiniteQueryResult<TData, CustomError>;
 
   useCreate: (
-    props?: UseMutationOptions<Entity, AxiosError<ApiErrorPayload>, Payload>,
-  ) => ReturnType<typeof useMutation<Entity, unknown, Payload>>;
+    props?: UseMutationOptions<Entity, CustomError, Payload>,
+  ) => UseMutationResult<Entity, CustomError, Payload>;
 
   useUpdate: (
-    config?: UseMutationOptions<
-      Entity,
-      AxiosError<ApiErrorPayload>,
-      { id: Id; data: Partial<Payload> }
-    >,
-  ) => ReturnType<typeof useMutation<Entity, unknown, { id: Id; data: Partial<Payload> }>>;
+    config?: UseMutationOptions<Entity, CustomError, { id: Id; data: Partial<Payload> }>,
+  ) => UseMutationResult<Entity, CustomError, { id: Id; data: Partial<Payload> }>;
 
   useDelete: (config?: {
     onMutate?: (id: Id) => any;
     onSuccess?: () => void;
-    onError?: (err: unknown) => void;
-  }) => ReturnType<typeof useMutation<void, unknown, Id>>;
+    onError?: (err: CustomError) => void;
+  }) => UseMutationResult<void, CustomError, Id>;
 
   keys: {
     get: (id: Id) => string[];
@@ -104,11 +119,11 @@ export function createApiHooks<
       options,
       params,
     }: {
-      options?: Omit<UseQueryOptions<Entity>, 'queryKey' | 'queryFn'>;
+      options?: Omit<UseQueryOptions<Entity, CustomError>, 'queryKey' | 'queryFn'>;
       params?: ApiGetParams<EntityDTO>;
     } = {},
   ) =>
-    useQuery({
+    useQuery<Entity, CustomError>({
       queryKey: queryKeys.get(id),
       queryFn: () => api.get(id.toString(), params),
       enabled: !!id,
@@ -121,14 +136,40 @@ export function createApiHooks<
     const { options, params } = props || {};
     const { queryKey, ...restOptions } = options || {};
 
-    return useQuery<ApiCollectionResponse<Entity>, unknown, TData>({
+    return useQuery({
       queryKey: queryKey ? queryKey : queryKeys.list(params),
       queryFn: () => api.list(params),
       ...restOptions,
     });
   };
 
-  const useCreate = (config?: UseMutationOptions<Entity, AxiosError<ApiErrorPayload>, Payload>) => {
+  const useInfinityList = <TData = ApiCollectionResponse<Entity>>(
+    props?: UseInfinityListProps<EntityDTO, Entity, TData>,
+  ) => {
+    const { options, params } = props || {};
+    const { queryKey, ...restOptions } = options || {};
+
+    return useInfiniteQuery({
+      initialPageParam: {
+        start: 0,
+        limit: 25,
+      },
+      queryFn: ({ pageParam }) =>
+        api.list({ ...params, ...pageParam }) as Promise<ApiCollectionResponse<Entity>>,
+      queryKey: queryKey ? queryKey : queryKeys.list(params),
+      getNextPageParam: (lastPage) => {
+        const pagination = lastPage.meta.pagination;
+
+        return {
+          limit: pagination.pageSize,
+          start: pagination.pageSize * pagination.page,
+        };
+      },
+      ...restOptions,
+    });
+  };
+
+  const useCreate = (config?: UseMutationOptions<Entity, CustomError, Payload>) => {
     const queryClient = useQueryClient();
 
     return useMutation({
@@ -169,7 +210,7 @@ export function createApiHooks<
   const useDelete = (config?: {
     onMutate?: (id: Id) => any;
     onSuccess?: () => void;
-    onError?: (err: unknown) => void;
+    onError?: (err: CustomError) => void;
   }) => {
     const queryClient = useQueryClient();
 
@@ -190,6 +231,7 @@ export function createApiHooks<
     useCreate,
     useUpdate,
     useDelete,
+    useInfinityList,
     keys: queryKeys,
   };
 }

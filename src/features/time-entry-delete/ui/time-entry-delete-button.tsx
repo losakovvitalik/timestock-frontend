@@ -1,3 +1,4 @@
+import { cn } from '@/shared/lib/utils';
 import { Button } from '@/shared/ui/button';
 import ConfirmPopup from '@/shared/ui/confirm-popup';
 import { Trash } from 'lucide-react';
@@ -7,9 +8,10 @@ import { TimeEntryDTO } from '../../../entities/time-entry/model/types';
 
 export interface TimeEntryDeleteButtonProps {
   entry: TimeEntryDTO;
+  className?: string;
 }
 
-export function TimeEntryDeleteButton({ entry }: TimeEntryDeleteButtonProps) {
+export function TimeEntryDeleteButton({ entry, className }: TimeEntryDeleteButtonProps) {
   const timeEntryDelete = timeEntryApiHooks.useDelete({
     onError: () => {
       toast.error('Не удалось удалить запись времени');
@@ -26,7 +28,7 @@ export function TimeEntryDeleteButton({ entry }: TimeEntryDeleteButtonProps) {
       description={<span className="italic">{entry.description || 'Без описания'}</span>}
       onConfirm={handleDelete}
       trigger={
-        <Button className="size-8" variant={'destructive'}>
+        <Button className={cn('size-8', className)} variant={'destructive'}>
           <Trash />
         </Button>
       }

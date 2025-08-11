@@ -1,5 +1,5 @@
 import React from 'react';
-import { useMediaQuery } from '../hooks/use-media-query';
+import { useIsDesktop } from '../hooks/use-media-query';
 import {
   Dialog,
   DialogContent,
@@ -40,7 +40,7 @@ export function ResponsiveModal({
   const open = isControlled ? propOpen : stateOpen;
   const setOpen = isControlled ? propSetOpen : stateSetOpen;
 
-  const isDesktop = useMediaQuery('(min-width: 768px)');
+  const isDesktop = useIsDesktop();
 
   if (isDesktop) {
     return (

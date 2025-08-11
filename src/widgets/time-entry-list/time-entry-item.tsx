@@ -1,6 +1,7 @@
 import { TimeEntryDTO } from '@/entities/time-entry/model/types';
 import { TimeEntryDeleteButton } from '@/features/time-entry-delete/ui/time-entry-delete-button';
 import { TimeEntryStartAgainButton } from '@/features/time-entry-start-again/ui/time-entry-start-again-button';
+import { useIsDesktop } from '@/shared/hooks/use-media-query';
 import { formatDisplayDate } from '@/shared/lib/date/format-display-date';
 import { cn } from '@/shared/lib/utils';
 import { Badge } from '@/shared/ui/badge';
@@ -20,6 +21,8 @@ const ACTION_WIDTH = 54;
 const OPEN_THRESHOLD = 0.5; // % от ACTION_WIDTH для фиксации «открыто»
 
 export function TimeEntryItem({ entry }: TimeEntryItemProps) {
+  const isDesktop = useIsDesktop();
+
   const x = useMotionValue(0);
   const reveal = useTransform(x, [0, -ACTION_WIDTH], [0, 1]); // 0..1
   const actionsOpacity = useTransform(reveal, [0, 1], [0, 1]);
@@ -28,7 +31,6 @@ export function TimeEntryItem({ entry }: TimeEntryItemProps) {
   const open = useTimeEntryList((s) => s.open);
   const close = useTimeEntryList((s) => s.close);
   const closeAll = useTimeEntryList((s) => s.closeAll);
-
   const isOpen = useTimeEntryList((s) => s.openId === entry.documentId);
 
   const snapTo = useCallback(
@@ -54,7 +56,7 @@ export function TimeEntryItem({ entry }: TimeEntryItemProps) {
       <motion.div
         className="relative z-10 will-change-transform"
         style={{ x, touchAction: 'pan-y' }}
-        drag="x"
+        drag={isDesktop ? false : 'x'}
         dragDirectionLock
         dragElastic={0.1}
         dragMomentum={false}
@@ -121,6 +123,7 @@ export function TimeEntryItem({ entry }: TimeEntryItemProps) {
             />
             <div className="flex gap-2">
               <TimeEntryStartAgainButton entry={entry} />
+              <TimeEntryDeleteButton className="hidden md:flex" entry={entry} />
             </div>
           </CardContent>
         </Card>
@@ -129,7 +132,7 @@ export function TimeEntryItem({ entry }: TimeEntryItemProps) {
         <motion.div
           style={{ opacity: actionsOpacity, scale: actionsScale }}
           className="flex items-center"
-          aria-hidden // чисто визуальный слой
+          aria-hidden
         >
           <TimeEntryDeleteButton entry={entry} />
         </motion.div>

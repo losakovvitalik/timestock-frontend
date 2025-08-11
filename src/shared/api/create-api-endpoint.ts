@@ -44,8 +44,10 @@ export function createApiEndpoint<
         })
         .then((r) => (mapFn ? mapFn(r.data.data) : r.data.data)),
 
-    list: (params?: ApiGetParams<EntityDTO>) =>
-      $api
+    list: (params?: ApiGetParams<EntityDTO>) => {
+      console.log(params);
+
+      return $api
         .get<ApiCollectionResponse<EntityDTO>>(basePath, {
           params,
         })
@@ -53,7 +55,8 @@ export function createApiEndpoint<
           mapFn
             ? ({ data: r.data.data.map(mapFn), meta: r.data.meta } as ApiCollectionResponse<Entity>)
             : r.data,
-        ),
+        );
+    },
 
     create: (data: EntityPayload) =>
       $api

@@ -2,6 +2,7 @@ import { createApiEndpoint } from '@/shared/api/create-api-endpoint';
 import { ApiCollectionResponse, ApiErrorPayload, ApiGetParams } from '@/shared/types/api';
 import { normalize } from '@/shared/utils/normalize';
 import {
+  InfiniteData,
   useInfiniteQuery,
   UseInfiniteQueryOptions,
   UseInfiniteQueryResult,
@@ -26,11 +27,18 @@ type UseListProps<EntityDTO, Entity = EntityDTO, TData = ApiCollectionResponse<E
   > & { queryKey?: string[] };
 };
 
-type PageParam = { start: number; limit: number };
+type PageParam = Pick<ApiGetParams, 'pagination'>;
+
 type UseInfinityListProps<EntityDTO, Entity = EntityDTO, TData = ApiCollectionResponse<Entity>> = {
   params?: ApiGetParams<EntityDTO>;
   options?: Omit<
-    UseInfiniteQueryOptions<ApiCollectionResponse<Entity>, CustomError, TData, any[], PageParam>,
+    UseInfiniteQueryOptions<
+      ApiCollectionResponse<Entity>,
+      CustomError,
+      InfiniteData<TData>,
+      any[],
+      PageParam
+    >,
     'queryFn' | 'initialPageParam' | 'getNextPageParam'
   >;
 };
@@ -50,7 +58,7 @@ type ReturnTypeInternal<EntityDTO, Payload, Entity = EntityDTO> = {
 
   useInfinityList: <TData = ApiCollectionResponse<Entity>>(
     props?: UseInfinityListProps<EntityDTO, Entity, TData>,
-  ) => UseInfiniteQueryResult<TData, CustomError>;
+  ) => UseInfiniteQueryResult<InfiniteData<TData>, CustomError>;
 
   useCreate: (
     props?: UseMutationOptions<Entity, CustomError, Payload>,
@@ -149,20 +157,33 @@ export function createApiHooks<
     const { options, params } = props || {};
     const { queryKey, ...restOptions } = options || {};
 
-    return useInfiniteQuery({
+    return useInfiniteQuery<
+      ApiCollectionResponse<Entity>, // TQueryFnData
+      CustomError, // TError
+      InfiniteData<TData>, // TData (итог хука)
+      any[], // TQueryKey
+      PageParam // TPageParam
+    >({
       initialPageParam: {
-        start: 0,
-        limit: 25,
+        pagination: {
+          page: 1,
+          pageSize: 25,
+        },
       },
-      queryFn: ({ pageParam }) =>
-        api.list({ ...params, ...pageParam }) as Promise<ApiCollectionResponse<Entity>>,
+      queryFn: ({ pageParam }) => api.list({ ...params, ...pageParam }),
       queryKey: queryKey ? queryKey : queryKeys.list(params),
       getNextPageParam: (lastPage) => {
-        const pagination = lastPage.meta.pagination;
+        const { page, total, pageSize } = lastPage.meta.pagination;
+
+        if (total <= page * pageSize) {
+          return undefined;
+        }
 
         return {
-          limit: pagination.pageSize,
-          start: pagination.pageSize * pagination.page,
+          pagination: {
+            page: page + 1,
+            pageSize: pageSize,
+          },
         };
       },
       ...restOptions,

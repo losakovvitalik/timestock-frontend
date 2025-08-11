@@ -2,6 +2,7 @@
 
 import { timeEntryApiHooks } from '@/entities/time-entry/api/time-entry-api-hooks';
 import { TimeEntryDTO } from '@/entities/time-entry/model/types';
+import { useInView } from '@/shared/hooks/use-in-view';
 import { cn } from '@/shared/lib/utils';
 import { ApiGetParams } from '@/shared/types/api';
 import { Loader } from '@/shared/ui/loader';
@@ -19,7 +20,7 @@ export interface TimeEntryListProps {
 export function TimeEntryList({ params, className }: TimeEntryListProps) {
   const swipeStore = useMemo(() => createTimeEntryListStore(), []);
 
-  const timeEntries = timeEntryApiHooks.useList({
+  const timeEntries = timeEntryApiHooks.useInfinityList({
     params: {
       filters: {
         ...params?.filters,
@@ -43,20 +44,28 @@ export function TimeEntryList({ params, className }: TimeEntryListProps) {
     },
   });
 
-  if (timeEntries.isLoading) {
-    return <Loader absolute />;
-  }
+  const flatData = timeEntries?.data?.pages.flatMap((p) => p.data) ?? [];
+
+  const { ref, rootRef } = useInView({
+    onInView: () => timeEntries.fetchNextPage(),
+  });
 
   return (
     <SwipeActionsContext.Provider value={{ store: swipeStore }}>
       <div className={cn('flex h-full flex-col gap-2 overflow-auto', className)}>
         <Typography variant={'subtitle'}>Последнии записи</Typography>
-        <ul className="flex h-full flex-col gap-2 overflow-auto pr-1 pb-2">
-          {timeEntries.data?.data.map((timeEntry) => (
-            <li key={timeEntry.documentId}>
-              <TimeEntryItem entry={timeEntry} />
-            </li>
-          ))}
+        <ul ref={rootRef} className="z-20 flex h-full flex-col gap-2 overflow-auto pr-1 pb-2">
+          {flatData ? (
+            flatData.map((timeEntry) => (
+              <li key={timeEntry.documentId}>
+                <TimeEntryItem entry={timeEntry} />
+              </li>
+            ))
+          ) : (
+            <Loader absolute />
+          )}
+          <div className="min-h-1" ref={ref} />
+          {timeEntries.isFetchingNextPage && <Loader className="my-4" />}
         </ul>
       </div>
     </SwipeActionsContext.Provider>

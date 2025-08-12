@@ -14,7 +14,7 @@ export function Timer() {
     return (
       <div className="flex flex-col gap-2">
         <div className="flex gap-2">
-          <Typography className="font-bold">{duration}</Typography>
+          <Typography className="w-[75px] font-bold">{duration}</Typography>
           {activeTimeEntry.project && (
             <Badge className="" style={{ background: activeTimeEntry.project.color.hex + '80' }}>
               {activeTimeEntry.project.name}

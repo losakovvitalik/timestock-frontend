@@ -50,7 +50,7 @@ const ConfirmPopup = ({
           </DialogClose>
         </DialogFooter>
       </DialogContent>
-      <DialogTrigger asChild>{triggerBtn}</DialogTrigger>
+      {trigger && <DialogTrigger asChild>{triggerBtn}</DialogTrigger>}
     </Dialog>
   );
 };

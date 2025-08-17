@@ -6,6 +6,7 @@ import {
 import { TimeEntryDTO } from '@/entities/time-entry/model/types';
 import { ApiCollectionResponse } from '@/shared/types/api';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { toast } from 'sonner';
 
 interface UseTimeEntryStartAgainProps {
   entry: TimeEntryDTO;
@@ -58,6 +59,9 @@ export function useTimeEntryStartAgain({ entry }: UseTimeEntryStartAgainProps) {
         start_time: new Date(),
         project: entry.project?.documentId,
       });
+    },
+    onError: () => {
+      toast.error('Не удалось продолжить трек времени');
     },
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey: activeTimeEntryKey });

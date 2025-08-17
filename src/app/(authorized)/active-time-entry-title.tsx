@@ -51,7 +51,7 @@ export function ActiveTimeEntryTitle() {
 
   useEffect(() => {
     if (activeTimeEntry) {
-      document.title = String(formatDurationForTitle(duration));
+      document.title = String(formatDurationForTitle(duration)) + ' - TimeStock';
     } else if (title && typeof title === 'string') {
       document.title = title;
     }

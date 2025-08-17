@@ -3,9 +3,10 @@ import {
   activeTimeEntryKey,
   useActiveTimeEntry,
 } from '@/entities/time-entry/hooks/use-active-time-entry';
-import { TimeEntryDTO } from '@/entities/time-entry/model/types';
+import { TimeEntry, TimeEntryDTO } from '@/entities/time-entry/model/types';
 import { ApiCollectionResponse } from '@/shared/types/api';
-import { useQueryClient } from '@tanstack/react-query';
+import { getDuration } from '@/shared/utils/duration';
+import { InfiniteData, useQueryClient } from '@tanstack/react-query';
 import toast from 'react-hot-toast';
 
 export function useStopTimer() {
@@ -18,20 +19,78 @@ export function useStopTimer() {
         queryKey: activeTimeEntryKey,
       });
 
+      await queryClient.cancelQueries({
+        queryKey: timeEntryApiHooks.keys.lists(),
+      });
+
       queryClient.setQueryData(
         activeTimeEntryKey,
-        (prevData: ApiCollectionResponse<TimeEntryDTO>) => ({
+        (prevData: ApiCollectionResponse<TimeEntry>) => ({
           ...prevData,
           data: [],
         }),
+      );
+
+      queryClient.setQueryData(
+        timeEntryApiHooks.keys.lists(),
+        (prevData: InfiniteData<ApiCollectionResponse<TimeEntryDTO>>) => {
+          console.log('prevData', prevData);
+          if (!prevData) return prevData;
+
+          console.log({
+            ...prevData,
+            pages: prevData.pages.map((p, i) =>
+              i === 0
+                ? {
+                    ...p,
+                    data: [
+                      {
+                        ...activeTimeEntry.data,
+                        duration: getDuration(activeTimeEntry.data?.start_time || new Date()),
+                        end_time: new Date(),
+                        isPending: true,
+                      },
+                      ...p.data,
+                    ],
+                  }
+                : p,
+            ),
+          });
+
+          return {
+            ...prevData,
+            pages: prevData.pages.map((p, i) =>
+              i === 0
+                ? {
+                    ...p,
+                    data: [
+                      {
+                        ...activeTimeEntry.data,
+                        duration: getDuration(activeTimeEntry.data?.start_time || new Date()),
+                        end_time: new Date(),
+                        isPending: true,
+                      },
+                      ...p.data,
+                    ],
+                  }
+                : p,
+            ),
+          };
+        },
       );
     },
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: activeTimeEntryKey,
       });
+
+      queryClient.invalidateQueries({
+        queryKey: timeEntryApiHooks.keys.lists(),
+        exact: true,
+      });
     },
-    onError: () => {
+    onError: (err) => {
+      console.log(err);
       toast.error('Не удалось остановить таймер. Что-то пошло не так.');
     },
     onSettled: () => {

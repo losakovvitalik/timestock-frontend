@@ -1,4 +1,4 @@
-import { add, intervalToDuration, sub } from 'date-fns';
+import { add, differenceInSeconds, intervalToDuration, sub } from 'date-fns';
 
 export function addDurationToDate(date: Date | string, duration: string): Date {
   const [hours, minutes, seconds] = duration.match(/.{1,2}/g)!.map(Number);
@@ -47,4 +47,11 @@ export function parseDurationString(time: string): {
   const seconds = parseInt(secondsStr, 10);
 
   return { hours, minutes, seconds };
+}
+
+export function getDuration(
+  start: string | number | Date,
+  end: string | number | Date = new Date(),
+) {
+  return differenceInSeconds(end, start);
 }

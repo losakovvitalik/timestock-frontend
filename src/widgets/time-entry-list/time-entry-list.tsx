@@ -1,10 +1,10 @@
 'use client';
 
 import { timeEntryApiHooks } from '@/entities/time-entry/api/time-entry-api-hooks';
-import { TimeEntryDTO } from '@/entities/time-entry/model/types';
+import { TimeEntry, TimeEntryDTO } from '@/entities/time-entry/model/types';
 import { useInView } from '@/shared/hooks/use-in-view';
 import { cn } from '@/shared/lib/utils';
-import { ApiGetParams } from '@/shared/types/api';
+import { ApiCollectionResponse, ApiGetParams } from '@/shared/types/api';
 import { Loader } from '@/shared/ui/loader';
 import { Typography } from '@/shared/ui/typography';
 import { useMemo } from 'react';
@@ -13,14 +13,14 @@ import { createTimeEntryListStore } from './model/time-entry-list.store';
 import { TimeEntryItem } from './time-entry-item';
 
 export interface TimeEntryListProps {
-  params?: ApiGetParams<TimeEntryDTO>;
+  params?: Omit<ApiGetParams<TimeEntryDTO>, 'populate' | 'pagination'>;
   className?: string;
 }
 
 export function TimeEntryList({ params, className }: TimeEntryListProps) {
   const swipeStore = useMemo(() => createTimeEntryListStore(), []);
 
-  const timeEntries = timeEntryApiHooks.useInfinityList({
+  const timeEntries = timeEntryApiHooks.useInfinityList<ApiCollectionResponse<TimeEntry>>({
     params: {
       filters: {
         ...params?.filters,
@@ -29,18 +29,18 @@ export function TimeEntryList({ params, className }: TimeEntryListProps) {
         },
       },
       populate: {
-        ...params?.populate,
-        project: params?.populate?.project
-          ? params?.populate?.project
-          : {
-              populate: {
-                color: true,
-              },
-            },
+        project: {
+          populate: {
+            color: true,
+          },
+        },
       },
       sort: params?.sort || {
         start_time: 'desc',
       },
+    },
+    options: {
+      queryKey: timeEntryApiHooks.keys.lists(),
     },
   });
 

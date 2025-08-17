@@ -16,3 +16,7 @@ export interface TimeEntryPayload {
   start_time?: string | Date;
   end_time?: string | Date;
 }
+
+export interface TimeEntry extends TimeEntryDTO {
+  isPending?: boolean;
+}

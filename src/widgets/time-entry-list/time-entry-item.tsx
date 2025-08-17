@@ -1,4 +1,4 @@
-import { TimeEntryDTO } from '@/entities/time-entry/model/types';
+import { TimeEntry } from '@/entities/time-entry/model/types';
 import { TimeEntryDeleteButton } from '@/features/time-entry-delete/ui/time-entry-delete-button';
 import { TimeEntryStartAgainButton } from '@/features/time-entry-start-again/ui/time-entry-start-again-button';
 import { useIsDesktop } from '@/shared/hooks/use-media-query';
@@ -14,7 +14,7 @@ import { useCallback, useEffect } from 'react';
 import { useTimeEntryList } from './model/time-entry-list.store';
 
 export interface TimeEntryItemProps {
-  entry: TimeEntryDTO;
+  entry: TimeEntry;
 }
 
 const ACTION_WIDTH = 54;
@@ -84,7 +84,11 @@ export function TimeEntryItem({ entry }: TimeEntryItemProps) {
           }
         }}
       >
-        <Card className="py-2">
+        <Card
+          className={cn('py-2', {
+            'opacity-70': entry.isPending,
+          })}
+        >
           <CardContent className="grid grid-cols-[1fr_auto] items-center gap-4 px-2">
             <TimeEntryView
               entry={entry}

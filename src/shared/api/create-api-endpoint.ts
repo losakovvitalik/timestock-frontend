@@ -65,7 +65,7 @@ export function createApiEndpoint<
 
     update: (id: string, data: EntityPayload) =>
       $api
-        .put<{ data: EntityDTO }>(`${basePath}/${id}`, { data })
+        .put<{ data: EntityDTO }>(`${basePath}/${id}`, { data }, {})
         .then((r) => (mapFn ? mapFn(r.data.data) : r.data.data)),
 
     delete: (id: string) => $api.delete<void>(`${basePath}/${id}`).then((r) => r.data),

@@ -1,5 +1,5 @@
 import { Timer } from '@/features/timer/ui/timer';
-import { TimerInfoDrawer } from '@/features/timer/ui/timer-info-drawer';
+import { TimerDrawer } from '@/features/timer/ui/timer-drawer';
 import { TimerToggleButton } from '@/features/timer/ui/timer-toggle-button';
 import { TimeEntryList } from '@/widgets/time-entry-list/time-entry-list';
 import { Metadata } from 'next';
@@ -18,7 +18,7 @@ export default function TimerPage() {
         <div className="flex items-center justify-between gap-8 py-4">
           <div className="flex w-full flex-col gap-4">
             <Timer />
-            <TimerInfoDrawer />
+            <TimerDrawer />
           </div>
           <div>
             <TimerToggleButton />

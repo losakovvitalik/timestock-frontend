@@ -1,4 +1,6 @@
-import { TimeEntry } from '@/entities/time-entry/model/types';
+import { timeEntryApiHooks } from '@/entities/time-entry/api/time-entry-api-hooks';
+import { TimeEntry, TimeEntryPayload } from '@/entities/time-entry/model/types';
+import { TimeEntryDrawer } from '@/entities/time-entry/ui/time-entry-drawer';
 import { TimeEntryDeleteButton } from '@/features/time-entry-delete/ui/time-entry-delete-button';
 import { TimeEntryDeletePopup } from '@/features/time-entry-delete/ui/time-entry-delete-popup';
 import { useTimeEntryStartAgain } from '@/features/time-entry-start-again/hooks/use-time-entry-start-again';
@@ -14,11 +16,12 @@ import {
   ContextMenuItem,
   ContextMenuTrigger,
 } from '@/shared/ui/context-menu';
+import { Loader } from '@/shared/ui/loader';
 import { Typography } from '@/shared/ui/typography';
 import { formatDuration } from '@/shared/utils/duration';
-import { TimeEntryView } from '@/widgets/time-entry-list/time-entry-view';
 import { animate, motion, useMotionValue, useTransform } from 'motion/react';
 import { useCallback, useEffect, useState } from 'react';
+import { toast } from 'sonner';
 import { useTimeEntryList } from './model/time-entry-list.store';
 
 export interface TimeEntryItemProps {
@@ -51,6 +54,28 @@ export function TimeEntryItem({ entry }: TimeEntryItemProps) {
     },
     [x],
   );
+
+  const timeEntryUpdate = timeEntryApiHooks.useUpdate();
+  const [drawerOpen, setDrawerOpen] = useState(false);
+  const handleSubmit = (data: TimeEntryPayload) => {
+    if (entry) {
+      timeEntryUpdate.mutate(
+        {
+          id: entry.documentId,
+          data: data,
+        },
+        {
+          onSuccess: () => {
+            toast.success('Информация успешно обновлена');
+            setDrawerOpen(false);
+          },
+          onError: () => {
+            toast.error('Не удалось изменить информацию о треке времени');
+          },
+        },
+      );
+    }
+  };
 
   useEffect(() => {
     snapTo(isOpen ? -ACTION_WIDTH : 0);
@@ -100,13 +125,12 @@ export function TimeEntryItem({ entry }: TimeEntryItemProps) {
               }
             }}
           >
-            <Card
-              className={cn('py-2', {
-                'opacity-70': entry.isPending,
-              })}
-            >
+            <Card className={cn('py-2')}>
               <CardContent className="grid grid-cols-[1fr_auto] items-center gap-4 px-2">
-                <TimeEntryView
+                <TimeEntryDrawer
+                  onSubmit={handleSubmit}
+                  onOpenChange={setDrawerOpen}
+                  open={drawerOpen}
                   entry={entry}
                   trigger={
                     <button className="flex cursor-pointer flex-col items-start gap-1">
@@ -141,10 +165,14 @@ export function TimeEntryItem({ entry }: TimeEntryItemProps) {
                     </button>
                   }
                 />
-                <div className="flex gap-2">
-                  <TimeEntryStartAgainButton entry={entry} />
-                  <TimeEntryDeleteButton className="hidden md:flex" entry={entry} />
-                </div>
+                {entry.isPending ? (
+                  <Loader className="size-8" />
+                ) : (
+                  <div className="flex gap-2">
+                    <TimeEntryStartAgainButton entry={entry} />
+                    <TimeEntryDeleteButton className="hidden md:flex" entry={entry} />
+                  </div>
+                )}
               </CardContent>
             </Card>
           </motion.div>

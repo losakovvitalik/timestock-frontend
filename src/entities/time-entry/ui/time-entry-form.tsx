@@ -36,7 +36,19 @@ export function TimeEntryForm({
     },
   });
 
-  const handleSubmit = (data: TimeEntryFormSchemaType) => {
+  const handleSave = (data: TimeEntryFormSchemaType) => {
+    onSubmit?.({
+      description: data.description,
+      // подставляем дефолтное значение
+      // если таймер уже закончен, подставляет его время,
+      // если ещё нет, то не указывает время
+      end_time: defaultValues?.end_time ? data.endTime : undefined,
+      project: data.project,
+      start_time: data.startTime,
+    });
+  };
+
+  const handleFinish = (data: TimeEntryFormSchemaType) => {
     onSubmit?.({
       description: data.description,
       end_time: data.endTime,
@@ -85,20 +97,14 @@ export function TimeEntryForm({
       }
 
       if (form.getValues('duration') !== newDuration) {
-        console.log('updateDuration', newDuration);
         form.setValue('duration', newDuration);
       }
     }
   }, [endTime, form, startTime]);
 
-  console.log(form.formState.errors);
-
   return (
     <Form {...form}>
-      <form
-        className={cn('flex flex-col gap-4', className)}
-        onSubmit={form.handleSubmit(handleSubmit)}
-      >
+      <form className={cn('flex flex-col gap-4', className)}>
         <TextareaField control={form.control} name="description" placeholder="Описание" />
         <SelectProjectField control={form.control} name="project" />
         <TimeField control={form.control} name="duration" label="Длительность" format="HH:mm:ss" />
@@ -123,7 +129,21 @@ export function TimeEntryForm({
             },
           }}
         />
-        <Button>{submitText}</Button>
+        <div className="flex w-full gap-4">
+          {!defaultValues?.end_time && (
+            <Button
+              className="flex-1"
+              type="button"
+              variant={'secondary'}
+              onClick={form.handleSubmit(handleFinish)}
+            >
+              Закончить
+            </Button>
+          )}
+          <Button className="flex-1" type="button" onClick={form.handleSubmit(handleSave)}>
+            {submitText}
+          </Button>
+        </div>
       </form>
     </Form>
   );

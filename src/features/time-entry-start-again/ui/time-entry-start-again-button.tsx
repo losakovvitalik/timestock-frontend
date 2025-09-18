@@ -36,7 +36,7 @@ export function TimeEntryStartAgainButton({ entry }: TimeEntryStartAgainButtonPr
 
   return (
     <Button onClick={handleClick} className="size-8" variant={'outline'}>
-      <Play />
+      <Play className="fill-white" />
     </Button>
   );
 }

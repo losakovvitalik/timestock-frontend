@@ -1,6 +1,6 @@
 import { Clock, FolderOpen, Menu } from 'lucide-react';
 import Link from 'next/link';
-import { paths } from '../constants';
+import { paths } from '../../shared/constants';
 import {
   Sidebar,
   SidebarContent,
@@ -10,7 +10,8 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-} from './sidebar';
+} from '../../shared/ui/sidebar';
+import { AppSidebarActiveTime } from './app-sidebar-active-time';
 
 const items = [
   {
@@ -34,8 +35,12 @@ export function AppSidebar() {
   return (
     <Sidebar>
       <SidebarContent>
+        <SidebarGroup className="pb-0">
+          <SidebarGroupLabel className="px-0">Таймер</SidebarGroupLabel>
+          <AppSidebarActiveTime />
+        </SidebarGroup>
         <SidebarGroup>
-          <SidebarGroupLabel>Приложение</SidebarGroupLabel>
+          <SidebarGroupLabel className="px-0">Приложение</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               {items.map((item) => (

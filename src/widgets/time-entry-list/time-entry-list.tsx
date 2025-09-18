@@ -3,11 +3,15 @@
 import { timeEntryApiHooks } from '@/entities/time-entry/api/time-entry-api-hooks';
 import { TimeEntry, TimeEntryDTO } from '@/entities/time-entry/model/types';
 import { useInView } from '@/shared/hooks/use-in-view';
+import { formatDisplayDate } from '@/shared/lib/date/format-display-date';
 import { cn } from '@/shared/lib/utils';
 import { ApiCollectionResponse, ApiGetParams } from '@/shared/types/api';
+import { Badge } from '@/shared/ui/badge';
 import { Loader } from '@/shared/ui/loader';
+import { Separator } from '@/shared/ui/separator';
 import { Typography } from '@/shared/ui/typography';
-import { useMemo } from 'react';
+import { isSameDay } from 'date-fns';
+import React, { useMemo } from 'react';
 import { SwipeActionsContext } from './model/time-entry-list.context';
 import { createTimeEntryListStore } from './model/time-entry-list.store';
 import { TimeEntryItem } from './time-entry-item';
@@ -56,11 +60,25 @@ export function TimeEntryList({ params, className }: TimeEntryListProps) {
         <Typography variant={'subtitle'}>Последнии записи</Typography>
         <ul ref={rootRef} className="z-20 flex h-full flex-col gap-2 overflow-auto pr-1 pb-2">
           {flatData ? (
-            flatData.map((timeEntry) => (
-              <li key={timeEntry.documentId}>
-                <TimeEntryItem entry={timeEntry} />
-              </li>
-            ))
+            flatData.map((timeEntry, index) => {
+              const nextTimeEntry = flatData[index + 1] as TimeEntry | undefined;
+
+              return (
+                <React.Fragment key={timeEntry.documentId}>
+                  <li>
+                    <TimeEntryItem entry={timeEntry} />
+                  </li>
+                  {nextTimeEntry && !isSameDay(nextTimeEntry.start_time, timeEntry.start_time) && (
+                    <div className="grid grid-cols-[auto_1fr] items-center gap-2">
+                      <Badge variant={'secondary'} className="text-[10px]">
+                        {formatDisplayDate(nextTimeEntry.start_time)}
+                      </Badge>
+                      <Separator className="!h-0.5 rounded-lg" />
+                    </div>
+                  )}
+                </React.Fragment>
+              );
+            })
           ) : (
             <Loader absolute />
           )}

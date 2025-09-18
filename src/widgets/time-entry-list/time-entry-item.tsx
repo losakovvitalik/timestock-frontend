@@ -145,19 +145,21 @@ export function TimeEntryItem({ entry }: TimeEntryItemProps) {
                         <Typography className="text-sm font-semibold">
                           {formatDuration(entry.duration || 0)}
                         </Typography>
-                        <Badge variant={'secondary'}>
-                          {entry.project && (
-                            <div
-                              className="size-2.5 rounded-full"
-                              style={{
-                                backgroundColor: entry.project.color.hex,
-                              }}
-                            />
-                          )}
-                          <Typography size={'xs'}>
-                            {entry.project?.name || 'Проект не указан'}
-                          </Typography>
-                        </Badge>
+                        {entry.project?.name && (
+                          <Badge variant={'secondary'}>
+                            {entry.project && (
+                              <div
+                                className="size-2.5 rounded-full"
+                                style={{
+                                  backgroundColor: entry.project.color.hex,
+                                }}
+                              />
+                            )}
+                            <Typography size={'xs'}>
+                              {entry.project?.name || 'Проект не указан'}
+                            </Typography>
+                          </Badge>
+                        )}
                         <Badge variant={'secondary'}>
                           <Typography size={'xs'}>{formatDisplayDate(entry.start_time)}</Typography>
                         </Badge>

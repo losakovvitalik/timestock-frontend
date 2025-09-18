@@ -3,6 +3,7 @@ import Header from '@/shared/ui/layout/header';
 import { Tabbar } from '@/shared/ui/layout/tabbar';
 import { SidebarProvider } from '@/shared/ui/sidebar';
 import { Viewport } from 'next';
+import { ActiveTimeEntryTitle } from './active-time-entry-title';
 
 export const viewport: Viewport = {
   viewportFit: 'cover',
@@ -15,7 +16,9 @@ export default function AuthorizedLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <div>
+    <>
+      <ActiveTimeEntryTitle />
+
       <SidebarProvider>
         <AppSidebar />
         <div className="pb-safe-area grid h-svh max-h-svh w-full grid-rows-[auto_1fr_auto] overflow-hidden">
@@ -26,6 +29,6 @@ export default function AuthorizedLayout({
           <Tabbar />
         </div>
       </SidebarProvider>
-    </div>
+    </>
   );
 }

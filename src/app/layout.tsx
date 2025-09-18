@@ -3,7 +3,6 @@ import { Toaster } from '@/shared/ui/sonner';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import { Toaster as HotToaster } from 'react-hot-toast';
-import { ActiveTimeEntryTitle } from './(authorized)/active-time-entry-title';
 import './globals.css';
 import { AuthBridge } from './providers/session-bridge';
 import SessionClientProvider from './providers/session-client-provider';
@@ -50,7 +49,6 @@ export default async function RootLayout({
               <AuthBridge />
               <TanstackProvider>
                 {children}
-                <ActiveTimeEntryTitle />
 
                 <Toaster position="top-center" />
                 <HotToaster

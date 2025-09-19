@@ -65,6 +65,14 @@ export function TimeEntryList({ params, className }: TimeEntryListProps) {
 
               return (
                 <React.Fragment key={timeEntry.documentId}>
+                  {index === 0 && (
+                    <div className="grid grid-cols-[auto_1fr] items-center gap-2">
+                      <Badge variant={'secondary'} className="text-[10px]">
+                        {formatDisplayDate(timeEntry.start_time)}
+                      </Badge>
+                      <Separator className="!h-0.5 rounded-lg" />
+                    </div>
+                  )}
                   <li>
                     <TimeEntryItem entry={timeEntry} />
                   </li>

@@ -197,9 +197,9 @@ export function createApiHooks<
       ...config,
       mutationFn: (data: Payload) => api.create(data),
       onMutate: config?.onMutate,
-      onSuccess: (data, vars, context) => {
+      onSuccess: (data, vars, onMutateResult, context) => {
         queryClient.invalidateQueries({ queryKey: queryKeys.lists() });
-        config?.onSuccess?.(data, vars, context);
+        config?.onSuccess?.(data, vars, onMutateResult, context);
       },
       onError: config?.onError,
     });
@@ -219,10 +219,10 @@ export function createApiHooks<
       mutationFn: ({ id, data }: { id: Id; data: Partial<Payload> }) =>
         api.update(id.toString(), data),
       onMutate: config?.onMutate,
-      onSuccess: (data, variables, context) => {
+      onSuccess: (data, variables, onMutateResult, context) => {
         queryClient.invalidateQueries({ queryKey: queryKeys.get(variables.id) });
         queryClient.invalidateQueries({ queryKey: queryKeys.lists() });
-        config?.onSuccess?.(data, variables, context);
+        config?.onSuccess?.(data, variables, onMutateResult, context);
       },
       onError: config?.onError,
     });

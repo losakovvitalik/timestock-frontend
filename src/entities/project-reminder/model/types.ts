@@ -17,6 +17,7 @@ export interface ProjectReminderDTO {
   publishedAt: string; // ISO 8601 дата-время
   locale: string | null;
   project: ProjectDTO;
+  repeatable: boolean;
 }
 
 export interface ProjectReminderPayload {

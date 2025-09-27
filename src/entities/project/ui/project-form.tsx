@@ -40,7 +40,11 @@ export function ProjectForm({
                 <TextareaField control={form.control} name="description" label="Описание" />
               </div>
 
-              <Button className="mt-4 w-full" disabled={form.formState.isSubmitting} type="submit">
+              <Button
+                className="mt-4 w-full"
+                disabled={form.formState.isSubmitting || !form.formState.isDirty}
+                type="submit"
+              >
                 {submitBtnText}
               </Button>
             </CardContent>

@@ -125,7 +125,7 @@ export function TimeEntryItem({ entry }: TimeEntryItemProps) {
               }
             }}
           >
-            <Card className={cn('py-2')}>
+            <Card className={cn('border-none p-3 px-2')}>
               <CardContent className="grid grid-cols-[1fr_auto] items-center gap-4 px-2">
                 <TimeEntryDrawer
                   onSubmit={handleSubmit}

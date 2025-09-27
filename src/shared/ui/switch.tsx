@@ -5,7 +5,9 @@ import * as React from 'react';
 
 import { cn } from '@/shared/lib/utils';
 
-function Switch({ className, ...props }: React.ComponentProps<typeof SwitchPrimitive.Root>) {
+export interface SwitchProps extends React.ComponentProps<typeof SwitchPrimitive.Root> {}
+
+function Switch({ className, ...props }: SwitchProps) {
   return (
     <SwitchPrimitive.Root
       data-slot="switch"

@@ -7,6 +7,7 @@ export const projectReminderFormSchema = z.object({
     interval: z.enum(['DAILY']),
     time: z.string(),
   }),
+  repeatable: z.boolean().default(false),
 });
 
 export type ProjectReminderFormSchemaType = z.infer<typeof projectReminderFormSchema>;

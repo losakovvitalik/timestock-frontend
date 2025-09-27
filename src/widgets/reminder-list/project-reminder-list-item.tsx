@@ -83,24 +83,26 @@ export function ProjectReminderListItem({ item, projectId }: ProjectReminderList
             </div>
 
             {item.text ? (
-              <p className="text-foreground/90 line-clamp-2 text-sm">{item.text}</p>
+              <p className="text-foreground/90 line-clamp-2">{item.text}</p>
             ) : (
               <p className="text-muted-foreground text-sm italic">Без текста</p>
             )}
 
-            <div className="text-muted-foreground flex items-center gap-1 text-xs">
-              <Clock className="h-3.5 w-3.5" aria-hidden />
-              <TooltipProvider>
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <time dateTime={item.next_at} title={nextAbs} className="cursor-default">
-                      Следующее: {nextRel}
-                    </time>
-                  </TooltipTrigger>
-                  <TooltipContent>{nextAbs}</TooltipContent>
-                </Tooltip>
-              </TooltipProvider>
-            </div>
+            {item.enabled && (
+              <div className="text-muted-foreground flex items-center gap-1 text-xs">
+                <Clock className="h-3.5 w-3.5" aria-hidden />
+                <TooltipProvider>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <time dateTime={item.next_at} title={nextAbs} className="cursor-default">
+                        Следующее: {nextRel}
+                      </time>
+                    </TooltipTrigger>
+                    <TooltipContent>{nextAbs}</TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
+              </div>
+            )}
           </div>
 
           <div className="flex items-center gap-3">

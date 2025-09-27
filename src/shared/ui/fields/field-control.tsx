@@ -8,6 +8,7 @@ export interface FieldControlProps<T extends FieldValues> {
   required?: boolean;
   description?: React.ReactNode;
   render: ({ field }: { field: ControllerRenderProps<T, Path<T>> }) => React.ReactNode;
+  className?: string;
 }
 
 export type FieldProps<T extends FieldValues, P> = Omit<FieldControlProps<T>, 'render'> & {
@@ -21,13 +22,14 @@ export function FieldControl<T extends FieldValues>({
   required,
   description,
   render,
+  className,
 }: FieldControlProps<T>) {
   return (
     <FormField
       control={control}
       name={name}
       render={({ field }) => (
-        <FormItem>
+        <FormItem className={className}>
           {label && <FormLabel required={required}>{label}</FormLabel>}
           <FormControl>{render({ field })}</FormControl>
           <FormMessage />

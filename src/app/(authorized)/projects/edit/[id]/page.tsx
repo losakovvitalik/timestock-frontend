@@ -7,7 +7,7 @@ export default async function ProjectEditPage({ params }: PageProps<{ id: string
   const { id } = await params;
 
   return (
-    <div>
+    <div className="grid gap-5 lg:grid-cols-2">
       <PageTitle>Редактировать проект</PageTitle>
       <EditProjectForm projectId={id} />
       <ProjectReminderList projectId={id} />

@@ -2,7 +2,7 @@ import { FieldValues } from 'react-hook-form';
 import { DatePicker, DatePickerProps } from '../date-picker';
 import { FieldControl, FieldControlProps } from './field-control';
 
-export interface RatingFieldProps<T extends FieldValues>
+export interface DatePickerFieldProps<T extends FieldValues>
   extends Omit<FieldControlProps<T>, 'render'>,
     Omit<DatePickerProps, 'onChange' | 'value'> {}
 
@@ -12,7 +12,7 @@ export function DatePickerField<T extends FieldValues>({
   description,
   label,
   ...props
-}: RatingFieldProps<T>) {
+}: DatePickerFieldProps<T>) {
   return (
     <FieldControl
       name={name}

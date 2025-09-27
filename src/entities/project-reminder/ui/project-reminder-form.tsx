@@ -1,5 +1,6 @@
 import { Button } from '@/shared/ui/button';
 import { TextField } from '@/shared/ui/fields';
+import { BooleanField } from '@/shared/ui/fields/boolean-field';
 import { SelectField } from '@/shared/ui/fields/select-field';
 import { TimeField } from '@/shared/ui/fields/time-field';
 import { Form } from '@/shared/ui/form';
@@ -24,7 +25,9 @@ export function ProjectReminderForm({
   renderActions,
   submitBtnText = 'Сохранить',
 }: ProjectReminderFormProps) {
-  const form = useProjectReminderForm({ defaultValues });
+  const form = useProjectReminderForm({ defaultValues: { repeatable: true, ...defaultValues } });
+
+  console.log(form.getValues(), form.formState.errors);
 
   return (
     <Form {...form}>
@@ -51,6 +54,12 @@ export function ProjectReminderForm({
               label="Время"
               format="HH:mm"
               unmask={false}
+            />
+            <BooleanField
+              control={form.control}
+              className="grid-cols-[1fr_auto]"
+              name="repeatable"
+              label="Повторять уведомления"
             />
           </div>
         </fieldset>

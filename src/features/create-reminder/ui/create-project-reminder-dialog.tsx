@@ -26,7 +26,7 @@ export function CreateProjectReminderDialog({ projectId }: CreateProjectReminder
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button className="mt-2 w-full border-dashed" variant={'outline'}>
+        <Button className="w-full border-dashed" variant={'outline'}>
           Добавить напоминание
         </Button>
       </DialogTrigger>

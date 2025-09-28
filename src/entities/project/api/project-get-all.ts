@@ -1,10 +1,9 @@
 import { $api } from '@/shared/lib/api';
 import { ApiCollectionResponse } from '@/shared/types/api';
-import { Data } from '@strapi/types';
 import { ProjectDTO } from '../models/types';
 
 export interface ProjectGetAllParams {
-  filters: Record<keyof Data.ContentType<'api::project.project'>, any>;
+  filters: Record<keyof ProjectDTO, any>;
 }
 
 export interface ProjectGetAllResponse extends ApiCollectionResponse<ProjectDTO> {}

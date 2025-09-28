@@ -3,7 +3,7 @@ import { cn } from '@/shared/lib/utils';
 import { Button } from '@/shared/ui/button';
 import { TextareaField } from '@/shared/ui/fields';
 import { DateTimePickerField } from '@/shared/ui/fields/date-time-picker-field';
-import { TimeField } from '@/shared/ui/fields/time-field';
+import { DurationField } from '@/shared/ui/fields/duration-field';
 import { Form } from '@/shared/ui/form';
 import { formatDuration, parseDurationString } from '@/shared/utils/duration';
 import { add, differenceInSeconds } from 'date-fns';
@@ -107,7 +107,12 @@ export function TimeEntryForm({
       <form className={cn('flex flex-col gap-4', className)}>
         <TextareaField control={form.control} name="description" placeholder="Описание" />
         <SelectProjectField control={form.control} name="project" />
-        <TimeField control={form.control} name="duration" label="Длительность" format="HH:mm:ss" />
+        <DurationField
+          control={form.control}
+          name="duration"
+          label="Длительность"
+          format="HH:mm:ss"
+        />
 
         <DateTimePickerField
           control={form.control}

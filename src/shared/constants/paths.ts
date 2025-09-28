@@ -8,6 +8,9 @@ export const paths = {
     edit: (id: string) => `/projects/edit/${id}`,
     view: (id: string) => `/projects/view/${id}`,
   },
+  task: {
+    list: '/tasks',
+  },
   auth: {
     link: '/auth',
     code: '/auth/code',

@@ -41,7 +41,7 @@ export function SelectProjectField<T extends FieldValues>(
               }}
             />
           )}
-          <Typography>{project.name}</Typography>
+          <Typography className="md:text-sm">{project.name}</Typography>
         </div>
       )}
     />

@@ -1,12 +1,12 @@
-import { User } from '@/entities/user/model/types';
+import { UserDTO } from '@/entities/user/model/types';
 import { ApiEntityBase } from '@/shared/types/api';
 
 export interface ProjectDTO extends ApiEntityBase {
   name: string;
   color: Color;
   description?: string | null;
-  owner?: User;
-  members?: User[];
+  owner?: UserDTO;
+  members?: UserDTO[];
   time_spent: number;
 }
 

@@ -3,8 +3,8 @@ import { ChevronDownIcon } from 'lucide-react';
 import * as React from 'react';
 import { Button } from './button';
 import { Calendar, CalendarProps } from './calendar';
+import DurationInput from './duration-input';
 import { Popover, PopoverContent, PopoverTrigger } from './popover';
-import TimeInput from './time-input';
 
 export interface DateTimePickerProps {
   date: undefined | Date;
@@ -18,7 +18,7 @@ export function DateTimePicker({ date, onChange, calenderProps }: DateTimePicker
   return (
     <div className="grid grid-cols-[2fr_3fr] gap-4">
       <div className="flex flex-col gap-3">
-        <TimeInput
+        <DurationInput
           value={format(date || new Date(), 'HH:mm')}
           onChange={(value) => {
             const [hours, minutes] = value.split(':');

@@ -1,8 +1,8 @@
 import { Button } from '@/shared/ui/button';
 import { TextField } from '@/shared/ui/fields';
 import { BooleanField } from '@/shared/ui/fields/boolean-field';
+import { DurationField } from '@/shared/ui/fields/duration-field';
 import { SelectField } from '@/shared/ui/fields/select-field';
-import { TimeField } from '@/shared/ui/fields/time-field';
 import { Form } from '@/shared/ui/form';
 import { useProjectReminderForm } from '../hooks/use-project-reminder-form';
 import { INTERVAL_OPTIONS } from '../model/constants';
@@ -48,7 +48,7 @@ export function ProjectReminderForm({
               valueKey={'value'}
               options={INTERVAL_OPTIONS}
             />
-            <TimeField
+            <DurationField
               control={form.control}
               name="recurrence_options.time"
               label="Время"

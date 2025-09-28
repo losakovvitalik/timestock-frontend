@@ -69,7 +69,7 @@ export function Select<T = Record<string, any>>({
     <Popover modal open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
         <Button
-          className="bg-input border-border grid h-10 w-full cursor-pointer grid-cols-[1fr_auto] justify-items-start p-2"
+          className="bg-input border-border grid h-10 w-full cursor-pointer grid-cols-[1fr_auto] justify-items-start p-2 md:text-sm"
           variant="outline"
           role="combobox"
           aria-haspopup="listbox"
@@ -79,7 +79,7 @@ export function Select<T = Record<string, any>>({
           {currentOption ? (
             displayItem(currentOption)
           ) : (
-            <Typography className="w-full truncate text-left" variant={'muted'}>
+            <Typography className="w-full truncate text-left md:text-sm" variant={'muted'}>
               {placeholder}
             </Typography>
           )}

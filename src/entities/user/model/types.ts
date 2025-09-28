@@ -1,4 +1,4 @@
-export interface User {
+export interface UserDTO {
   id: number;
   documentId: string;
   username: string;
@@ -12,4 +12,4 @@ export interface User {
   timezone: string;
 }
 
-export interface UserPayload extends Partial<Pick<User, 'timezone'>> {}
+export interface UserPayload extends Partial<Pick<UserDTO, 'timezone'>> {}

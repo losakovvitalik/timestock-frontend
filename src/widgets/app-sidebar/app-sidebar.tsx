@@ -1,4 +1,4 @@
-import { Clock, FolderOpen, Menu } from 'lucide-react';
+import { CircleCheckBig, Clock, FolderOpen, Menu } from 'lucide-react';
 import Link from 'next/link';
 import { paths } from '../../shared/constants';
 import {
@@ -23,6 +23,11 @@ const items = [
     title: 'Проекты',
     url: paths.project.list,
     icon: FolderOpen,
+  },
+  {
+    title: 'Задачи',
+    url: paths.task.list,
+    icon: CircleCheckBig,
   },
   {
     title: 'Меню',

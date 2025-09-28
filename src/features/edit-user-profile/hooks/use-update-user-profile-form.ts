@@ -1,4 +1,4 @@
-import { User } from '@/entities/user/model/types';
+import { UserDTO } from '@/entities/user/model/types';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import {
@@ -7,7 +7,7 @@ import {
 } from '../model/update-user-profile-form-schema';
 
 export interface UseUpdateUserProfileFormProps {
-  defaultValues?: Partial<Pick<User, 'timezone'>>;
+  defaultValues?: Partial<Pick<UserDTO, 'timezone'>>;
 }
 
 export function useUpdateUserProfileForm({ defaultValues }: UseUpdateUserProfileFormProps) {

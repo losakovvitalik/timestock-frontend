@@ -13,7 +13,7 @@ export interface TimeInputProps {
   unmask?: boolean;
 }
 
-const TimeInput = ({
+const DurationInput = ({
   onChange,
   onBlur,
   value,
@@ -73,4 +73,4 @@ const TimeInput = ({
   );
 };
 
-export default TimeInput;
+export default DurationInput;

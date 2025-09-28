@@ -49,6 +49,12 @@ export function parseDurationString(time: string): {
   return { hours, minutes, seconds };
 }
 
+export function durationToSeconds(time: string): number {
+  const { hours, minutes, seconds } = parseDurationString(time);
+
+  return hours * 3600 + minutes * 60 + seconds;
+}
+
 export function getDuration(
   start: string | number | Date,
   end: string | number | Date = new Date(),

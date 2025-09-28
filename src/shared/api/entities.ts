@@ -7,6 +7,7 @@ import {
   PushSubscriptionDTO,
   PushSubscriptionPayload,
 } from '@/entities/push-subscription/models/types';
+import { TaskDTO, TaskPayload } from '@/entities/task/model/task-types';
 import { TimeEntryDTO, TimeEntryPayload } from '@/entities/time-entry/model/types';
 
 export interface EntityDef<TDTO = unknown, TPayload = unknown> {
@@ -37,4 +38,9 @@ export const entities = {
     key: 'time-entry',
     path: '/time-entries',
   } as EntityDef<TimeEntryDTO, TimeEntryPayload>,
+
+  task: {
+    key: 'task',
+    path: '/tasks',
+  } as EntityDef<TaskDTO, TaskPayload>,
 } as const;

@@ -25,7 +25,9 @@
     "toggle-project-reminder",
     "project-reminder-delete",
     "dependencies",
-    "api"
+    "api",
+    "task"
   ],
-  "typescript.tsdk": "node_modules/typescript/lib"
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "cSpell.words": ["timestock"]
 }

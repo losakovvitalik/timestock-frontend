@@ -26,7 +26,7 @@ export function TimeEntryStartAgainButton({ entry }: TimeEntryStartAgainButtonPr
         description="У вас уже есть запущенный таймер, он будет остановлен"
         onConfirm={handleClick}
         trigger={
-          <Button className="size-8" variant={'outline'}>
+          <Button className="size-8" variant={'secondary'}>
             <Play className="fill-white" />
           </Button>
         }
@@ -35,7 +35,7 @@ export function TimeEntryStartAgainButton({ entry }: TimeEntryStartAgainButtonPr
   }
 
   return (
-    <Button onClick={handleClick} className="size-8" variant={'outline'}>
+    <Button onClick={handleClick} className="size-8" variant={'secondary'}>
       <Play className="fill-white" />
     </Button>
   );

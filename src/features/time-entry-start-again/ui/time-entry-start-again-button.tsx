@@ -27,7 +27,7 @@ export function TimeEntryStartAgainButton({ entry }: TimeEntryStartAgainButtonPr
         onConfirm={handleClick}
         trigger={
           <Button className="size-8" variant={'outline'}>
-            <Play />
+            <Play className="fill-white" />
           </Button>
         }
       />

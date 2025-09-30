@@ -7,9 +7,13 @@ import { TimeEntry, TimeEntryDTO } from '@/entities/time-entry/model/types';
 import { ApiCollectionResponse } from '@/shared/types/api';
 import { getDuration } from '@/shared/utils/duration';
 import { InfiniteData, useQueryClient } from '@tanstack/react-query';
-import toast from 'react-hot-toast';
 
-export function useStopTimer() {
+export interface UseStopTimeEntryOptions {
+  onError?: () => void;
+  onSuccess?: () => void;
+}
+
+export function useStopTimeEntry(options?: UseStopTimeEntryOptions) {
   const queryClient = useQueryClient();
 
   const activeTimeEntry = useActiveTimeEntry();
@@ -87,10 +91,12 @@ export function useStopTimer() {
         queryKey: timeEntryApiHooks.keys.lists(),
         exact: true,
       });
+
+      options?.onSuccess?.();
     },
     onError: (err) => {
       console.log(err);
-      toast.error('Не удалось остановить таймер. Что-то пошло не так.');
+      options?.onError?.();
     },
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey: activeTimeEntryKey });
@@ -99,7 +105,6 @@ export function useStopTimer() {
 
   const mutate = () => {
     if (!activeTimeEntry.data) {
-      toast.error('Нет активного таймера. Сначала запустите таймер.');
       return;
     }
 
@@ -113,7 +118,6 @@ export function useStopTimer() {
 
   const mutateAsync = () => {
     if (!activeTimeEntry.data) {
-      toast.error('Нет активного таймера. Сначала запустите таймер.');
       return Promise.resolve();
     }
 

@@ -39,7 +39,7 @@ const ConfirmPopup = ({
           <DialogTitle>{title}</DialogTitle>
           <DialogDescription>{description}</DialogDescription>
         </DialogHeader>
-        <DialogFooter>
+        <DialogFooter className="grid grid-cols-2">
           <DialogClose asChild>
             <Button onClick={onCancel} variant={'outline'}>
               Отменить

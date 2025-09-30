@@ -21,6 +21,7 @@ export function useActiveTimeEntry() {
             color: true,
           },
         },
+        task: true,
       },
     },
     options: {

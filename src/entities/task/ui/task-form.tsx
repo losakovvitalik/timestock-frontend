@@ -17,12 +17,15 @@ export function TaskForm({ onSubmit, trigger }: TaskFormProps) {
   const form = useTaskForm();
 
   const handleSubmit = (data: TaskSchemaType) => {
+    console.log(
+      data.estimatedTime,
+      data.estimatedTime ? durationToSeconds(data.estimatedTime) : undefined,
+    );
     onSubmit({
       name: data.name,
       estimated_time: data.estimatedTime ? durationToSeconds(data.estimatedTime) : undefined,
       project: data.project || undefined,
       description: data.description,
-      completed: false,
     });
   };
 
@@ -31,7 +34,12 @@ export function TaskForm({ onSubmit, trigger }: TaskFormProps) {
       <form onSubmit={form.handleSubmit(handleSubmit)}>
         <fieldset className="flex flex-col gap-4">
           <TextField control={form.control} name="name" label="Задача" />
-          <DurationField control={form.control} name="estimatedTime" label="Планируемое время" />
+          <DurationField
+            control={form.control}
+            name="estimatedTime"
+            label="Планируемое время"
+            format="HH:mm"
+          />
           <TextareaField control={form.control} name="description" label="Описание" />
           <SelectProjectField control={form.control} name="project" label="Проект" />
         </fieldset>

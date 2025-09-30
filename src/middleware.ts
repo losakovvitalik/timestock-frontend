@@ -1,39 +1,33 @@
-import type { NextRequest } from 'next/server';
+import { auth } from '@/auth';
 import { NextResponse } from 'next/server';
-import { auth } from './auth';
 import { paths } from './shared/constants';
 
-export async function middleware(request: NextRequest) {
-  const { pathname, origin } = request.nextUrl;
-  const session = await auth();
+export default auth((req) => {
+  const { pathname, origin } = req.nextUrl;
 
-  if (pathname.startsWith('/api/')) {
-    return NextResponse.next();
-  }
-
+  // Публичные ассеты
   if (
-    pathname === paths.auth.link ||
-    pathname === paths.auth.code ||
     pathname.startsWith('/_next/') ||
     pathname === '/favicon.ico' ||
     pathname === '/manifest.webmanifest'
   ) {
-    if (session) {
-      const loginUrl = new URL(paths.timer, origin);
-      return NextResponse.redirect(loginUrl);
-    }
-
-    return NextResponse.next();
+    return;
   }
 
-  if (!session) {
-    const loginUrl = new URL(paths.auth.link, origin);
-    return NextResponse.redirect(loginUrl);
+  const isAuthRoute = pathname === paths.auth.link || pathname === paths.auth.code;
+
+  // Неавторизован — пускаем только на страницы аутентификации
+  if (!req.auth && !isAuthRoute) {
+    return NextResponse.redirect(new URL(paths.auth.link, origin));
   }
 
-  return NextResponse.next();
-}
+  // Авторизован — не даём ходить на страницы логина/кода, редиректим в приложение
+  if (req.auth && isAuthRoute) {
+    return NextResponse.redirect(new URL(paths.timer, origin));
+  }
+});
 
 export const config = {
-  matcher: ['/((?!api/|_next/|favicon.ico).*)'],
+  // не трогаем api, как и раньше
+  matcher: ['/((?!api/|_next/|favicon.ico|manifest.webmanifest).*)'],
 };

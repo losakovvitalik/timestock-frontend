@@ -1,6 +1,7 @@
 import { userConfirmOTP } from '@/entities/user/api/user-confirm-otp';
 import NextAuth from 'next-auth';
 import Credentials from 'next-auth/providers/credentials';
+import { paths } from './shared/constants';
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   providers: [
@@ -54,6 +55,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     },
   },
   pages: {
-    signIn: '/auth',
+    signIn: paths.auth.link,
   },
 });

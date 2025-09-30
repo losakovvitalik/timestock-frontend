@@ -24,6 +24,7 @@ export interface SelectProps<T = Record<any, any>> {
   onChange?: (value: T[keyof T] | null) => void;
   searchable?: boolean;
   renderItem?: (item: T) => React.ReactNode;
+  className?: string;
 }
 
 export function Select<T = Record<string, any>>({
@@ -36,6 +37,7 @@ export function Select<T = Record<string, any>>({
   labelKey,
   valueKey,
   renderItem,
+  className,
 }: SelectProps<T>) {
   const [open, setOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
@@ -69,7 +71,10 @@ export function Select<T = Record<string, any>>({
     <Popover modal open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
         <Button
-          className="bg-input border-border grid h-10 w-full cursor-pointer grid-cols-[1fr_auto] justify-items-start p-2 md:text-sm"
+          className={cn(
+            'bg-input border-border grid h-10 w-full cursor-pointer grid-cols-[1fr_auto] justify-items-start p-2 md:text-sm',
+            className,
+          )}
           variant="outline"
           role="combobox"
           aria-haspopup="listbox"

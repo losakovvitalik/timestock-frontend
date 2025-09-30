@@ -1,16 +1,35 @@
 import { CreateTaskDialog } from '@/features/task/create-task/ui/create-task-dialog';
 import { PageTitle } from '@/shared/ui/page-title';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/shared/ui/tabs';
+import { TaskList } from '@/widgets/task-list/task-list';
 import { Metadata } from 'next';
+import { SelectSorting } from './select-sorting';
 
 export const metadata: Metadata = {
   title: 'Задачи',
 };
 
-export default function ProjectsPage() {
+export default function TaskPage() {
   return (
     <div className="relative h-full">
       <PageTitle>Задачи</PageTitle>
-      <CreateTaskDialog />
+      <Tabs defaultValue="in_work">
+        <div className="flex gap-4">
+          <TabsList className="grid grid-cols-3">
+            <TabsTrigger value="in_work">В работе</TabsTrigger>
+            <TabsTrigger value="all">Все</TabsTrigger>
+            <TabsTrigger value="completed">Выполненные</TabsTrigger>
+          </TabsList>
+          <SelectSorting />
+          <CreateTaskDialog />
+        </div>
+
+        <TabsContent value="in_work">
+          <TaskList />
+        </TabsContent>
+        <TabsContent value="all">321</TabsContent>
+        <TabsContent value="completed">111</TabsContent>
+      </Tabs>
     </div>
   );
 }

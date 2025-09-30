@@ -11,5 +11,9 @@ export default function SessionClientProvider({
   children: React.ReactNode;
   session: Session | null;
 }) {
-  return <SessionProvider session={session}>{children}</SessionProvider>;
+  return (
+    <SessionProvider refetchOnWindowFocus={false} session={session}>
+      {children}
+    </SessionProvider>
+  );
 }

@@ -20,7 +20,10 @@ export function subtractDurationFromDate(date: Date | string, duration: string):
   });
 }
 
-export function formatDuration(totalSeconds: number): string {
+export function formatDuration(
+  totalSeconds: number,
+  format: 'HH:mm:ss' | 'HH:mm' = 'HH:mm:ss',
+): string {
   const duration = intervalToDuration({
     start: 0,
     end: totalSeconds * 1000,
@@ -30,6 +33,11 @@ export function formatDuration(totalSeconds: number): string {
 
   const hours = pad((duration.days ?? 0) * 24 + (duration.hours ?? 0));
   const minutes = pad(duration.minutes ?? 0);
+
+  if (format === 'HH:mm') {
+    return `${hours}:${minutes}`;
+  }
+
   const seconds = pad(duration.seconds ?? 0);
 
   return `${hours}:${minutes}:${seconds}`;
@@ -42,9 +50,9 @@ export function parseDurationString(time: string): {
 } {
   const [hoursStr, minutesStr, secondsStr] = time.split(':');
 
-  const hours = parseInt(hoursStr, 10);
-  const minutes = parseInt(minutesStr, 10);
-  const seconds = parseInt(secondsStr, 10);
+  const hours = parseInt(hoursStr, 10) || 0;
+  const minutes = parseInt(minutesStr, 10) || 0;
+  const seconds = parseInt(secondsStr, 10) || 0;
 
   return { hours, minutes, seconds };
 }

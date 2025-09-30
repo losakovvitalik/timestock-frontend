@@ -9,9 +9,11 @@ const typographyVariants = cva('', {
       tiny: 'text-tiny',
       xs: 'text-xs',
       sm: 'text-sm',
+      lg: 'text-lg',
       default: 'text-base',
     },
     variant: {
+      important: 'text-lg font-medium',
       subtitle: 'text-xl font-bold',
       muted: 'text-muted-foreground',
     },

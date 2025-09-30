@@ -11,10 +11,7 @@ export interface ProjectListItemProps {
 
 export function ProjectListItem({ project }: ProjectListItemProps) {
   return (
-    <div className="grid grid-cols-[70px_1fr] items-center gap-4">
-      <Typography className="text-lg font-semibold">
-        {(project.time_spent / 3600).toFixed(2)} ч
-      </Typography>
+    <div className="grid grid-cols-[1fr_100px] items-center gap-4">
       <div className="bg-secondary border-border flex items-center rounded-lg border p-2">
         <Link
           className="flex items-center gap-2 hover:underline"
@@ -34,6 +31,9 @@ export function ProjectListItem({ project }: ProjectListItemProps) {
           </Link>
         </Button>
       </div>
+      <Typography className="text-lg font-semibold">
+        {(project.time_spent / 3600).toFixed(2)} ч
+      </Typography>
     </div>
   );
 }

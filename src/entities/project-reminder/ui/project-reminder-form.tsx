@@ -57,8 +57,8 @@ export function ProjectReminderForm({
             />
             <BooleanField
               control={form.control}
-              className="grid-cols-[1fr_auto]"
               name="repeatable"
+              fieldClassName="grid-cols-[1fr_auto]"
               label="Повторять уведомления"
             />
           </div>

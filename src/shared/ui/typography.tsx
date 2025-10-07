@@ -13,7 +13,7 @@ const typographyVariants = cva('', {
       default: 'text-base',
     },
     variant: {
-      important: 'text-lg font-medium',
+      important: 'text-xl font-medium',
       subtitle: 'text-xl font-bold',
       muted: 'text-muted-foreground',
     },

@@ -10,14 +10,10 @@ export interface TaskItemProgressProps {
 export function TaskItemProgress({ task: { time_spent, estimated_time } }: TaskItemProgressProps) {
   return (
     <div
-      className={cn('ml-auto grid max-w-72 grid-cols-[1fr] items-center gap-3', {
+      className={cn('ml-auto grid max-w-72 grid-cols-[1fr_auto] items-center gap-3', {
         'w-full': estimated_time,
       })}
     >
-      <div>
-        {formatDuration(time_spent || 0, 'HH:mm')}
-        {estimated_time ? ' / ' + formatDuration(estimated_time, 'HH:mm') : null} ч.
-      </div>
       {estimated_time && (
         <div className="bg-secondary h-3 rounded-md">
           <div
@@ -28,6 +24,10 @@ export function TaskItemProgress({ task: { time_spent, estimated_time } }: TaskI
           />
         </div>
       )}
+      <div>
+        {formatDuration(time_spent || 0, 'HH:mm')}
+        {estimated_time ? ' / ' + formatDuration(estimated_time, 'HH:mm') : null} ч.
+      </div>
     </div>
   );
 }

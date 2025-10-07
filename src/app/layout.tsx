@@ -20,6 +20,7 @@ export const metadata: Metadata = {
     template: '%s - Timestock',
     default: 'Timestock',
   },
+
   description: 'Приложения для трекинга времени',
 };
 
@@ -34,6 +35,9 @@ export default async function RootLayout({
    * ! но в будущем может быть вопрос почему все страницы dynamic
    */
   const session = await auth();
+  const user = session?.user;
+  const test = user?.email;
+  console.log(test);
 
   return (
     <html className={'h-dvh max-h-dvh rounded'} lang="ru" suppressHydrationWarning>

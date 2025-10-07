@@ -1,15 +1,26 @@
-import { FieldValues } from 'react-hook-form';
-import { Switch, SwitchProps } from '../switch';
-import { FieldControl, FieldControlProps } from './field-control';
+import { Switch } from '../switch';
+import { withFieldControl } from './with-field-control';
 
-export interface BooleanFieldProps<T extends FieldValues>
-  extends Omit<FieldControlProps<T>, 'render'> {
-  fieldProps?: Omit<SwitchProps, 'onChange' | 'value' | 'name'>;
-}
+// export interface BooleanFieldProps<T extends FieldValues>
+//   extends Omit<FieldControlProps<T>, 'render'>,
+//     Omit<SwitchProps, 'onChange' | 'value' | 'name'> {}
 
-export function BooleanField<T extends FieldValues>({
-  fieldProps,
-  ...props
-}: BooleanFieldProps<T>) {
-  return <FieldControl {...props} render={({ field }) => <Switch {...field} {...fieldProps} />} />;
-}
+// export function BooleanField<T extends FieldValues>({
+//   control,
+//   name,
+//   description,
+//   label,
+//   ...props
+// }: BooleanFieldProps<T>) {
+//   return (
+//     <FieldControl
+//       name={name}
+//       control={control}
+//       description={description}
+//       label={label}
+//       render={({ field }) => <Switch {...field} {...props} />}
+//     />
+//   );
+// }
+
+export const BooleanField = withFieldControl(Switch);

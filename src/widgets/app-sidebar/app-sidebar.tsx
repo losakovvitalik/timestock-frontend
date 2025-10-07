@@ -1,3 +1,4 @@
+import { cn } from '@/shared/lib/utils';
 import { CircleCheckBig, Clock, FolderOpen, Menu } from 'lucide-react';
 import Link from 'next/link';
 import { paths } from '../../shared/constants';
@@ -49,7 +50,7 @@ export function AppSidebar() {
           <SidebarGroupContent>
             <SidebarMenu>
               {items.map((item) => (
-                <SidebarMenuItem key={item.title}>
+                <SidebarMenuItem className={cn('rounded-md')} key={item.title}>
                   <SidebarMenuButton asChild>
                     <Link href={item.url}>
                       <item.icon />

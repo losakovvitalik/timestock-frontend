@@ -14,7 +14,7 @@ export function TimeEntryDeleteButton({ entry, className }: TimeEntryDeleteButto
     <TimeEntryDeletePopup
       entry={entry}
       trigger={
-        <Button className={cn('size-8', className)} variant={'destructive'}>
+        <Button className={cn('size-8', className)} variant="destructive">
           <Trash />
         </Button>
       }

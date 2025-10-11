@@ -47,9 +47,9 @@ export function TimerDrawer() {
       onOpenChange={setOpen}
       onSubmit={handleSubmit}
       trigger={
-        <Button className="flex gap-1 rounded-full" size={'sm'}>
+        <Button className="flex gap-1 rounded-full" size="sm">
           <Plus className="size-4 stroke-3" />
-          <Typography size={'sm'}>Добавить информацию</Typography>
+          <Typography size="sm">Добавить информацию</Typography>
         </Button>
       }
     />

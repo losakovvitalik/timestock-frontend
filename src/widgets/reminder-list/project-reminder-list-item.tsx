@@ -125,7 +125,7 @@ export function ProjectReminderListItem({ item, projectId }: ProjectReminderList
               <TooltipProvider>
                 <Tooltip>
                   <TooltipTrigger asChild>
-                    <Button size={'icon'} onClick={() => setEditOpen(true)}>
+                    <Button size="icon" onClick={() => setEditOpen(true)}>
                       <Edit />
                     </Button>
                   </TooltipTrigger>
@@ -141,11 +141,7 @@ export function ProjectReminderListItem({ item, projectId }: ProjectReminderList
               <TooltipProvider>
                 <Tooltip>
                   <TooltipTrigger asChild>
-                    <Button
-                      variant={'destructive'}
-                      size={'icon'}
-                      onClick={() => setDeleteOpen(true)}
-                    >
+                    <Button variant="destructive" size="icon" onClick={() => setDeleteOpen(true)}>
                       <Trash2 />
                     </Button>
                   </TooltipTrigger>
@@ -168,13 +164,13 @@ export function ProjectReminderListItem({ item, projectId }: ProjectReminderList
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end" className="w-44">
                   <DropdownMenuItem className="gap-2" onSelect={() => setEditOpen(true)}>
-                    <Button size={'icon'}>
+                    <Button size="icon">
                       <Edit color="white" />
                     </Button>
                     <span>Редактировать</span>
                   </DropdownMenuItem>
                   <DropdownMenuItem className="gap-2" onSelect={() => setDeleteOpen(true)}>
-                    <Button size={'icon'} variant={'destructive'}>
+                    <Button size="icon" variant="destructive">
                       <Trash2 color="white" />
                     </Button>
                     <span>Удалить</span>

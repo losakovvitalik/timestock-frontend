@@ -84,7 +84,7 @@ export function Select<T = Record<string, any>>({
           {currentOption ? (
             displayItem(currentOption)
           ) : (
-            <Typography className="w-full truncate text-left md:text-sm" variant={'muted'}>
+            <Typography className="w-full truncate text-left md:text-sm" variant="muted">
               {placeholder}
             </Typography>
           )}

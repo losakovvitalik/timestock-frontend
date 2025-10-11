@@ -21,8 +21,8 @@ export function TabbarLink({ icon, link }: TabbarLinkProps) {
         'ring-ring/50 dark:border-primary/60 border-primary/50 ring-[2px]': pathname.includes(link),
       })}
       asChild
-      size={'icon'}
-      variant={'outline'}
+      size="icon"
+      variant="outline"
     >
       <Link href={link}>{icon}</Link>
       {/* <Typography size={'xs'}>Таймер</Typography> */}

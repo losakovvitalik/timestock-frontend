@@ -41,7 +41,7 @@ export function AuthOTPForm({ email }: AuthOTPFormProps) {
     <Card className="max-w-sm">
       <CardHeader>
         <CardTitle>
-          <Typography className="text-center" variant={'subtitle'}>
+          <Typography className="text-center" variant="subtitle">
             Код
           </Typography>
         </CardTitle>

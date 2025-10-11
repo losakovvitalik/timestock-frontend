@@ -30,7 +30,7 @@ export function ProjectForm({
         <fieldset disabled={form.formState.isSubmitting}>
           <Card>
             <CardContent className="flex flex-col gap-4">
-              <Typography variant={'subtitle'}>Основная информация</Typography>
+              <Typography variant="subtitle">Основная информация</Typography>
 
               <div className="flex flex-col gap-4">
                 <FieldGroup>

@@ -9,9 +9,9 @@ export interface ProjectBadgeProps {
 
 export function ProjectBadge({ project }: ProjectBadgeProps) {
   return (
-    <Badge className="h-5" variant={'secondary'}>
+    <Badge className="h-5" variant="secondary">
       <Folder className="!size-2.5 fill-white" />
-      <Typography size={'xs'}>{project ? project?.name : 'Проект не указан'}</Typography>
+      <Typography size="xs">{project ? project?.name : 'Проект не указан'}</Typography>
       {project && (
         <div
           className="size-2.5 rounded-full"

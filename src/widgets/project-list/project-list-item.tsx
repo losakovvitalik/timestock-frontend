@@ -25,7 +25,7 @@ export function ProjectListItem({ project }: ProjectListItemProps) {
           />
           <Typography className="text-lg font-semibold">{project.name}</Typography>
         </Link>
-        <Button className="ml-auto size-8" size={'icon'} asChild>
+        <Button className="ml-auto size-8" size="icon" asChild>
           <Link href={paths.project.edit(project.documentId)}>
             <Edit />
           </Link>

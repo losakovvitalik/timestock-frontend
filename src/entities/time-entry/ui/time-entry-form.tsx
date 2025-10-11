@@ -139,7 +139,7 @@ export function TimeEntryForm({
             <Button
               className="flex-1"
               type="button"
-              variant={'secondary'}
+              variant="secondary"
               onClick={form.handleSubmit(handleFinish)}
             >
               Закончить

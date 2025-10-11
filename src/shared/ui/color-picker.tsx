@@ -70,7 +70,7 @@ export function ColorPicker({ value, onChange, className, colors }: ColorPickerP
         </div>
 
         <PopoverClose asChild>
-          <Button className="mt-4 w-full" variant={'secondary'} size={'sm'}>
+          <Button className="mt-4 w-full" variant="secondary" size="sm">
             Закрыть
           </Button>
         </PopoverClose>

@@ -49,7 +49,7 @@ export function DeleteProjectReminderDialog({
           </DialogClose>
           <Button
             disabled={isPending}
-            variant={'destructive'}
+            variant="destructive"
             onClick={() => {
               mutate(projectReminder.documentId);
             }}

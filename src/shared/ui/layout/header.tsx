@@ -54,7 +54,7 @@ const Header = () => {
           <ArrowLeft />
         </button>
       )}
-      <Typography className={'line-clamp-1 font-medium'}>{page}</Typography>
+      <Typography className="line-clamp-1 font-medium">{page}</Typography>
     </header>
   );
 };

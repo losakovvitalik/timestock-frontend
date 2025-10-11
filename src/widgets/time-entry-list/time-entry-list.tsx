@@ -57,7 +57,7 @@ export function TimeEntryList({ params, className }: TimeEntryListProps) {
   return (
     <SwipeActionsContext.Provider value={{ store: swipeStore }}>
       <div className={cn('flex h-full flex-col gap-2 overflow-auto', className)}>
-        <Typography variant={'subtitle'}>Последнии записи</Typography>
+        <Typography variant="subtitle">Последнии записи</Typography>
         <ul ref={rootRef} className="z-20 flex h-full flex-col gap-2 overflow-auto pr-1 pb-2">
           {flatData ? (
             flatData.map((timeEntry, index) => {
@@ -67,7 +67,7 @@ export function TimeEntryList({ params, className }: TimeEntryListProps) {
                 <React.Fragment key={timeEntry.documentId}>
                   {index === 0 && (
                     <div className="grid grid-cols-[auto_1fr] items-center gap-2">
-                      <Badge variant={'secondary'} className="text-[10px]">
+                      <Badge variant="secondary" className="text-[10px]">
                         {formatDisplayDate(timeEntry.start_time)}
                       </Badge>
                       <Separator className="!h-0.5 rounded-lg" />
@@ -78,7 +78,7 @@ export function TimeEntryList({ params, className }: TimeEntryListProps) {
                   </li>
                   {nextTimeEntry && !isSameDay(nextTimeEntry.start_time, timeEntry.start_time) && (
                     <div className="grid grid-cols-[auto_1fr] items-center gap-2">
-                      <Badge variant={'secondary'} className="text-[10px]">
+                      <Badge variant="secondary" className="text-[10px]">
                         {formatDisplayDate(nextTimeEntry.start_time)}
                       </Badge>
                       <Separator className="!h-0.5 rounded-lg" />

@@ -146,7 +146,7 @@ export function TimeEntryItem({ entry }: TimeEntryItemProps) {
                           {formatDuration(entry.duration || 0)}
                         </Typography>
                         {entry.project?.name && (
-                          <Badge variant={'secondary'}>
+                          <Badge variant="secondary">
                             {entry.project && (
                               <div
                                 className="size-2.5 rounded-full"
@@ -155,13 +155,13 @@ export function TimeEntryItem({ entry }: TimeEntryItemProps) {
                                 }}
                               />
                             )}
-                            <Typography size={'xs'}>
+                            <Typography size="xs">
                               {entry.project?.name || 'Проект не указан'}
                             </Typography>
                           </Badge>
                         )}
-                        <Badge variant={'secondary'}>
-                          <Typography size={'xs'}>{formatDisplayDate(entry.start_time)}</Typography>
+                        <Badge variant="secondary">
+                          <Typography size="xs">{formatDisplayDate(entry.start_time)}</Typography>
                         </Badge>
                       </div>
                     </button>

@@ -31,7 +31,7 @@ const DurationInput = ({
       lazy={false}
       overwrite
       placeholderChar="0"
-      defaultValue={'00:00:00'}
+      defaultValue="00:00:00"
       blocks={{
         HH: {
           mask: IMask.MaskedRange,

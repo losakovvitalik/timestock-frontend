@@ -31,5 +31,5 @@ export function Timer() {
     );
   }
 
-  return <Typography variant={'subtitle'}>Таймер не запущен</Typography>;
+  return <Typography variant="subtitle">Таймер не запущен</Typography>;
 }

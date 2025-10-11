@@ -44,8 +44,8 @@ export function ProjectReminderForm({
               control={form.control}
               label="Частота повторения"
               name="recurrence_options.interval"
-              labelKey={'label'}
-              valueKey={'value'}
+              labelKey="label"
+              valueKey="value"
               options={INTERVAL_OPTIONS}
             />
             <DurationField

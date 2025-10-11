@@ -1,7 +1,7 @@
+import { TimeEntryDTO } from '@/entities/time-entry/model/types';
 import { cn } from '@/shared/lib/utils';
 import { Button } from '@/shared/ui/button';
 import { Trash } from 'lucide-react';
-import { TimeEntryDTO } from '../../../entities/time-entry/model/types';
 import { TimeEntryDeletePopup } from './time-entry-delete-popup';
 
 export interface TimeEntryDeleteButtonProps {

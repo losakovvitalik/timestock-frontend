@@ -1,5 +1,6 @@
 import { INTERVAL_OPTIONS } from '@/entities/project-reminder/model/constants';
 import { ProjectReminderDTO } from '@/entities/project-reminder/model/types';
+import { formatReminderDate } from '@/entities/project-reminder/utils/format-reminder-date';
 import { DeleteProjectReminderDialog } from '@/features/project-reminder/delete/ui/delete-project-reminder-dialog';
 import { EditProjectReminderDialog } from '@/features/project-reminder/edit/ui/edit-project-reminder-dialog';
 import { useToggleProjectReminder } from '@/features/project-reminder/toggle/hooks/use-toggle-project-reminder';
@@ -20,7 +21,6 @@ import { formatDistanceToNowStrict } from 'date-fns';
 import { ru } from 'date-fns/locale';
 import { Bell, BellOff, Clock, Edit, MoreVertical, Trash2 } from 'lucide-react';
 import { useId, useMemo, useState } from 'react';
-import { formatReminderDate } from '../../entities/project-reminder/utils/format-reminder-date';
 
 export interface ProjectReminderListItemProps {
   item: ProjectReminderDTO;

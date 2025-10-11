@@ -15,4 +15,4 @@ export const paths = {
     link: '/auth',
     code: '/auth/code',
   },
-};
+} as const;

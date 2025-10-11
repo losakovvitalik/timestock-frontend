@@ -3,10 +3,13 @@ import { TaskDTO } from '@/entities/task/model/task-types';
 import { StartTaskTimerButton } from '@/features/task/start-task-timer/ui/start-task-timer-button';
 import { formatDisplayDate } from '@/shared/lib/date/format-display-date';
 import { cn } from '@/shared/lib/utils';
+import { ActionsMenu } from '@/shared/ui/acitons-menu';
 import { Button } from '@/shared/ui/button';
+import { ButtonGroup } from '@/shared/ui/button-group';
 import { Card, CardContent } from '@/shared/ui/card';
-import { TooltipButton } from '@/shared/ui/tooltip-button';
+import { TooltipWrapper } from '@/shared/ui/tooltip-wrapper';
 import { Typography } from '@/shared/ui/typography';
+import { TaskItemCompleteButton } from '@/widgets/task-list/task-item-complete-button';
 import { Archive, Bell, Calendar1, CalendarX, Edit2, Trash2 } from 'lucide-react';
 import { TaskItemProgress } from './task-item-progress';
 
@@ -22,13 +25,7 @@ export function TaskItem({ item }: TaskItemProps) {
       <CardContent>
         <div className="flex items-center gap-4">
           <div className="flex flex-1 items-center gap-2">
-            <TooltipButton title="Отметить выполненной">
-              <Button
-                className="size-6 rounded-full border-2 bg-transparent"
-                size="icon"
-                variant="secondary"
-              />
-            </TooltipButton>
+            <TaskItemCompleteButton item={item} />
             <div className="flex items-center gap-3">
               <Typography variant="important">{name}</Typography>
               <ProjectBadge project={project} />
@@ -56,31 +53,55 @@ export function TaskItem({ item }: TaskItemProps) {
           </div>
           <div>
             <div className="flex gap-2">
-              <StartTaskTimerButton task={item} />
+              <ButtonGroup>
+                <StartTaskTimerButton task={item} />
+                <TooltipWrapper title="Напомнить">
+                  <Button className="size-8" size="icon" variant="secondary">
+                    <Bell className="fill-white" />
+                  </Button>
+                </TooltipWrapper>
+                <ActionsMenu
+                  triggerVariant="secondary"
+                  actions={[
+                    {
+                      icon: <Archive />,
+                      label: 'Архивировать',
+                      onClick: () => {},
+                    },
+                    {
+                      icon: <Edit2 />,
+                      label: 'Редактировать',
+                      onClick: () => {},
+                      separator: true,
+                    },
+                    {
+                      icon: <Trash2 />,
+                      label: 'Удалить',
+                      onClick: () => {},
+                      variant: 'destructive',
+                      separator: true,
+                    },
+                  ]}
+                />
+              </ButtonGroup>
 
-              <TooltipButton title="Напомнить">
-                <Button className="size-8" size="icon" variant="secondary">
-                  <Bell className="fill-white" />
-                </Button>
-              </TooltipButton>
+              {/*<TooltipButton title="Архивировать">*/}
+              {/*  <Button className="size-8" size="icon" variant="secondary">*/}
+              {/*    <Archive />*/}
+              {/*  </Button>*/}
+              {/*</TooltipButton>*/}
 
-              <TooltipButton title="Архивировать">
-                <Button className="size-8" size="icon" variant="secondary">
-                  <Archive />
-                </Button>
-              </TooltipButton>
+              {/*<TooltipButton title="Редактировать">*/}
+              {/*  <Button className="size-8" size="icon" variant="secondary">*/}
+              {/*    <Edit2 className="fill-white" />*/}
+              {/*  </Button>*/}
+              {/*</TooltipButton>*/}
 
-              <TooltipButton title="Редактировать">
-                <Button className="size-8" size="icon" variant="secondary">
-                  <Edit2 className="fill-white" />
-                </Button>
-              </TooltipButton>
-
-              <TooltipButton title="Удалить">
-                <Button className="size-8" size="icon" variant="default">
-                  <Trash2 />
-                </Button>
-              </TooltipButton>
+              {/*<TooltipButton title="Удалить">*/}
+              {/*  <Button className="size-8" size="icon" variant="default">*/}
+              {/*    <Trash2 />*/}
+              {/*  </Button>*/}
+              {/*</TooltipButton>*/}
             </div>
           </div>
         </div>

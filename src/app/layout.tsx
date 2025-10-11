@@ -51,7 +51,7 @@ export default async function RootLayout({
               <TanstackProvider>
                 {children}
 
-                <Toaster position="top-center" />
+                <Toaster position="bottom-right" />
                 <HotToaster
                   position="top-center"
                   toastOptions={{

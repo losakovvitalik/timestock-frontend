@@ -1,7 +1,7 @@
 import { TaskDTO } from '@/entities/task/model/task-types';
 import { useActiveTimeEntry } from '@/entities/time-entry/hooks/use-active-time-entry';
 import { Button } from '@/shared/ui/button';
-import { TooltipButton } from '@/shared/ui/tooltip-button';
+import { TooltipWrapper } from '@/shared/ui/tooltip-wrapper';
 import { Pause, Play } from 'lucide-react';
 import { useStartTaskTimer } from '../hooks/use-start-task-timer';
 import { useStopTaskTimer } from '../hooks/use-stop-task-timer';
@@ -19,7 +19,7 @@ export function StartTaskTimerButton({ task }: StartTaskTimerButtonProps) {
   });
 
   return (
-    <TooltipButton title="Запустить таймер">
+    <TooltipWrapper title="Запустить таймер">
       <Button
         className="size-8"
         onClick={activeTimeEntry ? stop : start}
@@ -33,6 +33,6 @@ export function StartTaskTimerButton({ task }: StartTaskTimerButtonProps) {
           <Play className="fill-white" />
         )}
       </Button>
-    </TooltipButton>
+    </TooltipWrapper>
   );
 }

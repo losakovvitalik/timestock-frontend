@@ -29,7 +29,7 @@ export function TaskList() {
 
   return (
     <ul className="mt-2 flex flex-col gap-3">
-      {flatData.length === 0 && <Typography variant={'subtitle'}>У вас ещё нет задач</Typography>}
+      {flatData.length === 0 && <Typography variant="subtitle">У вас ещё нет задач</Typography>}
       {flatData.map((item) => {
         return (
           <li key={item.documentId}>

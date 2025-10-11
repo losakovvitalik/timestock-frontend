@@ -1,7 +1,5 @@
+import { paths } from '@/shared/constants';
 import { cn } from '@/shared/lib/utils';
-import { CircleCheckBig, Clock, FolderOpen, Menu } from 'lucide-react';
-import Link from 'next/link';
-import { paths } from '../../shared/constants';
 import {
   Sidebar,
   SidebarContent,
@@ -11,7 +9,9 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-} from '../../shared/ui/sidebar';
+} from '@/shared/ui/sidebar';
+import { CircleCheckBig, Clock, FolderOpen, Menu } from 'lucide-react';
+import Link from 'next/link';
 import { AppSidebarActiveTime } from './app-sidebar-active-time';
 
 const items = [

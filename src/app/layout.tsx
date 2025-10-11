@@ -35,12 +35,9 @@ export default async function RootLayout({
    * ! но в будущем может быть вопрос почему все страницы dynamic
    */
   const session = await auth();
-  const user = session?.user;
-  const test = user?.email;
-  console.log(test);
 
   return (
-    <html className={'h-dvh max-h-dvh rounded'} lang="ru" suppressHydrationWarning>
+    <html className="h-dvh max-h-dvh rounded" lang="ru" suppressHydrationWarning>
       <body className={`${inter.variable} !h-dvh antialiased`}>
         <ThemeProvider
           attribute="class"

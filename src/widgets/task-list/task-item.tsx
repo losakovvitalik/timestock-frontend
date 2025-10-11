@@ -22,15 +22,15 @@ export function TaskItem({ item }: TaskItemProps) {
       <CardContent>
         <div className="flex items-center gap-4">
           <div className="flex flex-1 items-center gap-2">
-            <TooltipButton title="Отменить выполненной">
+            <TooltipButton title="Отметить выполненной">
               <Button
                 className="size-6 rounded-full border-2 bg-transparent"
-                size={'icon'}
-                variant={'secondary'}
+                size="icon"
+                variant="secondary"
               />
             </TooltipButton>
             <div className="flex items-center gap-3">
-              <Typography variant={'important'}>{name}</Typography>
+              <Typography variant="important">{name}</Typography>
               <ProjectBadge project={project} />
             </div>
           </div>
@@ -59,25 +59,25 @@ export function TaskItem({ item }: TaskItemProps) {
               <StartTaskTimerButton task={item} />
 
               <TooltipButton title="Напомнить">
-                <Button className="size-8" size={'icon'} variant={'secondary'}>
+                <Button className="size-8" size="icon" variant="secondary">
                   <Bell className="fill-white" />
                 </Button>
               </TooltipButton>
 
               <TooltipButton title="Архивировать">
-                <Button className="size-8" size={'icon'} variant={'secondary'}>
+                <Button className="size-8" size="icon" variant="secondary">
                   <Archive />
                 </Button>
               </TooltipButton>
 
               <TooltipButton title="Редактировать">
-                <Button className="size-8" size={'icon'} variant={'secondary'}>
+                <Button className="size-8" size="icon" variant="secondary">
                   <Edit2 className="fill-white" />
                 </Button>
               </TooltipButton>
 
               <TooltipButton title="Удалить">
-                <Button className="size-8" size={'icon'} variant={'default'}>
+                <Button className="size-8" size="icon" variant="default">
                   <Trash2 />
                 </Button>
               </TooltipButton>

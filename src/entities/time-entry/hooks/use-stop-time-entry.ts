@@ -4,6 +4,7 @@ import {
   useActiveTimeEntry,
 } from '@/entities/time-entry/hooks/use-active-time-entry';
 import { TimeEntry, TimeEntryDTO } from '@/entities/time-entry/model/types';
+import { entities } from '@/shared/api/entities';
 import { ApiCollectionResponse } from '@/shared/types/api';
 import { getDuration } from '@/shared/utils/duration';
 import { InfiniteData, useQueryClient } from '@tanstack/react-query';
@@ -30,7 +31,7 @@ export function useStopTimeEntry(options?: UseStopTimeEntryOptions) {
       queryClient.setQueryData(
         activeTimeEntryKey,
         (prevData: ApiCollectionResponse<TimeEntry>) => ({
-          ...prevData,
+          ...(prevData ?? { data: [] }),
           data: [],
         }),
       );
@@ -39,26 +40,6 @@ export function useStopTimeEntry(options?: UseStopTimeEntryOptions) {
         timeEntryApiHooks.keys.lists(),
         (prevData: InfiniteData<ApiCollectionResponse<TimeEntryDTO>>) => {
           if (!prevData) return prevData;
-
-          console.log({
-            ...prevData,
-            pages: prevData.pages.map((p, i) =>
-              i === 0
-                ? {
-                    ...p,
-                    data: [
-                      {
-                        ...activeTimeEntry.data,
-                        duration: getDuration(activeTimeEntry.data?.start_time || new Date()),
-                        end_time: new Date(),
-                        isPending: true,
-                      },
-                      ...p.data,
-                    ],
-                  }
-                : p,
-            ),
-          });
 
           return {
             ...prevData,
@@ -90,6 +71,10 @@ export function useStopTimeEntry(options?: UseStopTimeEntryOptions) {
       queryClient.invalidateQueries({
         queryKey: timeEntryApiHooks.keys.lists(),
         exact: true,
+      });
+
+      queryClient.invalidateQueries({
+        queryKey: [entities.task.key],
       });
 
       options?.onSuccess?.();

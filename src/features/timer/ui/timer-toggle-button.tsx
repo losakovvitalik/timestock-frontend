@@ -1,19 +1,28 @@
 'use client';
 
 import { useActiveTimeEntry } from '@/entities/time-entry/hooks/use-active-time-entry';
+import { useStartTimeEntry } from '@/entities/time-entry/hooks/use-start-time-entry';
+import { useStopTimeEntry } from '@/entities/time-entry/hooks/use-stop-time-entry';
 import { cn } from '@/shared/lib/utils';
 import { AnimatedButton } from '@/shared/ui/animated/animated-button';
 import { Pause, Play } from 'lucide-react';
-import { useStartTimer } from '../hooks/use-start-timer';
-import { useStopTimer } from '../hooks/use-stop-timer';
+import { toast } from 'sonner';
 
 export interface TimerToggleButtonProps {
   className?: string;
 }
 
 export function TimerToggleButton({ className }: TimerToggleButtonProps) {
-  const startTimer = useStartTimer();
-  const stopTimer = useStopTimer();
+  const startTimer = useStartTimeEntry({
+    onError: () => {
+      toast.error('Не удалось запустить таймер. Попробуйте ещё раз');
+    },
+  });
+  const stopTimer = useStopTimeEntry({
+    onError: () => {
+      toast.error('Не удалось остановить таймер. Что-то пошло не так.');
+    },
+  });
   const { data: activeTimeEntry } = useActiveTimeEntry();
 
   const handleClick = () => {

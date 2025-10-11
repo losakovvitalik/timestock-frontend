@@ -24,8 +24,8 @@ export function StartTaskTimerButton({ task }: StartTaskTimerButtonProps) {
         className="size-8"
         onClick={activeTimeEntry ? stop : start}
         disabled={isStartPending || isStopPending}
-        size={'icon'}
-        variant={'secondary'}
+        size="icon"
+        variant="secondary"
       >
         {activeTimeEntry?.task?.documentId === task.documentId ? (
           <Pause className="fill-white" />

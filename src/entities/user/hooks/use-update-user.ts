@@ -1,4 +1,4 @@
-import { $api } from '@/shared/lib/api';
+import { $api } from '@/shared/api/base';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { UserPayload } from '../model/types';
 

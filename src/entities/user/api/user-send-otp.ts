@@ -1,4 +1,4 @@
-import { $api } from '@/shared/lib/api';
+import { $api } from '@/shared/api/base';
 
 export interface UserSendOTPPayload {
   email: string;

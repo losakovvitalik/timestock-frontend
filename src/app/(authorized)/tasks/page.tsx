@@ -25,10 +25,14 @@ export default function TaskPage() {
         </div>
 
         <TabsContent value="in_work">
+          <TaskList isCompleted={false} />
+        </TabsContent>
+        <TabsContent value="all">
           <TaskList />
         </TabsContent>
-        <TabsContent value="all">321</TabsContent>
-        <TabsContent value="completed">111</TabsContent>
+        <TabsContent value="completed">
+          <TaskList isCompleted={true} />
+        </TabsContent>
       </Tabs>
     </div>
   );

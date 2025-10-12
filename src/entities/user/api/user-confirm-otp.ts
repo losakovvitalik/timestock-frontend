@@ -1,4 +1,4 @@
-import { $api } from '@/shared/lib/api';
+import { $api } from '@/shared/api/base';
 
 export interface UserConfirmOTPPayload {
   email: string;
@@ -6,7 +6,6 @@ export interface UserConfirmOTPPayload {
 }
 
 export interface UserConfirmOTPResponse {
-  jwt: string;
   user: {
     id: number;
     email: string;

@@ -1,4 +1,4 @@
-import { $api } from '@/shared/lib/api';
+import { $api } from '@/shared/api/base';
 import { ApiCollectionResponse } from '@/shared/types/api';
 import { ProjectDTO } from '../models/types';
 

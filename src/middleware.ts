@@ -1,33 +1,37 @@
-import { auth } from '@/auth';
+// middleware.ts
+import { paths } from '@/shared/constants';
+import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
-import { paths } from './shared/constants';
 
-export default auth((req) => {
-  const { pathname, origin } = req.nextUrl;
+// Маршруты, куда пускаем без проверки
+const PUBLIC_PATHS = [paths.auth.link, paths.auth.code];
 
-  // Публичные ассеты
-  if (
-    pathname.startsWith('/_next/') ||
-    pathname === '/favicon.ico' ||
-    pathname === '/manifest.webmanifest'
-  ) {
-    return;
+function isPublic(pathname: string) {
+  return PUBLIC_PATHS.some((p) => pathname.startsWith(p));
+}
+
+export function middleware(req: NextRequest) {
+  console.log('test');
+  const { pathname, search } = req.nextUrl;
+
+  if (isPublic(pathname)) return NextResponse.next();
+
+  const hasRefresh = req.cookies.get('strapi_up_refresh');
+
+  if (!hasRefresh) {
+    const url = req.nextUrl.clone();
+    url.pathname = paths.auth.link;
+    url.searchParams.set('redirect', pathname + (search || ''));
+    return NextResponse.redirect(url);
   }
 
-  const isAuthRoute = pathname === paths.auth.link || pathname === paths.auth.code;
+  return NextResponse.next();
+}
 
-  // Неавторизован — пускаем только на страницы аутентификации
-  if (!req.auth && !isAuthRoute) {
-    return NextResponse.redirect(new URL(paths.auth.link, origin));
-  }
-
-  // Авторизован — не даём ходить на страницы логина/кода, редиректим в приложение
-  if (req.auth && isAuthRoute) {
-    return NextResponse.redirect(new URL(paths.timer, origin));
-  }
-});
-
+// Ограничиваем области, чтобы не трогать статику и служебки
 export const config = {
-  // не трогаем api, как и раньше
-  matcher: ['/((?!api/|_next/|favicon.ico|manifest.webmanifest).*)'],
+  matcher: [
+    // всё, кроме _next, статики и файлов в корне
+    '/((?!_next/static|_next/image|favicon.ico|robots.txt|sitemap.xml|manifest.webmanifest).*)',
+  ],
 };

@@ -26,6 +26,7 @@ export function TaskForm({ onSubmit, trigger }: TaskFormProps) {
       estimated_time: data.estimatedTime ? durationToSeconds(data.estimatedTime) : undefined,
       project: data.project || undefined,
       description: data.description,
+      is_completed: false,
     });
   };
 

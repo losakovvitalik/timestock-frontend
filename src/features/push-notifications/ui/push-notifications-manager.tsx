@@ -1,7 +1,7 @@
 import { pushSubscriptionApiHooks } from '@/entities/push-subscription/api/push-subscription-api-hooks';
+import { useUser } from '@/entities/user/hooks/use-user';
 import { Button } from '@/shared/ui/button';
 import { useMutation } from '@tanstack/react-query';
-import { useSession } from 'next-auth/react';
 import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import { urlBase64ToUint8Array } from '../utils/url-to-unit-array';
@@ -10,7 +10,7 @@ export function PushNotificationManager() {
   const [isSupported, setIsSupported] = useState(false);
   const [subscription, setSubscription] = useState<PushSubscription | null>(null);
   const create = pushSubscriptionApiHooks.useCreate();
-  const { data: session } = useSession();
+  const { user } = useUser();
 
   const subscribe = useMutation({
     mutationFn: async () => {
@@ -23,10 +23,10 @@ export function PushNotificationManager() {
       setSubscription(sub);
       const serializedSub = JSON.parse(JSON.stringify(sub));
 
-      if (session?.user.id) {
+      if (user?.id) {
         create.mutate({
           subscription: serializedSub,
-          user: session?.user.id,
+          user: user.id,
         });
       }
     },

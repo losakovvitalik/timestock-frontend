@@ -6,7 +6,11 @@ import { extractInfiniteData } from '@/shared/lib/react-query/extract-infinite-d
 import { Typography } from '@/shared/ui/typography';
 import { TaskItem } from './task-item';
 
-export function TaskList() {
+interface TaskListProps {
+  isCompleted?: boolean;
+}
+
+export function TaskList({ isCompleted }: TaskListProps) {
   const { user } = useUser();
   const { data } = taskApiHooks.useInfinityList({
     params: {
@@ -14,6 +18,7 @@ export function TaskList() {
         author: {
           documentId: user?.documentId,
         },
+        is_completed: isCompleted,
       },
       populate: {
         project: {

@@ -1,4 +1,4 @@
-import { $api } from '@/shared/lib/api';
+import { $api } from '@/shared/api/base';
 import { ApiEntityBase } from '@/shared/types/api';
 import { useQuery } from '@tanstack/react-query';
 import { FieldValues } from 'react-hook-form';

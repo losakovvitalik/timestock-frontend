@@ -9,7 +9,7 @@ import { ButtonGroup } from '@/shared/ui/button-group';
 import { Card, CardContent } from '@/shared/ui/card';
 import { TooltipWrapper } from '@/shared/ui/tooltip-wrapper';
 import { Typography } from '@/shared/ui/typography';
-import { TaskItemCompleteButton } from '@/widgets/task-list/task-item-complete-button';
+import { TaskItemCompleteButton } from '@/widgets/task-list/ui/task-item/task-item-complete-button';
 import { Archive, Bell, Calendar1, CalendarX, Edit2, Trash2 } from 'lucide-react';
 import { TaskItemProgress } from './task-item-progress';
 
@@ -34,10 +34,6 @@ export function TaskItem({ item }: TaskItemProps) {
           <TaskItemProgress task={item} />
 
           <div className="flex gap-4">
-            {/* <div className="w-max text-sm">
-              {formatDisplayDate(item.createdAt)}{' '}
-              {item.due_date ? `- ${formatDisplayDate(item.due_date)}` : null}
-            </div> */}
             <div className="flex w-max flex-col gap-1 text-sm">
               <div className="flex items-center gap-1" title="Дата начала">
                 <Calendar1 className="size-3.5" />

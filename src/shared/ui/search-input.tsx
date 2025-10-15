@@ -1,5 +1,5 @@
 import { X } from 'lucide-react';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { useForm } from 'react-hook-form';
 import { useDebouncedCallback } from 'use-debounce';
 import { cn } from '../lib/utils';
@@ -10,6 +10,7 @@ export interface SearchInputProps extends Omit<InputProps, 'value' | 'onChange'>
   containerClassName?: string;
   className?: string;
   onSearch: (value: string) => void;
+  defaultValue?: string;
 }
 
 interface SearchForm {
@@ -20,24 +21,41 @@ export function SearchInput({
   containerClassName,
   className,
   onSearch,
+  defaultValue,
   ...inputProps
 }: SearchInputProps) {
-  const form = useForm<SearchForm>();
+  const form = useForm<SearchForm>({
+    defaultValues: {
+      search: defaultValue || '',
+    },
+  });
+
   const search = form.watch('search');
+  const isFirstRender = useRef(true);
+
+  const onSearchRef = useRef(onSearch);
+  useEffect(() => {
+    onSearchRef.current = onSearch;
+  }, [onSearch]);
 
   const debouncedSearch = useDebouncedCallback((value: string) => {
-    onSearch(value);
+    onSearchRef.current(value);
   }, 800);
 
   useEffect(() => {
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      return;
+    }
+
     if (search === '') {
       debouncedSearch.cancel();
-      onSearch('');
+      onSearchRef.current('');
       return;
     }
 
     debouncedSearch(search);
-  }, [search, debouncedSearch, onSearch]);
+  }, [search, debouncedSearch, onSearchRef]);
 
   const handleClear = () => {
     form.setValue('search', '');
@@ -46,22 +64,21 @@ export function SearchInput({
 
   const handleSubmit = ({ search }: SearchForm) => {
     debouncedSearch.cancel();
-    onSearch(search);
+    onSearchRef.current(search);
   };
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(handleSubmit)} role="search">
+      <form onSubmit={form.handleSubmit(handleSubmit)} role="search" className={containerClassName}>
         <FormField
           control={form.control}
           name="search"
           render={({ field }) => (
             <FormItem>
               <FormControl>
-                <div className={cn('relative my-1', containerClassName)}>
+                <div className={cn('relative')}>
                   <Input
                     className={cn('h-10 appearance-none pr-[68px]', className)}
-                    role="searchbox"
                     type="search"
                     {...inputProps}
                     {...field}

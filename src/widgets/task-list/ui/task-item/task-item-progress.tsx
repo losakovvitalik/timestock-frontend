@@ -26,7 +26,7 @@ export function TaskItemProgress({ task: { time_spent, estimated_time } }: TaskI
       )}
       <div>
         {formatDuration(time_spent || 0, 'HH:mm')}
-        {estimated_time ? ' / ' + formatDuration(estimated_time, 'HH:mm') : null} ч.
+        {estimated_time ? ' / ' + formatDuration(estimated_time, 'HH:mm') : null}
       </div>
     </div>
   );

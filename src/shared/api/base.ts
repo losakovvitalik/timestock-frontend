@@ -22,7 +22,6 @@ $api.interceptors.request.use(async (config) => {
 
   /** если токен истек - сбрасываем его */
   token = isTokenValid(token) ? token : '';
-  console.log(token, tokenPromise, isTokenValid(token));
 
   if (token) {
     config.headers = config.headers ?? {};

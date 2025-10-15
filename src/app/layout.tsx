@@ -1,6 +1,7 @@
 import { Toaster } from '@/shared/ui/sonner';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
+import { NuqsAdapter } from 'nuqs/adapters/next';
 import { Toaster as HotToaster } from 'react-hot-toast';
 import './globals.css';
 import { TanstackProvider } from './providers/tanstack-provider';
@@ -43,23 +44,25 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <ThemeHandler>
-            <TanstackProvider>
-              {children}
+            <NuqsAdapter>
+              <TanstackProvider>
+                {children}
 
-              <Toaster position="bottom-right" />
-              <HotToaster
-                position="top-center"
-                toastOptions={{
-                  style: {
-                    background: 'var(--secondary)',
-                    color: 'var(--secondary-foreground)',
-                    borderColor: 'var(--border)',
-                    borderWidth: '1px',
-                    borderRadius: 'var(--radius)',
-                  },
-                }}
-              />
-            </TanstackProvider>
+                <Toaster position="bottom-right" />
+                <HotToaster
+                  position="top-center"
+                  toastOptions={{
+                    style: {
+                      background: 'var(--secondary)',
+                      color: 'var(--secondary-foreground)',
+                      borderColor: 'var(--border)',
+                      borderWidth: '1px',
+                      borderRadius: 'var(--radius)',
+                    },
+                  }}
+                />
+              </TanstackProvider>
+            </NuqsAdapter>
           </ThemeHandler>
         </ThemeProvider>
       </body>

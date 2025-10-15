@@ -14,20 +14,28 @@ import { useMemo, useState } from 'react';
 import { cn } from '../lib/utils';
 import { Typography } from './typography';
 
-export interface SelectProps<T = Record<any, any>> {
-  options?: T[];
-  labelKey: keyof T;
-  valueKey: keyof T;
+export interface SelectProps<
+  T = Record<string, any>,
+  K extends keyof T = keyof T,
+  L extends keyof T = keyof T,
+> {
+  options?: readonly T[];
+  labelKey: L;
+  valueKey: K;
   emptyText?: string;
   placeholder?: string;
-  value?: T[keyof T] | null;
-  onChange?: (value: T[keyof T] | null) => void;
+  value?: T[K] | null;
+  onChange?: (value: T[K] | null) => void;
   searchable?: boolean;
   renderItem?: (item: T) => React.ReactNode;
   className?: string;
 }
 
-export function Select<T = Record<string, any>>({
+export function Select<
+  T = Record<string, any>,
+  K extends keyof T = keyof T,
+  L extends keyof T = keyof T,
+>({
   options = [],
   emptyText = 'Ничего не найдено',
   placeholder = 'Выберите значение',
@@ -38,7 +46,7 @@ export function Select<T = Record<string, any>>({
   valueKey,
   renderItem,
   className,
-}: SelectProps<T>) {
+}: SelectProps<T, K, L>) {
   const [open, setOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
 
@@ -72,7 +80,7 @@ export function Select<T = Record<string, any>>({
       <PopoverTrigger asChild>
         <Button
           className={cn(
-            'bg-input border-border grid h-10 w-full cursor-pointer grid-cols-[1fr_auto] justify-items-start p-2 md:text-sm',
+            'bg-input border-border grid h-10 cursor-pointer grid-cols-[1fr_auto] justify-items-start p-2 md:text-sm',
             className,
           )}
           variant="outline"

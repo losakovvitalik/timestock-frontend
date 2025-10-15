@@ -4,7 +4,7 @@ import { ApiError } from '@/shared/types/api';
 import { useMutation } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { useRouter } from 'next/navigation';
-import toast from 'react-hot-toast';
+import { toast } from 'sonner';
 
 export const useSendOtp = ({ onError }: { onError?: (err: unknown) => void } = {}) => {
   const router = useRouter();
@@ -13,7 +13,7 @@ export const useSendOtp = ({ onError }: { onError?: (err: unknown) => void } = {
     mutationFn: userSendOTP,
     onSuccess: (_, vars) => {
       router.push(`${paths.auth.code}?email=${vars.email}`);
-      toast.success('Отправили код Вам на почту');
+      toast.success('Отправили код на почту');
     },
     onError: (err) => {
       let msg = 'Что-то пошло не так при авторизации';

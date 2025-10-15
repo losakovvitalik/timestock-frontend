@@ -1,4 +1,3 @@
-// middleware.ts
 import { paths } from '@/shared/constants';
 import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
@@ -11,7 +10,6 @@ function isPublic(pathname: string) {
 }
 
 export function middleware(req: NextRequest) {
-  console.log('test');
   const { pathname, search } = req.nextUrl;
 
   if (isPublic(pathname)) return NextResponse.next();
@@ -28,10 +26,8 @@ export function middleware(req: NextRequest) {
   return NextResponse.next();
 }
 
-// Ограничиваем области, чтобы не трогать статику и служебки
 export const config = {
   matcher: [
-    // всё, кроме _next, статики и файлов в корне
     '/((?!_next/static|_next/image|favicon.ico|robots.txt|sitemap.xml|manifest.webmanifest).*)',
   ],
 };

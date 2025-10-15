@@ -10,7 +10,7 @@ function isPublic(pathname: string) {
 }
 
 export function middleware(req: NextRequest) {
-  const { pathname, search } = req.nextUrl;
+  const { pathname } = req.nextUrl;
 
   if (isPublic(pathname)) return NextResponse.next();
 
@@ -19,7 +19,6 @@ export function middleware(req: NextRequest) {
   if (!hasRefresh) {
     const url = req.nextUrl.clone();
     url.pathname = paths.auth.link;
-    url.searchParams.set('redirect', pathname + (search || ''));
     return NextResponse.redirect(url);
   }
 

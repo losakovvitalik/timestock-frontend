@@ -5,8 +5,10 @@ import { TextareaField } from '@/shared/ui/fields';
 import { DateTimePickerField } from '@/shared/ui/fields/date-time-picker-field';
 import { DurationField } from '@/shared/ui/fields/duration-field';
 import { Form } from '@/shared/ui/form';
+import { TooltipWrapper } from '@/shared/ui/tooltip-wrapper';
 import { formatDuration, parseDurationString } from '@/shared/utils/duration';
-import { add, differenceInSeconds } from 'date-fns';
+import { add, differenceInSeconds, sub } from 'date-fns';
+import { Square } from 'lucide-react';
 import { useEffect } from 'react';
 import { useTimeEntryForm } from '../hooks/use-time-entry-form';
 import { TimeEntryFormSchemaType } from '../model/time-entry-form-schema';
@@ -61,21 +63,34 @@ export function TimeEntryForm({
   const startTime = form.watch('startTime');
   const duration = form.watch('duration');
 
-  // если пользователь изменил duration, изменяем время конца
+  /**
+   * если таймер все ещё активный, то при изменении duration изменяем время начала
+   * если это уже остановленный трек, то изменяем время конца
+   */
   useEffect(() => {
-    const { hours, minutes, seconds } = parseDurationString(duration);
-    const newEndTime = add(startTime, {
-      hours,
-      minutes,
-      seconds,
-    });
+    const parsedDuration = parseDurationString(duration);
+    const TIME_DIFF_THRESHOLD_MS = 1000;
 
-    // если даты отличаются на менее чем 1000мс (так как они могут отличаться по миллисекундам), то ничего не изменяем
-    if (Math.abs(newEndTime.getTime() - (endTime?.getTime() || 0)) <= 1000) {
-      return;
+    if (defaultValues?.end_time) {
+      const newEndTime = add(startTime, parsedDuration);
+
+      if (Math.abs(newEndTime.getTime() - (endTime?.getTime() || 0)) <= TIME_DIFF_THRESHOLD_MS) {
+        return;
+      }
+
+      form.setValue('endTime', newEndTime);
+    } else if (endTime) {
+      const newStartTime = sub(endTime, parsedDuration);
+
+      console.log(newStartTime, startTime, newStartTime.getTime() - startTime.getTime());
+
+      if (Math.abs(newStartTime.getTime() - startTime.getTime()) <= TIME_DIFF_THRESHOLD_MS) {
+        return;
+      }
+
+      form.setValue('startTime', newStartTime);
     }
 
-    form.setValue('endTime', newEndTime);
     /**
      * ! если в массив добавить endTime или startTime, как подсказывает ESLint,
      * ! то будет бесконечный ререндер и утечка памяти
@@ -127,6 +142,7 @@ export function TimeEntryForm({
         <DateTimePickerField
           control={form.control}
           name="endTime"
+          disabled={!defaultValues?.end_time}
           label="Конец"
           calenderProps={{
             disabled: {
@@ -134,16 +150,18 @@ export function TimeEntryForm({
             },
           }}
         />
-        <div className="flex w-full gap-4">
+        <div className="flex w-full gap-2">
           {!defaultValues?.end_time && (
-            <Button
-              className="flex-1"
-              type="button"
-              variant="secondary"
-              onClick={form.handleSubmit(handleFinish)}
-            >
-              Закончить
-            </Button>
+            <TooltipWrapper title="Остановить">
+              <Button
+                className="size-9"
+                type="button"
+                variant="secondary"
+                onClick={form.handleSubmit(handleFinish)}
+              >
+                <Square className="fill-white" />
+              </Button>
+            </TooltipWrapper>
           )}
           <Button className="flex-1" type="button" onClick={form.handleSubmit(handleSave)}>
             {submitText}

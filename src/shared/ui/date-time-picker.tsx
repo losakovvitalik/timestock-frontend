@@ -10,9 +10,10 @@ export interface DateTimePickerProps {
   date: undefined | Date;
   onChange: (date: undefined | Date) => void;
   calenderProps?: CalendarProps;
+  disabled?: boolean;
 }
 
-export function DateTimePicker({ date, onChange, calenderProps }: DateTimePickerProps) {
+export function DateTimePicker({ date, onChange, calenderProps, disabled }: DateTimePickerProps) {
   const [open, setOpen] = React.useState(false);
 
   return (
@@ -29,6 +30,7 @@ export function DateTimePicker({ date, onChange, calenderProps }: DateTimePicker
             onChange(newDate);
           }}
           format="HH:mm"
+          disabled={disabled}
         />
       </div>
       <div className="flex flex-col gap-3">
@@ -38,6 +40,7 @@ export function DateTimePicker({ date, onChange, calenderProps }: DateTimePicker
               variant="outline"
               id="date-picker"
               className="w-full justify-between text-base font-normal"
+              disabled={disabled}
             >
               {date ? date.toLocaleDateString() : 'Select date'}
               <ChevronDownIcon />
@@ -50,10 +53,8 @@ export function DateTimePicker({ date, onChange, calenderProps }: DateTimePicker
               selected={date}
               captionLayout="dropdown"
               onSelect={(newDate) => {
-                console.log(newDate);
                 newDate?.setHours(date?.getHours() || 0);
                 newDate?.setMinutes(date?.getMinutes() || 0);
-                console.log(newDate);
                 onChange(newDate);
                 setOpen(false);
               }}

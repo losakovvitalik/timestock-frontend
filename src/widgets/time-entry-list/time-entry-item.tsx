@@ -93,7 +93,7 @@ export function TimeEntryItem({ entry }: TimeEntryItemProps) {
   const [deleteOpen, setDeleteOpen] = useState(false);
 
   return (
-    <div className="relative">
+    <div className="relative cursor-pointer">
       <ContextMenu>
         <ContextMenuTrigger>
           <motion.div

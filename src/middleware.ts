@@ -14,7 +14,6 @@ export function middleware(req: NextRequest) {
     return NextResponse.redirect(url);
   }
 
-  console.log(pathname, isAuthRoute, hasRefresh);
   if (hasRefresh && isAuthRoute) {
     return NextResponse.redirect(new URL(paths.timer, origin));
   }

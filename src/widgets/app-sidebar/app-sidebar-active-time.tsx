@@ -20,7 +20,7 @@ export function AppSidebarActiveTime() {
         <span>Запустить таймер</span>
       )}
 
-      <TimerToggleButton className="size-4 !p-0 [&>svg]:size-2" />
+      <TimerToggleButton className="size-4 !p-0.5 [&>svg]:size-2" />
     </div>
   );
 }

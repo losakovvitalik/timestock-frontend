@@ -21,7 +21,7 @@ export function TimeEntryDrawer({
 }: TimeEntryDrawerProps) {
   return (
     <ResponsiveModal open={open} setOpen={onOpenChange} trigger={trigger} title="Информация">
-      <TimeEntryForm className="px-4 lg:p-4" onSubmit={onSubmit} defaultValues={entry} />
+      <TimeEntryForm className="lg:py-4" onSubmit={onSubmit} defaultValues={entry} />
     </ResponsiveModal>
   );
 }

@@ -1,3 +1,4 @@
+import { ProjectBadge } from '@/entities/project/ui/project-badge';
 import { timeEntryApiHooks } from '@/entities/time-entry/api/time-entry-api-hooks';
 import { TimeEntry, TimeEntryPayload } from '@/entities/time-entry/model/types';
 import { TimeEntryDrawer } from '@/entities/time-entry/ui/time-entry-drawer';
@@ -17,6 +18,7 @@ import {
   ContextMenuTrigger,
 } from '@/shared/ui/context-menu';
 import { Loader } from '@/shared/ui/loader';
+import { StopPropagation } from '@/shared/ui/stop-propagation';
 import { Typography } from '@/shared/ui/typography';
 import { formatDuration } from '@/shared/utils/duration';
 import { animate, motion, useMotionValue, useTransform } from 'motion/react';
@@ -91,7 +93,7 @@ export function TimeEntryItem({ entry }: TimeEntryItemProps) {
   const [deleteOpen, setDeleteOpen] = useState(false);
 
   return (
-    <div className="relative overflow-hidden">
+    <div className="relative">
       <ContextMenu>
         <ContextMenuTrigger>
           <motion.div
@@ -125,15 +127,15 @@ export function TimeEntryItem({ entry }: TimeEntryItemProps) {
               }
             }}
           >
-            <Card className={cn('border-none p-3 px-2')}>
-              <CardContent className="grid grid-cols-[1fr_auto] items-center gap-4 px-2">
-                <TimeEntryDrawer
-                  onSubmit={handleSubmit}
-                  onOpenChange={setDrawerOpen}
-                  open={drawerOpen}
-                  entry={entry}
-                  trigger={
-                    <button className="flex cursor-pointer flex-col items-start gap-1">
+            <TimeEntryDrawer
+              onSubmit={handleSubmit}
+              onOpenChange={setDrawerOpen}
+              open={drawerOpen}
+              entry={entry}
+              trigger={
+                <Card className={cn('border-none p-3 px-2')}>
+                  <CardContent className="grid grid-cols-[1fr_auto] items-center gap-4 px-2">
+                    <div className="flex flex-col items-start gap-1">
                       <CardTitle
                         className={cn('line-clamp-1 text-left leading-5', {
                           'opacity-70': !entry.description,
@@ -145,38 +147,24 @@ export function TimeEntryItem({ entry }: TimeEntryItemProps) {
                         <Typography className="text-sm font-semibold">
                           {formatDuration(entry.duration || 0)}
                         </Typography>
-                        {entry.project?.name && (
-                          <Badge variant="secondary">
-                            {entry.project && (
-                              <div
-                                className="size-2.5 rounded-full"
-                                style={{
-                                  backgroundColor: entry.project.color.hex,
-                                }}
-                              />
-                            )}
-                            <Typography size="xs">
-                              {entry.project?.name || 'Проект не указан'}
-                            </Typography>
-                          </Badge>
-                        )}
+                        {entry.project?.name && <ProjectBadge project={entry.project} />}
                         <Badge variant="secondary">
                           <Typography size="xs">{formatDisplayDate(entry.start_time)}</Typography>
                         </Badge>
                       </div>
-                    </button>
-                  }
-                />
-                {entry.isPending ? (
-                  <Loader className="size-8" />
-                ) : (
-                  <div className="flex gap-2">
-                    <TimeEntryStartAgainButton entry={entry} />
-                    <TimeEntryDeleteButton className="hidden md:flex" entry={entry} />
-                  </div>
-                )}
-              </CardContent>
-            </Card>
+                    </div>
+                    {entry.isPending ? (
+                      <Loader className="size-8" />
+                    ) : (
+                      <StopPropagation className="flex gap-2">
+                        <TimeEntryStartAgainButton entry={entry} />
+                        <TimeEntryDeleteButton className="hidden md:flex" entry={entry} />
+                      </StopPropagation>
+                    )}
+                  </CardContent>
+                </Card>
+              }
+            />
           </motion.div>
         </ContextMenuTrigger>
         <ContextMenuContent>

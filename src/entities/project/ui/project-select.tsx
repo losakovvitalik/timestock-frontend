@@ -11,7 +11,7 @@ export interface ProjectSelectProps
     'options' | 'labelKey' | 'valueKey'
   > {}
 
-export function ProjectSelect(props: ProjectSelectProps) {
+export function ProjectSelect({ className, ...props }: ProjectSelectProps) {
   const { user } = useUser();
   const { data: allProjects, isLoading: isProjectsLoading } = projectApiHooks.useList({
     params: {
@@ -36,7 +36,7 @@ export function ProjectSelect(props: ProjectSelectProps) {
       labelKey="name"
       valueKey="documentId"
       placeholder={isProjectsLoading ? 'Загрузка...' : 'Выберите проект'}
-      className="h-9 w-[150px] truncate"
+      className={cn('h-9 w-full truncate', className)}
       renderItem={(project) => (
         <div
           className={cn('grid grid-cols-[16px_1fr] items-center gap-1', {

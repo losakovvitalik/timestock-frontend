@@ -6,5 +6,5 @@ export interface TaskListProjectSelectProps {
 }
 
 export function TaskListProjectSelect({ onProjectSelect, value }: TaskListProjectSelectProps) {
-  return <ProjectSelect value={value} onChange={onProjectSelect} />;
+  return <ProjectSelect value={value} onChange={onProjectSelect} className="w-[150px]" />;
 }

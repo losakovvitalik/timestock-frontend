@@ -80,7 +80,7 @@ export function Select<
       <PopoverTrigger asChild>
         <Button
           className={cn(
-            'bg-input border-border grid h-10 cursor-pointer grid-cols-[1fr_auto] justify-items-start p-2 md:text-sm',
+            'bg-input border-border grid h-10 cursor-pointer grid-cols-[1fr_auto] justify-items-start px-2 py-1 md:text-sm',
             className,
           )}
           variant="outline"

@@ -10,7 +10,7 @@ function isPublic(pathname: string) {
 }
 
 export function middleware(req: NextRequest) {
-  const { pathname } = req.nextUrl;
+  const { pathname, origin } = req.nextUrl;
 
   if (isPublic(pathname)) return NextResponse.next();
 
@@ -20,6 +20,12 @@ export function middleware(req: NextRequest) {
     const url = req.nextUrl.clone();
     url.pathname = paths.auth.link;
     return NextResponse.redirect(url);
+  }
+
+  const isAuthRoute = pathname === paths.auth.link || pathname === paths.auth.code;
+
+  if (hasRefresh && isAuthRoute) {
+    return NextResponse.redirect(new URL(paths.timer, origin));
   }
 
   return NextResponse.next();

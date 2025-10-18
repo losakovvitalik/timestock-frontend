@@ -6,7 +6,7 @@ import { Button } from '@/shared/ui/button';
 import { Card, CardContent } from '@/shared/ui/card';
 import { Form } from '@/shared/ui/form';
 import { Typography } from '@/shared/ui/typography';
-import toast from 'react-hot-toast';
+import { toast } from 'sonner';
 import { useUpdateUserProfileForm } from '../hooks/use-update-user-profile-form';
 import { UpdateUserProfileFormSchemaType } from '../model/update-user-profile-form-schema';
 import { TimezoneField } from './timezone-field';

@@ -2,7 +2,7 @@ import { userConfirmOTP } from '@/entities/user/api/user-confirm-otp';
 import { paths } from '@/shared/constants';
 import { useMutation } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
-import toast from 'react-hot-toast';
+import { toast } from 'sonner';
 
 export const useConfirmOTP = () => {
   const router = useRouter();

@@ -2,7 +2,7 @@
 import { QueryCache, QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { PropsWithChildren } from 'react';
-import toast from 'react-hot-toast';
+import { toast } from 'sonner';
 
 const queryClient = new QueryClient({
   queryCache: new QueryCache({

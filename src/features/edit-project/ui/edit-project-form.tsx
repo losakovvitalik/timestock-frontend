@@ -4,7 +4,7 @@ import { projectApiHooks } from '@/entities/project/api/project-api-hooks';
 import { ProjectPayload } from '@/entities/project/models/types';
 import { ProjectForm } from '@/entities/project/ui/project-form';
 import { Loader } from '@/shared/ui/loader';
-import toast from 'react-hot-toast';
+import { toast } from 'sonner';
 
 export interface EditProjectFormProps {
   projectId: string;

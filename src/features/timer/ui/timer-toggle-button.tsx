@@ -5,7 +5,7 @@ import { useStartTimeEntry } from '@/entities/time-entry/hooks/use-start-time-en
 import { useStopTimeEntry } from '@/entities/time-entry/hooks/use-stop-time-entry';
 import { cn } from '@/shared/lib/utils';
 import { AnimatedButton } from '@/shared/ui/animated/animated-button';
-import { Pause, Play } from 'lucide-react';
+import { Play } from 'lucide-react';
 import { toast } from 'sonner';
 
 export interface TimerToggleButtonProps {
@@ -37,13 +37,14 @@ export function TimerToggleButton({ className }: TimerToggleButtonProps) {
 
   return (
     <AnimatedButton
-      className={cn('size-20 rounded-full', className)}
+      className={cn('size-20 rounded-full p-2', className)}
       disabled={isPending}
       onClick={handleClick}
       whileTap={{ scale: 0.8 }}
+      variant={activeTimeEntry ? 'destructive' : 'default'}
     >
       {activeTimeEntry ? (
-        <Pause className="size-8/12 fill-white stroke-white" />
+        <div className="aspect-square size-6/12 bg-white" />
       ) : (
         <Play className="size-8/12 fill-white stroke-white" />
       )}

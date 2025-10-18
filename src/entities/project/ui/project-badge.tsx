@@ -1,25 +1,33 @@
 import { Badge } from '@/shared/ui/badge';
 import { Typography } from '@/shared/ui/typography';
-import { Folder } from 'lucide-react';
 import { ProjectDTO } from '../models/types';
 
 export interface ProjectBadgeProps {
   project: ProjectDTO | undefined;
 }
 
+function hexToRgba(hex: string, alpha: number = 1) {
+  const [r, g, b] = hex
+    .replace('#', '')
+    .match(/.{1,2}/g)!
+    .map((x) => parseInt(x, 16));
+  return `rgba(${r}, ${g}, ${b}, var(--project-bg-alpha, ${alpha}))`;
+}
+
 export function ProjectBadge({ project }: ProjectBadgeProps) {
+  const color = project?.color?.hex || '#ccc';
+
   return (
-    <Badge className="h-5" variant="secondary">
-      <Folder className="!size-2.5 fill-white" />
-      <Typography size="xs">{project ? project?.name : 'Проект не указан'}</Typography>
-      {project && (
-        <div
-          className="size-2.5 rounded-full"
-          style={{
-            backgroundColor: project?.color.hex,
-          }}
-        />
-      )}
+    <Badge
+      style={{
+        backgroundColor: hexToRgba(color),
+      }}
+      className="h-5 [--project-bg-alpha:0.9] dark:[--project-bg-alpha:0.7]"
+      variant="secondary"
+    >
+      <Typography className="text-white" size="xs">
+        {project ? project?.name : 'Проект не указан'}
+      </Typography>
     </Badge>
   );
 }

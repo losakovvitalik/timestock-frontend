@@ -1,18 +1,10 @@
 'use client';
 
-import { useQueryParams } from '@/shared/hooks/use-query-params';
-import { SearchInput } from '@/shared/ui/search-input';
-import { useCallback } from 'react';
+import { SearchInput, SearchInputProps } from '@/shared/ui/search-input';
 
-export function ProjectsSearchInput() {
-  const { set } = useQueryParams();
+export interface ProjectsSearchInputProps
+  extends Pick<SearchInputProps, 'onSearch' | 'defaultValue'> {}
 
-  const onChange = useCallback(
-    (v: string) => {
-      set({ search: v });
-    },
-    [set],
-  );
-
-  return <SearchInput onSearch={onChange} placeholder="Введите название проекта" />;
+export function ProjectsSearchInput(props: ProjectsSearchInputProps) {
+  return <SearchInput placeholder="Введите название проекта" {...props} />;
 }

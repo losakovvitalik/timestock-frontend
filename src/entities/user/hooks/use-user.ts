@@ -30,10 +30,6 @@ export function useUser() {
 
   useEffect(() => {
     if (!query.isStale) {
-      try {
-        // после выполнения запроса
-        // обновляем данные о пользователе в ls
-      } catch {}
       localStorage.setItem(USE_USER_STORAGE_KEY, JSON.stringify(query.data));
     }
   }, [query.data, query.isStale]);

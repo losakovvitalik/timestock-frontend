@@ -133,7 +133,7 @@ export function TimeEntryItem({ entry }: TimeEntryItemProps) {
               open={drawerOpen}
               entry={entry}
               trigger={
-                <Card className={cn('border-none p-3 px-2')}>
+                <Card className={cn('hover:bg-card/90 border-none p-3 px-2 transition-colors')}>
                   <CardContent className="grid grid-cols-[1fr_auto] items-center gap-4 px-2">
                     <div className="flex flex-col items-start gap-1">
                       <CardTitle

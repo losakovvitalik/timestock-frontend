@@ -32,7 +32,6 @@ $api.interceptors.request.use(async (config) => {
       config.headers = config.headers ?? {};
       config.headers.Authorization = `Bearer ${token}`;
     } else {
-      console.log('refreshAccessToken');
       tokenPromise = refreshAccessToken();
       token = await tokenPromise;
       tokenPromise = undefined;
@@ -43,17 +42,3 @@ $api.interceptors.request.use(async (config) => {
 
   return config;
 });
-
-// // logout on 401
-// $api.interceptors.response.use(
-//   (config) => config,
-//   async (error) => {
-//     if (error.response?.status === 401) {
-//       localStorage.removeItem(USE_USER_STORAGE_KEY);
-//       await signOut({
-//         redirectTo: paths.auth.link,
-//       });
-//     }
-//     return Promise.reject(error);
-//   },
-// );

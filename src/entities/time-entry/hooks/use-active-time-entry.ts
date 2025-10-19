@@ -25,7 +25,7 @@ export function useActiveTimeEntry() {
       },
     },
     options: {
-      queryKey: activeTimeEntryKey,
+      queryKey: [...activeTimeEntryKey, String(userId)],
       select: (res) => res.data[0] || null,
       enabled: Boolean(userId),
       refetchOnWindowFocus: true,

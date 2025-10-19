@@ -1,32 +1,45 @@
 'use client';
 
 import { projectApiHooks } from '@/entities/project/api/project-api-hooks';
+import { ProjectDTO } from '@/entities/project/models/types';
 import { useUser } from '@/entities/user/hooks/use-user';
-import { useQueryParams } from '@/shared/hooks/use-query-params';
+import { ApiGetParams } from '@/shared/types/api';
 import { Loader } from '@/shared/ui/loader';
 import { ProjectListItem } from './project-list-item';
 
-export function ProjectList() {
-  const { user } = useUser();
-  const { value } = useQueryParams();
+export interface ProjectListProps {
+  params?: {
+    search?: string;
+  };
+}
 
-  const search = value?.search;
+export function ProjectList({ params: propsParams }: ProjectListProps) {
+  const { user } = useUser();
+
+  const params: ApiGetParams<ProjectDTO> = {
+    populate: {
+      color: true,
+    },
+    filters: {
+      owner: {
+        id: user?.id,
+      },
+      ...(propsParams?.search
+        ? {
+            name: {
+              $containsi: propsParams?.search,
+            },
+          }
+        : {}),
+    },
+  };
 
   const { data: projects, isLoading: isProjectsLoading } = projectApiHooks.useList({
-    params: {
-      populate: {
-        color: true,
-      },
-      filters: {
-        owner: {
-          id: user?.id,
-        },
-        name: {
-          $containsi: search,
-        },
-      },
+    params: params,
+    options: {
+      enabled: Boolean(user?.id),
+      queryKey: projectApiHooks.keys.list(params),
     },
-    options: { enabled: Boolean(user?.id) },
   });
 
   return (

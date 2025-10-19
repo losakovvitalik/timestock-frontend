@@ -67,10 +67,10 @@ export function TimeEntryList({ params, className }: TimeEntryListProps) {
                 <React.Fragment key={timeEntry.documentId}>
                   {index === 0 && (
                     <div className="grid grid-cols-[auto_1fr] items-center gap-2">
-                      <Badge variant="secondary" className="text-[10px]">
+                      <Badge className="bg-primary/70 text-[10px]">
                         {formatDisplayDate(timeEntry.start_time)}
                       </Badge>
-                      <Separator className="!h-0.5 rounded-lg" />
+                      <Separator className="bg-primary/70 !h-0.5 rounded-lg" />
                     </div>
                   )}
                   <li>
@@ -78,10 +78,10 @@ export function TimeEntryList({ params, className }: TimeEntryListProps) {
                   </li>
                   {nextTimeEntry && !isSameDay(nextTimeEntry.start_time, timeEntry.start_time) && (
                     <div className="grid grid-cols-[auto_1fr] items-center gap-2">
-                      <Badge variant="secondary" className="text-[10px]">
+                      <Badge className="bg-primary/70 text-[10px]">
                         {formatDisplayDate(nextTimeEntry.start_time)}
                       </Badge>
-                      <Separator className="!h-0.5 rounded-lg" />
+                      <Separator className="bg-primary/70 !h-0.5 rounded-lg" />
                     </div>
                   )}
                 </React.Fragment>

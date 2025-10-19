@@ -51,7 +51,7 @@ export function TaskList({ params: { status, search, sort, project } }: TaskList
         <>
           {Array.from({ length: 5 }).map((_, index) => (
             <li key={index}>
-              <Skeleton className="h-[72px] rounded-xl" />
+              <Skeleton className="h-[64px] rounded-xl" />
             </li>
           ))}
         </>

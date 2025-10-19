@@ -18,16 +18,13 @@ import { getInitialDuration } from '../utils/get-initial-duration';
 export interface TimeEntryFormProps {
   className?: string;
   onSubmit?: (data: TimeEntryPayload) => void;
-  submitText?: string;
   defaultValues?: Partial<TimeEntryDTO>;
 }
 
-export function TimeEntryForm({
-  className,
-  onSubmit,
-  submitText = 'Сохранить',
-  defaultValues,
-}: TimeEntryFormProps) {
+export function TimeEntryForm({ className, onSubmit, defaultValues }: TimeEntryFormProps) {
+  const isNewTimeEntry = !defaultValues;
+  const isActiveTimeEntry = defaultValues && !defaultValues.end_time;
+
   const form = useTimeEntryForm({
     defaultValues: {
       description: defaultValues?.description || undefined,
@@ -44,7 +41,7 @@ export function TimeEntryForm({
       // подставляем дефолтное значение
       // если таймер уже закончен, подставляет его время,
       // если ещё нет, то не указывает время
-      end_time: defaultValues?.end_time ? data.endTime : undefined,
+      end_time: !isActiveTimeEntry ? data.endTime : undefined,
       project: data.project,
       start_time: data.startTime,
     });
@@ -142,7 +139,7 @@ export function TimeEntryForm({
         <DateTimePickerField
           control={form.control}
           name="endTime"
-          disabled={!defaultValues?.end_time}
+          disabled={Boolean(isActiveTimeEntry)}
           label="Конец"
           calenderProps={{
             disabled: {
@@ -151,7 +148,7 @@ export function TimeEntryForm({
           }}
         />
         <div className="flex w-full gap-2">
-          {!defaultValues?.end_time && (
+          {isActiveTimeEntry && (
             <TooltipWrapper title="Остановить">
               <Button
                 className="size-9"
@@ -164,7 +161,7 @@ export function TimeEntryForm({
             </TooltipWrapper>
           )}
           <Button className="flex-1" type="button" onClick={form.handleSubmit(handleSave)}>
-            {submitText}
+            {isNewTimeEntry ? 'Создать' : 'Сохранить'}
           </Button>
         </div>
       </form>

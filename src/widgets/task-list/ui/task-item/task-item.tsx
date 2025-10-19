@@ -21,7 +21,7 @@ export function TaskItem({ item }: TaskItemProps) {
   const { name, project } = item;
 
   return (
-    <Card className={cn('border-none py-5')}>
+    <Card className={cn('border-none py-4')}>
       <CardContent>
         <div className="flex items-center gap-4">
           <div className="flex flex-1 items-center gap-2">

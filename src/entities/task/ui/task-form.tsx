@@ -17,8 +17,6 @@ export interface TaskFormProps {
 export function TaskForm({ onSubmit, trigger }: TaskFormProps) {
   const form = useTaskForm();
 
-  console.log('values', form.getValues());
-
   const handleSubmit = (data: TaskSchemaType) => {
     onSubmit({
       name: data.name,

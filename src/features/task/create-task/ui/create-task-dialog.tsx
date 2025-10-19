@@ -5,11 +5,16 @@ import { TaskPayload } from '@/entities/task/model/task-types';
 import { TaskForm } from '@/entities/task/ui/task-form';
 import { Button } from '@/shared/ui/button';
 import { ResponsiveModal } from '@/shared/ui/responsive-modal';
+import { useState } from 'react';
 import { toast } from 'sonner';
 
 export function CreateTaskDialog() {
+  const [open, setOpen] = useState(false);
   const create = taskApiHooks.useCreate({
-    onSuccess: () => toast.success('Задача успешно добавлена'),
+    onSuccess: () => {
+      setOpen(false);
+      toast.success('Задача успешно добавлена');
+    },
     onError: (err) => {
       console.log(err);
       toast.error('Что-то пошло не так при создании задачи');
@@ -21,7 +26,12 @@ export function CreateTaskDialog() {
   };
 
   return (
-    <ResponsiveModal title="Добавить задачу" trigger={<Button>Добавить задачу</Button>}>
+    <ResponsiveModal
+      open={open}
+      onOpenChange={setOpen}
+      title="Добавить задачу"
+      trigger={<Button>Добавить задачу</Button>}
+    >
       <TaskForm
         onSubmit={onSubmit}
         trigger={

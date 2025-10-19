@@ -40,7 +40,7 @@ export function EditProjectReminderDialog({
   return (
     <ResponsiveModal
       open={open}
-      setOpen={setOpen}
+      onOpenChange={setOpen}
       title="Редактирование напоминания"
       description={projectReminder.text}
     >

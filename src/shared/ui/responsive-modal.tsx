@@ -23,7 +23,7 @@ export interface ResponsiveModalProps {
   children?: React.ReactNode;
   trigger?: React.ReactNode;
   open?: boolean;
-  setOpen?: (val: boolean) => void;
+  onOpenChange?: (val: boolean) => void;
 }
 
 export function ResponsiveModal({
@@ -32,7 +32,7 @@ export function ResponsiveModal({
   children,
   description,
   open: propOpen,
-  setOpen: propSetOpen,
+  onOpenChange: propSetOpen,
 }: ResponsiveModalProps) {
   const [stateOpen, stateSetOpen] = React.useState(false);
 

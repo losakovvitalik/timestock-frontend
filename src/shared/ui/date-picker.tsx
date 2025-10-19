@@ -1,15 +1,17 @@
 import { ChevronDownIcon } from 'lucide-react';
 import * as React from 'react';
 import { Button } from './button';
-import { Calendar } from './calendar';
+import { Calendar, CalendarProps } from './calendar';
 import { Popover, PopoverContent, PopoverTrigger } from './popover';
 
 export interface DatePickerProps {
   value?: Date;
   onChange: (v: Date | undefined) => void;
+  calenderProps?: CalendarProps;
+  disabled?: boolean;
 }
 
-export function DatePicker({ onChange, value }: DatePickerProps) {
+export function DatePicker({ onChange, value, disabled, calenderProps }: DatePickerProps) {
   const [open, setOpen] = React.useState(false);
 
   return (
@@ -20,6 +22,7 @@ export function DatePicker({ onChange, value }: DatePickerProps) {
             variant="outline"
             id="date"
             className="w-full justify-between py-1 text-base font-normal"
+            disabled={disabled}
           >
             {value ? value.toLocaleDateString() : 'Выберите дату'}
             <ChevronDownIcon />
@@ -31,6 +34,7 @@ export function DatePicker({ onChange, value }: DatePickerProps) {
         >
           <div className="bg-popover w-max">
             <Calendar
+              {...calenderProps}
               mode="single"
               className="bg-background rounded-lg border [--cell-size:--spacing(10)] md:[--cell-size:--spacing(12)]"
               selected={value}

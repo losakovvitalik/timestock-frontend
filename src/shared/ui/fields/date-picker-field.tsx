@@ -21,7 +21,11 @@ export function DatePickerField<T extends FieldValues>({
       label={label}
       required={props.required}
       render={({ field }) => (
-        <DatePicker onChange={field.onChange} value={new Date(field.value)} {...props} />
+        <DatePicker
+          onChange={field.onChange}
+          value={field.value ? new Date(field.value) : undefined}
+          {...props}
+        />
       )}
     />
   );

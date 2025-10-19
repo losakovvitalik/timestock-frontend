@@ -1,6 +1,7 @@
 import { SelectProjectField } from '@/entities/project/ui/select-project-field';
 import { Button } from '@/shared/ui/button';
 import { TextareaField, TextField } from '@/shared/ui/fields';
+import { DateTimePickerField } from '@/shared/ui/fields/date-time-picker-field';
 import { DurationField } from '@/shared/ui/fields/duration-field';
 import { Form } from '@/shared/ui/form';
 import { durationToSeconds } from '@/shared/utils/duration';
@@ -16,6 +17,8 @@ export interface TaskFormProps {
 export function TaskForm({ onSubmit, trigger }: TaskFormProps) {
   const form = useTaskForm();
 
+  console.log('values', form.getValues());
+
   const handleSubmit = (data: TaskSchemaType) => {
     onSubmit({
       name: data.name,
@@ -23,6 +26,7 @@ export function TaskForm({ onSubmit, trigger }: TaskFormProps) {
       project: data.project || undefined,
       description: data.description,
       is_completed: false,
+      due_date: data.due_date?.toISOString(),
     });
   };
 
@@ -39,6 +43,16 @@ export function TaskForm({ onSubmit, trigger }: TaskFormProps) {
             format="HH:mm"
           />
           <TextareaField control={form.control} name="description" label="Описание" />
+          <DateTimePickerField
+            control={form.control}
+            name="due_date"
+            label="Дедлайн"
+            calenderProps={{
+              disabled: {
+                before: new Date(),
+              },
+            }}
+          />
         </fieldset>
         <div className="mt-4">
           {trigger ? trigger : <Button className="w-full">Сохранить</Button>}

@@ -43,7 +43,9 @@ const DurationInput = ({
       }}
       onAccept={(val) => {
         setIsEmpty(!val);
-        onChange?.(val);
+        if (val) {
+          onChange?.(val);
+        }
       }}
       type="tel"
       aria-label="Время в формате часы:минуты:секунды"

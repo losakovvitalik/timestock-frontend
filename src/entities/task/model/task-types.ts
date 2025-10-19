@@ -17,6 +17,9 @@ export interface TaskDTO extends ApiEntityBase {
 }
 
 export interface TaskPayload
-  extends Pick<TaskDTO, 'name' | 'description' | 'estimated_time' | 'time_spent' | 'is_completed'> {
+  extends Pick<
+    TaskDTO,
+    'name' | 'description' | 'estimated_time' | 'time_spent' | 'is_completed' | 'due_date'
+  > {
   project?: string;
 }

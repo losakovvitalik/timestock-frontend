@@ -20,11 +20,13 @@ export function DateTimePicker({ date, onChange, calenderProps, disabled }: Date
     <div className="grid grid-cols-[2fr_3fr] gap-4">
       <div className="flex flex-col gap-3">
         <DurationInput
-          value={format(date || new Date(), 'HH:mm')}
+          value={format(date || new Date().setHours(9, 0, 0), 'HH:mm')}
           onChange={(value) => {
+            console.log('test');
             const [hours, minutes] = value.split(':');
 
             const newDate = date ? new Date(date) : new Date();
+
             newDate.setHours(parseInt(hours));
             newDate.setMinutes(parseInt(minutes));
             onChange(newDate);
@@ -39,10 +41,10 @@ export function DateTimePicker({ date, onChange, calenderProps, disabled }: Date
             <Button
               variant="outline"
               id="date-picker"
-              className="w-full justify-between text-base font-normal"
+              className="w-full justify-between text-base font-normal md:text-sm"
               disabled={disabled}
             >
-              {date ? date.toLocaleDateString() : 'Select date'}
+              {date ? date.toLocaleDateString() : 'Выберите дату'}
               <ChevronDownIcon />
             </Button>
           </PopoverTrigger>

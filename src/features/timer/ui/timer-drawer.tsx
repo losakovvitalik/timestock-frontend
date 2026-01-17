@@ -5,12 +5,15 @@ import { useActiveTimeEntry } from '@/entities/time-entry/hooks/use-active-time-
 import { TimeEntryPayload } from '@/entities/time-entry/model/types';
 import { TimeEntryDrawer } from '@/entities/time-entry/ui/time-entry-drawer';
 import { Button } from '@/shared/ui/button';
-import { Typography } from '@/shared/ui/typography';
 import { Plus } from 'lucide-react';
-import { useState } from 'react';
+import { ReactNode, useState } from 'react';
 import { toast } from 'sonner';
 
-export function TimerDrawer() {
+export interface TimerDrawerProps {
+  trigger?: ReactNode;
+}
+
+export function TimerDrawer({ trigger }: TimerDrawerProps) {
   const [open, setOpen] = useState(false);
   const { data: entry, refetch } = useActiveTimeEntry();
 
@@ -40,18 +43,24 @@ export function TimerDrawer() {
     }
   };
 
+  const defaultTrigger = (
+    <Button
+      variant="secondary"
+      size="icon"
+      className="size-10 rounded-full"
+      title="Добавить информацию"
+    >
+      <Plus className="size-4" />
+    </Button>
+  );
+
   return (
     <TimeEntryDrawer
       entry={entry}
       open={open}
       onOpenChange={setOpen}
       onSubmit={handleSubmit}
-      trigger={
-        <Button className="flex gap-1 rounded-full" size="sm">
-          <Plus className="size-4 stroke-3" />
-          <Typography size="sm">Добавить информацию</Typography>
-        </Button>
-      }
+      trigger={trigger ?? defaultTrigger}
     />
   );
 }

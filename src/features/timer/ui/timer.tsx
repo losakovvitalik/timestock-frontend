@@ -11,14 +11,12 @@ export function Timer() {
 
   if (activeTimeEntry) {
     return (
-      <div className="flex flex-col gap-2">
-        <div className="flex gap-2">
-          <TimeEntryDuration className="font-bold" entry={activeTimeEntry} />
-          <ProjectBadge project={activeTimeEntry.project} />
-        </div>
+      <div className="flex items-center gap-2 sm:gap-3">
+        <TimeEntryDuration className="text-base font-bold sm:text-lg" entry={activeTimeEntry} />
+        <ProjectBadge project={activeTimeEntry.project} />
         <Typography
-          className={cn('line-clamp-1 text-sm', {
-            'italic opacity-50': !activeTimeEntry.description,
+          className={cn('text-muted-foreground line-clamp-1 hidden flex-1 text-sm sm:block', {
+            italic: !activeTimeEntry.description,
           })}
         >
           {activeTimeEntry.description || 'Без описания'}
@@ -27,5 +25,9 @@ export function Timer() {
     );
   }
 
-  return <Typography variant="subtitle">Таймер не запущен</Typography>;
+  return (
+    <Typography className="text-muted-foreground" size="sm">
+      Таймер не запущен
+    </Typography>
+  );
 }

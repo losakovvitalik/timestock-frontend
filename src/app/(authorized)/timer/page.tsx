@@ -11,18 +11,17 @@ export const metadata: Metadata = {
 export default function TimerPage() {
   return (
     <div className="h-full">
-      <div className="grid h-full grid-rows-[1fr_112px] overflow-auto">
-        <div className="border-border h-full overflow-auto border-b-2">
+      <div className="grid h-full grid-rows-[1fr_auto] overflow-auto md:grid-rows-[1fr]">
+        <div className="border-border h-full overflow-auto border-b md:border-b-0">
           <TimeEntryList />
         </div>
-        <div className="flex items-center justify-between gap-8 py-4">
-          <div className="flex w-full flex-col gap-4">
+        {/* Нижняя панель только для мобильных — на ПК таймер в сайдбаре */}
+        <div className="flex items-center gap-3 py-3 md:hidden">
+          <TimerDrawer />
+          <div className="min-w-0 flex-1">
             <Timer />
-            <TimerDrawer />
           </div>
-          <div>
-            <TimerToggleButton />
-          </div>
+          <TimerToggleButton className="size-12" />
         </div>
       </div>
     </div>

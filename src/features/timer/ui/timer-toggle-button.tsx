@@ -44,7 +44,7 @@ export function TimerToggleButton({ className }: TimerToggleButtonProps) {
       variant={activeTimeEntry ? 'destructive' : 'default'}
     >
       {activeTimeEntry ? (
-        <div className="aspect-square size-6/12 bg-white" />
+        <div className="aspect-square size-6/12 rounded-[1px] bg-white/90" />
       ) : (
         <Play className="size-8/12 fill-white stroke-white" />
       )}

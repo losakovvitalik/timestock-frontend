@@ -1,17 +1,17 @@
 'use server';
 
 import { paths } from '@/shared/constants';
-import { env } from '@/shared/lib/env';
 import axios, { AxiosError } from 'axios';
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
+import { BACKEND_URL } from './base';
 
 export async function refreshAccessToken(): Promise<string> {
   const cookieStore = await cookies();
   const refreshToken = cookieStore.get('strapi_up_refresh');
 
   try {
-    const res = await axios.post<{ jwt: string }>(`${env.BACKEND_URL}/api/auth/refresh`, {
+    const res = await axios.post<{ jwt: string }>(`${BACKEND_URL}/api/auth/refresh`, {
       refreshToken: refreshToken?.value,
     });
 

@@ -15,6 +15,7 @@ import React, { useMemo } from 'react';
 import { SwipeActionsContext } from './model/time-entry-list.context';
 import { createTimeEntryListStore } from './model/time-entry-list.store';
 import { TimeEntryItem } from './time-entry-item';
+import { TimeEntryEmptyState } from './ui/time-entry-empty-state';
 
 export interface TimeEntryListProps {
   params?: Omit<ApiGetParams<TimeEntryDTO>, 'populate' | 'pagination'>;
@@ -49,17 +50,28 @@ export function TimeEntryList({ params, className }: TimeEntryListProps) {
   });
 
   const flatData = timeEntries?.data?.pages.flatMap((p) => p.data) ?? [];
+  const isLoading = timeEntries.isLoading;
+  const isEmpty = !isLoading && flatData.length === 0;
 
   const { ref, rootRef } = useInView({
     onInView: () => timeEntries.fetchNextPage(),
   });
+
+  if (isEmpty) {
+    return (
+      <div className={cn('flex h-full flex-col gap-2', className)}>
+        <Typography variant="subtitle">Последнии записи</Typography>
+        <TimeEntryEmptyState />
+      </div>
+    );
+  }
 
   return (
     <SwipeActionsContext.Provider value={{ store: swipeStore }}>
       <div className={cn('flex h-full flex-col gap-2 overflow-auto', className)}>
         <Typography variant="subtitle">Последнии записи</Typography>
         <ul ref={rootRef} className="z-20 flex h-full flex-col gap-2 overflow-auto pr-1 pb-2">
-          {flatData ? (
+          {flatData.length > 0 ? (
             flatData.map((timeEntry, index) => {
               const nextTimeEntry = flatData[index + 1] as TimeEntry | undefined;
 
@@ -67,10 +79,10 @@ export function TimeEntryList({ params, className }: TimeEntryListProps) {
                 <React.Fragment key={timeEntry.documentId}>
                   {index === 0 && (
                     <div className="grid grid-cols-[auto_1fr] items-center gap-2">
-                      <Badge className="bg-primary/70 text-[10px]">
+                      <Badge className="bg-primary/70 text-tiny">
                         {formatDisplayDate(timeEntry.start_time)}
                       </Badge>
-                      <Separator className="bg-primary/70 !h-0.5 rounded-lg" />
+                      <Separator className="bg-primary/70 h-0.5! rounded-lg" />
                     </div>
                   )}
                   <li>
@@ -78,10 +90,10 @@ export function TimeEntryList({ params, className }: TimeEntryListProps) {
                   </li>
                   {nextTimeEntry && !isSameDay(nextTimeEntry.start_time, timeEntry.start_time) && (
                     <div className="grid grid-cols-[auto_1fr] items-center gap-2">
-                      <Badge className="bg-primary/70 text-[10px]">
+                      <Badge className="bg-primary/70 text-tiny">
                         {formatDisplayDate(nextTimeEntry.start_time)}
                       </Badge>
-                      <Separator className="bg-primary/70 !h-0.5 rounded-lg" />
+                      <Separator className="bg-primary/70 h-0.5! rounded-lg" />
                     </div>
                   )}
                 </React.Fragment>

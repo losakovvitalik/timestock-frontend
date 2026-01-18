@@ -49,7 +49,9 @@ const ConfirmPopup = ({
             </Button>
           </DialogClose>
           <DialogClose asChild>
-            <Button onClick={onConfirm}>Подтвердить</Button>
+            <Button onClick={onConfirm} autoFocus>
+              Подтвердить
+            </Button>
           </DialogClose>
         </DialogFooter>
       </DialogContent>

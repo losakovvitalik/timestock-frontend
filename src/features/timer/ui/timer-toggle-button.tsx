@@ -3,7 +3,10 @@
 import { useActiveTimeEntry } from '@/entities/time-entry/hooks/use-active-time-entry';
 import { useStartTimeEntry } from '@/entities/time-entry/hooks/use-start-time-entry';
 import { useStopTimeEntry } from '@/entities/time-entry/hooks/use-stop-time-entry';
+import { useUpdateUser } from '@/entities/user/hooks/use-update-user';
+import { useUser } from '@/entities/user/hooks/use-user';
 import { cn } from '@/shared/lib/utils';
+import { useConfettiStore } from '@/shared/stores/use-confetti-store';
 import { AnimatedButton } from '@/shared/ui/animated/animated-button';
 import { Play } from 'lucide-react';
 import { toast } from 'sonner';
@@ -13,12 +16,25 @@ export interface TimerToggleButtonProps {
 }
 
 export function TimerToggleButton({ className }: TimerToggleButtonProps) {
+  const { user } = useUser();
+  const updateUser = useUpdateUser();
+  const fireConfetti = useConfettiStore((s) => s.fire);
+
   const startTimer = useStartTimeEntry({
     onError: () => {
       toast.error('Не удалось запустить таймер. Попробуйте ещё раз');
     },
   });
   const stopTimer = useStopTimeEntry({
+    onSuccess: () => {
+      if (user && !user.first_timer_completed_at) {
+        fireConfetti();
+        updateUser.mutate({
+          id: user.id,
+          data: { first_timer_completed_at: new Date().toISOString() },
+        });
+      }
+    },
     onError: () => {
       toast.error('Не удалось остановить таймер. Что-то пошло не так.');
     },

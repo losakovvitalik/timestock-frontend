@@ -1,3 +1,4 @@
+import { Confetti } from '@/shared/ui/confetti';
 import Header from '@/shared/ui/layout/header';
 import { Tabbar } from '@/shared/ui/layout/tabbar';
 import { SidebarProvider } from '@/shared/ui/sidebar';
@@ -18,6 +19,7 @@ export default function AuthorizedLayout({
   return (
     <>
       <ActiveTimeEntryTitle />
+      <Confetti />
 
       <SidebarProvider>
         <AppSidebar />

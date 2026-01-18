@@ -4,7 +4,7 @@ import { useQuery } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
 import { userGetMe, UserGetMeResponse } from '../api/user-get-me';
 
-export const useUserKey = ['users', 'me'];
+export const useUserKey = ['user', 'me'];
 export const USE_USER_STORAGE_KEY = 'me';
 
 export function useUser() {

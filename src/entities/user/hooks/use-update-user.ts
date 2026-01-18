@@ -17,9 +17,8 @@ export function useUpdateUser(config?: {
     mutationFn: ({ id, data }: { id: Id; data: Partial<UserPayload> }) =>
       $api.put(`/users/${id.toString()}`, data),
     onMutate: config?.onMutate,
-    onSuccess: (_, variables) => {
-      queryClient.invalidateQueries({ queryKey: ['user', 'list'] });
-      queryClient.invalidateQueries({ queryKey: ['user', variables.id] });
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['user'] });
       config?.onSuccess?.();
     },
     onError: config?.onError,

@@ -10,6 +10,9 @@ export interface UserDTO {
   updatedAt: string;
   publishedAt: string;
   timezone: string;
+  first_timer_completed_at: string | null;
 }
 
-export interface UserPayload extends Partial<Pick<UserDTO, 'timezone'>> {}
+export interface UserPayload extends Partial<
+  Pick<UserDTO, 'timezone' | 'first_timer_completed_at'>
+> {}

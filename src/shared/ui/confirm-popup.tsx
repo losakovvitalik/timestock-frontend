@@ -1,3 +1,4 @@
+import { cn } from '@/shared/lib/utils';
 import {
   Dialog,
   DialogContent,
@@ -19,6 +20,7 @@ export interface ConfirmPopupProps {
   title: string;
   description?: React.ReactNode;
   trigger?: React.ReactNode;
+  className?: string;
 }
 
 const ConfirmPopup = ({
@@ -29,12 +31,13 @@ const ConfirmPopup = ({
   title,
   description,
   trigger,
+  className,
 }: ConfirmPopupProps) => {
   const triggerBtn = isValidElement(trigger) ? trigger : <button>{trigger}</button>;
 
   return (
     <Dialog onOpenChange={onOpenChange} open={open}>
-      <DialogContent className="w-11/12 rounded-lg">
+      <DialogContent className={cn('w-11/12 rounded-lg md:max-w-md', className)}>
         <DialogHeader>
           <DialogTitle>{title}</DialogTitle>
           <DialogDescription>{description}</DialogDescription>

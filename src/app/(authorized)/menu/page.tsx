@@ -3,6 +3,7 @@ import { useUser } from '@/entities/user/hooks/use-user';
 import { AppFeedbackDialog } from '@/features/leave-app-feedback/ui/app-feedback-dialog';
 import { LogoutButton } from '@/features/logout/ui/logout-button';
 import { PushNotificationManager } from '@/features/push-notifications/ui/push-notifications-manager';
+import { TelegramLinkManager } from '@/features/telegram-link/ui/telegram-link-manager';
 import ToggleThemeButton from '@/features/toggle-theme/ui/toggle-theme-button';
 import { paths } from '@/shared/constants';
 import { buttonVariants } from '@/shared/ui/button';
@@ -26,6 +27,7 @@ export default function MenuPage() {
           Профиль
         </Link>
         <PushNotificationManager />
+        <TelegramLinkManager />
         <AppFeedbackDialog />
         <LogoutButton />
         {/* <InstallPrompt /> */}

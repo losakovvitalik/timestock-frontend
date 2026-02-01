@@ -26,14 +26,19 @@ export function ViewProject({ projectId }: ViewProjectProps) {
   return (
     <div>
       <Card>
-        <CardHeader className="flex items-center gap-2">
-          <div
-            className="size-6 rounded-full"
-            style={{
-              background: project.color.hex,
-            }}
-          />
-          <CardTitle className="text-2xl">{project?.name}</CardTitle>
+        <CardHeader>
+          <div className="flex items-center gap-2">
+            <div
+              className="size-6 rounded-full"
+              style={{
+                background: project?.color?.hex,
+              }}
+            />
+            <CardTitle className="text-2xl">{project?.name}</CardTitle>
+          </div>
+          {project?.description && (
+            <p className="text-muted-foreground mt-1 text-sm">{project.description}</p>
+          )}
         </CardHeader>
         <CardContent>
           <div>Создан: {formatDisplayDate(project.createdAt)}</div>

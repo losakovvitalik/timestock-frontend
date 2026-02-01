@@ -22,34 +22,29 @@ export function ProjectListItem({ project }: ProjectListItemProps) {
   };
 
   return (
-    <div className="grid grid-cols-1 items-center gap-4">
+    <Link className="block" href={paths.project.view(project.documentId)}>
       <Card className="hover:bg-card/90 border-none transition-colors">
-        <CardContent>
-          <Link
-            className="flex items-center justify-between gap-2"
-            href={paths.project.view(project.documentId)}
-          >
-            <div className="flex items-center gap-2">
-              <div
-                className="size-4 rounded-full"
-                style={{
-                  background: project.color.hex,
-                }}
-              />
-              <Typography className="text-lg font-semibold">{project.name}</Typography>
-            </div>
+        <CardContent className="flex items-center justify-between gap-2">
+          <div className="flex items-center gap-2">
+            <div
+              className="size-4 rounded-full"
+              style={{
+                background: project?.color?.hex,
+              }}
+            />
+            <Typography className="text-lg font-semibold">{project.name}</Typography>
+          </div>
 
-            <div className="flex items-center gap-4">
-              <Typography className="text-lg font-semibold">
-                {(project.time_spent / 3600).toFixed(2)} ч
-              </Typography>
-              <Button className="size-8" onClick={handleEditClick} size="icon">
-                <Edit className="size-4" />
-              </Button>
-            </div>
-          </Link>
+          <div className="flex items-center gap-4">
+            <Typography className="text-lg font-semibold">
+              {(project.time_spent / 3600).toFixed(2)} ч
+            </Typography>
+            <Button className="size-8" onClick={handleEditClick} size="icon">
+              <Edit className="size-4" />
+            </Button>
+          </div>
         </CardContent>
       </Card>
-    </div>
+    </Link>
   );
 }

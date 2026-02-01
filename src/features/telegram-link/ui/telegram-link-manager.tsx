@@ -52,21 +52,21 @@ export function TelegramLinkManager() {
   if (!status?.isConnected) {
     return (
       <div className="flex flex-col gap-2">
-        <Button disabled={getBotLink.isPending} onClick={handleConnect}>
-          {getBotLink.isPending ? 'Загрузка...' : 'Привязать Telegram'}
-        </Button>
-        {botLink && (
-          <p className="text-muted-foreground text-sm">
-            Ссылка откроется в новом окне. Если не открылась,{' '}
+        {botLink ? (
+          <Button asChild size="lg" className="w-full">
             <a
-              className="text-primary underline"
               href={botLink}
               rel="noopener noreferrer"
               target="_blank"
+              className="flex flex-col items-center gap-1"
             >
-              нажмите сюда
+              <span>Если ссылка не открылась в новом окне, нажмите сюда</span>
             </a>
-          </p>
+          </Button>
+        ) : (
+          <Button disabled={getBotLink.isPending} onClick={handleConnect}>
+            {getBotLink.isPending ? 'Загрузка...' : 'Привязать Telegram'}
+          </Button>
         )}
       </div>
     );

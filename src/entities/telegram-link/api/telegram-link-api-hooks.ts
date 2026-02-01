@@ -8,6 +8,7 @@ export const telegramLinkApiHooks = {
     useQuery({
       queryKey: [QUERY_KEY],
       queryFn: telegramLinkApi.getStatus,
+      refetchOnWindowFocus: true,
     }),
 
   useGetBotLink: () =>

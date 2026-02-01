@@ -6,4 +6,5 @@ export interface DailyAggregateDTO {
   updatedAt: string; // ISO 8601
   publishedAt: string; // ISO 8601
   duration: number; // в секундах
+  tracks_count: number;
 }

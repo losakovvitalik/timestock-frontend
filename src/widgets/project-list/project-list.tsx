@@ -4,8 +4,9 @@ import { projectApiHooks } from '@/entities/project/api/project-api-hooks';
 import { ProjectDTO } from '@/entities/project/models/types';
 import { useUser } from '@/entities/user/hooks/use-user';
 import { ApiGetParams } from '@/shared/types/api';
-import { Loader } from '@/shared/ui/loader';
+import { ProjectListEmptyState } from './project-list-empty-state';
 import { ProjectListItem } from './project-list-item';
+import { ProjectListSkeleton } from './project-list-skeleton';
 
 export interface ProjectListProps {
   params?: {
@@ -14,7 +15,7 @@ export interface ProjectListProps {
 }
 
 export function ProjectList({ params: propsParams }: ProjectListProps) {
-  const { user } = useUser();
+  const { user, isLoading: isUserLoading } = useUser();
 
   const params: ApiGetParams<ProjectDTO> = {
     populate: {
@@ -42,12 +43,21 @@ export function ProjectList({ params: propsParams }: ProjectListProps) {
     },
   });
 
+  if (isUserLoading || isProjectsLoading) {
+    return <ProjectListSkeleton />;
+  }
+
+  const isEmpty = !projects?.data || projects.data.length === 0;
+
+  if (isEmpty) {
+    return <ProjectListEmptyState />;
+  }
+
   return (
     <ul className="mt-2 flex flex-col gap-3">
-      {projects?.data.map((project) => (
+      {projects.data.map((project) => (
         <ProjectListItem key={project.documentId} project={project} />
       ))}
-      {isProjectsLoading && <Loader className="mx-auto" />}
     </ul>
   );
 }

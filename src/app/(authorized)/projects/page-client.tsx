@@ -9,7 +9,7 @@ export function ProjectsPageClient() {
   const [search, setSearch] = useQueryState('search', parseAsString);
 
   return (
-    <>
+    <div className="flex h-full flex-col">
       <div className="flex w-full gap-2">
         <ProjectsSearchInput
           containerClassName="flex-1"
@@ -28,6 +28,6 @@ export function ProjectsPageClient() {
       <div className="absolute bottom-10 left-1/2 -translate-x-1/2 sm:hidden">
         <CreateProjectLink />
       </div>
-    </>
+    </div>
   );
 }

@@ -43,7 +43,7 @@ export function TasksPageClient() {
   };
 
   return (
-    <div>
+    <div className="flex h-full flex-col">
       <TaskListPanel
         statusValue={params.status}
         onStatusChange={handleStatusChange}

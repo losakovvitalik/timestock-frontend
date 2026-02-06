@@ -14,8 +14,8 @@ import { isSameDay } from 'date-fns';
 import React, { useMemo } from 'react';
 import { SwipeActionsContext } from './model/time-entry-list.context';
 import { createTimeEntryListStore } from './model/time-entry-list.store';
+import { TimeEntryEmptyState } from './time-entry-empty-state';
 import { TimeEntryItem } from './time-entry-item';
-import { TimeEntryEmptyState } from './ui/time-entry-empty-state';
 
 export interface TimeEntryListProps {
   params?: Omit<ApiGetParams<TimeEntryDTO>, 'populate' | 'pagination'>;

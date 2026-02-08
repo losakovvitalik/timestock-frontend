@@ -78,7 +78,7 @@ export function SearchInput({
               <FormControl>
                 <div className={cn('relative')}>
                   <Input
-                    className={cn('h-10 appearance-none pr-[68px]', className)}
+                    className={cn('h-9 appearance-none pr-[68px]', className)}
                     type="search"
                     {...inputProps}
                     {...field}

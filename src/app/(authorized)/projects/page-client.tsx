@@ -13,10 +13,10 @@ export function ProjectsPageClient() {
       <div className="flex w-full gap-2">
         <ProjectsSearchInput
           containerClassName="flex-1"
-          onSearch={setSearch}
+          onSearch={(value) => setSearch(value || null)}
           defaultValue={search || ''}
         />
-        <CreateProjectLink className="h-10 rounded-md" />
+        <CreateProjectLink className="h-9 rounded-md" />
       </div>
 
       <ProjectList

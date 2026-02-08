@@ -6,6 +6,7 @@ import { useUser } from '@/entities/user/hooks/use-user';
 import { ApiGetParams } from '@/shared/types/api';
 import { ProjectListEmptyState } from './project-list-empty-state';
 import { ProjectListItem } from './project-list-item';
+import { ProjectListSearchEmptyState } from './project-list-search-empty-state';
 import { ProjectListSkeleton } from './project-list-skeleton';
 
 export interface ProjectListProps {
@@ -50,7 +51,7 @@ export function ProjectList({ params: propsParams }: ProjectListProps) {
   const isEmpty = !projects?.data || projects.data.length === 0;
 
   if (isEmpty) {
-    return <ProjectListEmptyState />;
+    return propsParams?.search ? <ProjectListSearchEmptyState /> : <ProjectListEmptyState />;
   }
 
   return (

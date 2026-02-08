@@ -15,14 +15,14 @@ export interface DateTimePickerProps {
 
 export function DateTimePicker({ date, onChange, calenderProps, disabled }: DateTimePickerProps) {
   const [open, setOpen] = React.useState(false);
+  const timeValue = date ? format(date, 'HH:mm') : undefined;
 
   return (
     <div className="grid grid-cols-[2fr_3fr] gap-4">
       <div className="flex flex-col gap-3">
         <DurationInput
-          value={format(date || new Date().setHours(9, 0, 0), 'HH:mm')}
+          value={timeValue}
           onChange={(value) => {
-            console.log('test');
             const [hours, minutes] = value.split(':');
 
             const newDate = date ? new Date(date) : new Date();
@@ -32,7 +32,7 @@ export function DateTimePicker({ date, onChange, calenderProps, disabled }: Date
             onChange(newDate);
           }}
           format="HH:mm"
-          disabled={disabled}
+          disabled={disabled || !date}
         />
       </div>
       <div className="flex flex-col gap-3">

@@ -1,4 +1,5 @@
 import { ProjectBadge } from '@/entities/project/ui/project-badge';
+import { useArchiveTask } from '@/entities/task/hooks/use-archive-task';
 import { TaskDTO } from '@/entities/task/model/task-types';
 import { StartTaskTimerButton } from '@/features/task/start-task-timer/ui/start-task-timer-button';
 import { formatDisplayDate } from '@/shared/lib/date/format-display-date';
@@ -11,6 +12,7 @@ import { TooltipWrapper } from '@/shared/ui/tooltip-wrapper';
 import { Typography } from '@/shared/ui/typography';
 import { TaskItemCompleteButton } from '@/widgets/task-list/ui/task-item/task-item-complete-button';
 import { Archive, Bell, Calendar1, CalendarX, Edit2, Trash2 } from 'lucide-react';
+import { toast } from 'sonner';
 import { TaskItemProgress } from './task-item-progress';
 
 export interface TaskItemProps {
@@ -19,9 +21,19 @@ export interface TaskItemProps {
 
 export function TaskItem({ item }: TaskItemProps) {
   const { name, project } = item;
+  const archiveTask = useArchiveTask({
+    onSuccess: () => {
+      toast.success('Задача архивирована');
+    },
+    onError: () => {
+      toast.error('Не удалось архивировать задачу');
+    },
+  });
+
+  const isArchiving = archiveTask.isPending;
 
   return (
-    <Card className={cn('border-none py-4')}>
+    <Card className={cn('border-none py-4', isArchiving && 'pointer-events-none opacity-50')}>
       <CardContent>
         <div className="flex items-center gap-4">
           <div className="flex flex-1 items-center gap-2">
@@ -62,7 +74,7 @@ export function TaskItem({ item }: TaskItemProps) {
                     {
                       icon: <Archive />,
                       label: 'Архивировать',
-                      onClick: () => {},
+                      onClick: () => archiveTask.mutate(item.documentId),
                     },
                     {
                       icon: <Edit2 />,
@@ -80,24 +92,6 @@ export function TaskItem({ item }: TaskItemProps) {
                   ]}
                 />
               </ButtonGroup>
-
-              {/*<TooltipButton title="Архивировать">*/}
-              {/*  <Button className="size-8" size="icon" variant="secondary">*/}
-              {/*    <Archive />*/}
-              {/*  </Button>*/}
-              {/*</TooltipButton>*/}
-
-              {/*<TooltipButton title="Редактировать">*/}
-              {/*  <Button className="size-8" size="icon" variant="secondary">*/}
-              {/*    <Edit2 className="fill-white" />*/}
-              {/*  </Button>*/}
-              {/*</TooltipButton>*/}
-
-              {/*<TooltipButton title="Удалить">*/}
-              {/*  <Button className="size-8" size="icon" variant="default">*/}
-              {/*    <Trash2 />*/}
-              {/*  </Button>*/}
-              {/*</TooltipButton>*/}
             </div>
           </div>
         </div>

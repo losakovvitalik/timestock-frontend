@@ -29,6 +29,7 @@ export function TaskList({ params: { status, search, sort, project } }: TaskList
           documentId: user?.documentId,
         },
         ...buildTaskFilter({ status, search, project }),
+        is_archived: false,
       },
       sort: {
         [sortKey]: sortOrder,

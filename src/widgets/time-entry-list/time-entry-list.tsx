@@ -1,6 +1,7 @@
 'use client';
 
 import { timeEntryApiHooks } from '@/entities/time-entry/api/time-entry-api-hooks';
+import { useDailyTotals } from '@/entities/time-entry/hooks/use-daily-totals';
 import { TimeEntry, TimeEntryDTO } from '@/entities/time-entry/model/types';
 import { useInView } from '@/shared/hooks/use-in-view';
 import { formatDisplayDate } from '@/shared/lib/date/format-display-date';
@@ -10,7 +11,9 @@ import { Badge } from '@/shared/ui/badge';
 import { Loader } from '@/shared/ui/loader';
 import { Separator } from '@/shared/ui/separator';
 import { Typography } from '@/shared/ui/typography';
-import { isSameDay } from 'date-fns';
+import { formatDuration } from '@/shared/utils/duration';
+import { format, isSameDay } from 'date-fns';
+import { Loader2 } from 'lucide-react';
 import React, { useMemo } from 'react';
 import { SwipeActionsContext } from './model/time-entry-list.context';
 import { createTimeEntryListStore } from './model/time-entry-list.store';
@@ -20,6 +23,35 @@ import { TimeEntryItem } from './time-entry-item';
 export interface TimeEntryListProps {
   params?: Omit<ApiGetParams<TimeEntryDTO>, 'populate' | 'pagination'>;
   className?: string;
+}
+
+function DayHeader({
+  date,
+  dailyTotals,
+  isDailyTotalsLoading,
+}: {
+  date: string;
+  dailyTotals?: Map<string, number>;
+  isDailyTotalsLoading: boolean;
+}) {
+  const dateKey = format(new Date(date), 'yyyy-MM-dd');
+  const totalDuration = dailyTotals?.get(dateKey);
+
+  return (
+    <div className="flex items-center gap-2">
+      <Badge className="bg-primary/70 text-tiny">{formatDisplayDate(date)}</Badge>
+      {totalDuration != null || isDailyTotalsLoading ? (
+        <Badge className="bg-primary/70 text-tiny min-w-12 justify-center">
+          {isDailyTotalsLoading ? (
+            <Loader2 className="size-3 animate-spin" />
+          ) : (
+            formatDuration(totalDuration!, 'HH:mm')
+          )}
+        </Badge>
+      ) : null}
+      <Separator className="bg-primary/70 h-0.5! flex-1 rounded-lg" />
+    </div>
+  );
 }
 
 export function TimeEntryList({ params, className }: TimeEntryListProps) {
@@ -49,7 +81,24 @@ export function TimeEntryList({ params, className }: TimeEntryListProps) {
     },
   });
 
-  const flatData = timeEntries?.data?.pages.flatMap((p) => p.data) ?? [];
+  const flatData = useMemo(
+    () => timeEntries?.data?.pages.flatMap((p) => p.data) ?? [],
+    [timeEntries?.data?.pages],
+  );
+
+  // Диапазон дат из загруженных записей (отсортированы desc → первая = самая новая)
+  const dateRange = useMemo(() => {
+    if (flatData.length === 0) return null;
+    const from = format(new Date(flatData[flatData.length - 1].start_time), 'yyyy-MM-dd');
+    const to = format(new Date(flatData[0].start_time), 'yyyy-MM-dd');
+    return { from, to };
+  }, [flatData]);
+
+  const dailyTotals = useDailyTotals({
+    from: dateRange?.from,
+    to: dateRange?.to,
+    enabled: dateRange !== null,
+  });
   const isLoading = timeEntries.isLoading;
   const isEmpty = !isLoading && flatData.length === 0;
 
@@ -60,7 +109,7 @@ export function TimeEntryList({ params, className }: TimeEntryListProps) {
   if (isEmpty) {
     return (
       <div className={cn('flex h-full flex-col gap-2', className)}>
-        <Typography variant="subtitle">Последнии записи</Typography>
+        <Typography variant="subtitle">Последние записи</Typography>
         <TimeEntryEmptyState />
       </div>
     );
@@ -69,7 +118,7 @@ export function TimeEntryList({ params, className }: TimeEntryListProps) {
   return (
     <SwipeActionsContext.Provider value={{ store: swipeStore }}>
       <div className={cn('flex h-full flex-col gap-2 overflow-auto', className)}>
-        <Typography variant="subtitle">Последнии записи</Typography>
+        <Typography variant="subtitle">Последние записи</Typography>
         <ul ref={rootRef} className="z-20 flex h-full flex-col gap-2 overflow-auto pr-1 pb-2">
           {flatData.length > 0 ? (
             flatData.map((timeEntry, index) => {
@@ -78,23 +127,21 @@ export function TimeEntryList({ params, className }: TimeEntryListProps) {
               return (
                 <React.Fragment key={timeEntry.documentId}>
                   {index === 0 && (
-                    <div className="grid grid-cols-[auto_1fr] items-center gap-2">
-                      <Badge className="bg-primary/70 text-tiny">
-                        {formatDisplayDate(timeEntry.start_time)}
-                      </Badge>
-                      <Separator className="bg-primary/70 h-0.5! rounded-lg" />
-                    </div>
+                    <DayHeader
+                      date={timeEntry.start_time}
+                      dailyTotals={dailyTotals.data}
+                      isDailyTotalsLoading={dailyTotals.isLoading}
+                    />
                   )}
                   <li>
                     <TimeEntryItem entry={timeEntry} />
                   </li>
                   {nextTimeEntry && !isSameDay(nextTimeEntry.start_time, timeEntry.start_time) && (
-                    <div className="grid grid-cols-[auto_1fr] items-center gap-2">
-                      <Badge className="bg-primary/70 text-tiny">
-                        {formatDisplayDate(nextTimeEntry.start_time)}
-                      </Badge>
-                      <Separator className="bg-primary/70 h-0.5! rounded-lg" />
-                    </div>
+                    <DayHeader
+                      date={nextTimeEntry.start_time}
+                      dailyTotals={dailyTotals.data}
+                      isDailyTotalsLoading={dailyTotals.isLoading}
+                    />
                   )}
                 </React.Fragment>
               );

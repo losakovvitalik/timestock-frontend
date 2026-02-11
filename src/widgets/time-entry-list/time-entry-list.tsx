@@ -39,9 +39,9 @@ function DayHeader({
 
   return (
     <div className="flex items-center gap-2">
-      <Badge className="bg-primary/70 text-tiny">{formatDisplayDate(date)}</Badge>
+      <Badge className="bg-primary/70 text-tiny h-5">{formatDisplayDate(date)}</Badge>
       {totalDuration != null || isDailyTotalsLoading ? (
-        <Badge className="bg-primary/70 text-tiny min-w-12 justify-center">
+        <Badge className="bg-primary/70 text-tiny h-5 min-w-12 justify-center">
           {isDailyTotalsLoading ? (
             <Loader2 className="size-3 animate-spin" />
           ) : (

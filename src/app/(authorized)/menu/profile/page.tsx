@@ -2,8 +2,8 @@
 
 import { useUser } from '@/entities/user/hooks/use-user';
 import { EditUserProfileForm } from '@/features/edit-user-profile/ui/update-user-profile-form';
-import { Card, CardContent, CardTitle } from '@/shared/ui/card';
 import { Loader } from '@/shared/ui/loader';
+import { PageTitle } from '@/shared/ui/page-title';
 
 export default function ProfilePage() {
   const { user, isSuccess } = useUser();
@@ -13,13 +13,11 @@ export default function ProfilePage() {
   }
 
   return (
-    <div className="flex flex-col gap-4">
-      <Card>
-        <CardContent>
-          <CardTitle className="text-center">{user?.email}</CardTitle>
-        </CardContent>
-      </Card>
-      {isSuccess && <EditUserProfileForm defaultValues={{ timezone: user?.timezone }} />}
-    </div>
+    <>
+      <PageTitle>{user.email}</PageTitle>
+      <div className="flex flex-col gap-4">
+        {isSuccess && <EditUserProfileForm defaultValues={{ timezone: user?.timezone }} />}
+      </div>
+    </>
   );
 }

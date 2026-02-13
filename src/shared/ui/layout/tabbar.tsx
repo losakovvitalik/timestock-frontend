@@ -47,7 +47,7 @@ export function Tabbar() {
           <TabbarLink icon={<Clock />} link={paths.timer} />
         </li>
         <li className="flex flex-col items-center gap-1">
-          <TabbarLink icon={<Menu />} link={paths.menu} />
+          <TabbarLink icon={<Menu />} link={paths.menu.link} />
         </li>
       </ul>
     </nav>

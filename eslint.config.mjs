@@ -99,7 +99,7 @@ const eslintConfig = [
           rules: [
             {
               target: ['shared'],
-              allow: '**/index.(ts|tsx)',
+              allow: '**',
             },
             {
               target: ['features'],

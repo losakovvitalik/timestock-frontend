@@ -1,83 +1,26 @@
-import { pushSubscriptionApiHooks } from '@/entities/push-subscription/api/push-subscription-api-hooks';
-import { useUser } from '@/entities/user/hooks/use-user';
-import { Button } from '@/shared/ui/button';
-import { useMutation } from '@tanstack/react-query';
-import { useEffect, useState } from 'react';
-import { toast } from 'sonner';
-import { urlBase64ToUint8Array } from '../utils/url-to-unit-array';
+import { cn } from '@/shared/lib';
+import { Switch } from '@/shared/ui/switch';
+import { Bell, BellOff } from 'lucide-react';
+import { useTogglePush } from '../hooks/use-toggle-push';
 
-export function PushNotificationManager() {
-  const [isSupported, setIsSupported] = useState(false);
-  const [subscription, setSubscription] = useState<PushSubscription | null>(null);
-  const create = pushSubscriptionApiHooks.useCreate();
-  const { user } = useUser();
+interface PushNotificationManagerProps {
+  className?: string;
+}
 
-  const subscribe = useMutation({
-    mutationFn: async () => {
-      const registration = await navigator.serviceWorker.ready;
-      const sub = await registration.pushManager.subscribe({
-        userVisibleOnly: true,
-        applicationServerKey: urlBase64ToUint8Array(process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY!),
-      });
-
-      setSubscription(sub);
-      const serializedSub = JSON.parse(JSON.stringify(sub));
-
-      if (user?.id) {
-        create.mutate({
-          subscription: serializedSub,
-          user: user.id,
-        });
-      }
-    },
-    onError: () => {
-      toast.error('Не удалось включить уведомления');
-    },
-  });
-
-  const unsubscribe = useMutation({
-    mutationFn: async () => {
-      await subscription?.unsubscribe();
-      setSubscription(null);
-    },
-  });
-
-  useEffect(() => {
-    if ('serviceWorker' in navigator && 'PushManager' in window) {
-      setIsSupported(true);
-      registerServiceWorker();
-    }
-  }, []);
-
-  async function registerServiceWorker() {
-    console.log('registerServiceWorker');
-    const registration = await navigator.serviceWorker.register('/sw.js', {
-      scope: '/',
-      updateViaCache: 'none',
-    });
-    const sub = await registration.pushManager.getSubscription();
-    setSubscription(sub);
-  }
+export function PushNotificationManager({ className }: PushNotificationManagerProps) {
+  const { isSupported, isEnabled, isPending, toggle } = useTogglePush();
 
   if (!isSupported) {
-    return (
-      <Button className="h-auto whitespace-break-spaces" disabled={true}>
-        Уведомления не поддерживаются в этом браузере
-      </Button>
-    );
+    return null;
   }
 
-  const handleTogglePush = () => {
-    if (subscription) {
-      unsubscribe.mutate();
-    } else {
-      subscribe.mutate();
-    }
-  };
-
   return (
-    <Button disabled={subscribe.isPending || unsubscribe.isPending} onClick={handleTogglePush}>
-      {subscription ? 'Выключить уведомления' : 'Включить уведомления'}
-    </Button>
+    <label className={cn('flex cursor-pointer items-center justify-between gap-2', className)}>
+      <span className={cn('flex items-center gap-1', isPending && 'text-muted-foreground')}>
+        {isEnabled ? <Bell className="size-4 text-green-300" /> : <BellOff className="size-4" />}
+        Уведомления
+      </span>
+      <Switch checked={isEnabled} disabled={isPending} onCheckedChange={toggle} />
+    </label>
   );
 }

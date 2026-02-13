@@ -32,7 +32,7 @@ const items = [
   },
   {
     title: 'Меню',
-    url: paths.menu,
+    url: paths.menu.link,
     icon: Menu,
   },
 ];

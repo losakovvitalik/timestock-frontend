@@ -1,7 +1,9 @@
 export const paths = {
   timer: '/timer',
-  menu: '/menu',
-  profile: '/profile',
+  menu: {
+    link: '/menu',
+    profile: '/menu/profile',
+  },
   project: {
     list: '/projects',
     create: '/projects/create',

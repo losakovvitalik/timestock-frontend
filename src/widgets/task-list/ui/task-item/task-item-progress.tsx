@@ -10,7 +10,7 @@ export interface TaskItemProgressProps {
 export function TaskItemProgress({ task: { time_spent, estimated_time } }: TaskItemProgressProps) {
   return (
     <div
-      className={cn('ml-auto grid max-w-72 grid-cols-[1fr_auto] items-center gap-3', {
+      className={cn('ml-auto grid max-w-72 grid-cols-1 items-center gap-3', {
         'w-full': estimated_time,
       })}
     >

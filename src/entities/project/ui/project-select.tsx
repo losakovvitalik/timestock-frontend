@@ -1,15 +1,14 @@
 import { ProjectDTO } from '@/entities/project/models/types';
-import { useUser } from '@/entities/user/hooks/use-user';
+import { useUser } from '@/entities/user';
 import { cn } from '@/shared/lib/utils';
 import Select, { SelectProps } from '@/shared/ui/select';
 import { Typography } from '@/shared/ui/typography';
 import { projectApiHooks } from '../api/project-api-hooks';
 
-export interface ProjectSelectProps
-  extends Omit<
-    SelectProps<ProjectDTO, 'documentId', 'name'>,
-    'options' | 'labelKey' | 'valueKey'
-  > {}
+export interface ProjectSelectProps extends Omit<
+  SelectProps<ProjectDTO, 'documentId', 'name'>,
+  'options' | 'labelKey' | 'valueKey'
+> {}
 
 export function ProjectSelect({ className, ...props }: ProjectSelectProps) {
   const { user } = useUser();
@@ -25,9 +24,7 @@ export function ProjectSelect({ className, ...props }: ProjectSelectProps) {
     options: { enabled: Boolean(user?.id) },
   });
 
-  const options = allProjects
-    ? [{ name: 'Нет проекта', documentId: null }, ...allProjects?.data]
-    : [];
+  const options = allProjects ? [{ name: 'Все', documentId: null }, ...allProjects?.data] : [];
 
   return (
     <Select

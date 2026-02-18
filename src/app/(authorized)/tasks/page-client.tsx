@@ -1,9 +1,11 @@
 'use client';
 
-import { TaskList } from '@/widgets/task-list/ui/task-list';
-import { TaskListPanel } from '@/widgets/task-list/ui/task-list-panel';
-import { TASK_STATUSES, TaskStatus } from '@/widgets/task-list/ui/task-list-status-filter';
+import type { TaskStatus } from '@/widgets/task-list';
+import { TASK_STATUSES, TaskList, TaskListPanel } from '@/widgets/task-list';
 import { parseAsString, parseAsStringEnum, useQueryStates } from 'nuqs';
+import { useLocalStorage } from 'usehooks-ts';
+
+const TASK_PROJECT_STORAGE_KEY = 'task-list-project';
 
 export function TasksPageClient() {
   const [params, setParams] = useQueryStates({
@@ -12,8 +14,9 @@ export function TasksPageClient() {
     ),
     sort: parseAsString.withDefault('createdAt:asc'),
     search: parseAsString.withDefault(''),
-    project: parseAsString,
   });
+
+  const [project, setProject] = useLocalStorage<string | null>(TASK_PROJECT_STORAGE_KEY, null);
 
   const handleStatusChange = (status: TaskStatus) => {
     setParams((prev) => ({ ...prev, status }), { shallow: true });
@@ -38,10 +41,6 @@ export function TasksPageClient() {
     }
   };
 
-  const handleProjectChange = (project: string | null) => {
-    setParams((prev) => ({ ...prev, project }), { shallow: true });
-  };
-
   return (
     <div className="flex h-full flex-col">
       <TaskListPanel
@@ -51,10 +50,10 @@ export function TasksPageClient() {
         onSearchChange={handleSearch}
         sortValue={params.sort}
         onSortChange={handleSortChange}
-        projectValue={params.project}
-        onProjectChange={handleProjectChange}
+        projectValue={project}
+        onProjectChange={setProject}
       />
-      <TaskList params={params} />
+      <TaskList params={{ ...params, project }} />
     </div>
   );
 }

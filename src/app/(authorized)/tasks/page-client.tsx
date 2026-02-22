@@ -52,6 +52,7 @@ export function TasksPageClient() {
         onSortChange={handleSortChange}
         projectValue={project}
         onProjectChange={setProject}
+        defaultProject={project}
       />
       <TaskList params={{ ...params, project }} />
     </div>

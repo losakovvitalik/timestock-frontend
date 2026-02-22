@@ -12,10 +12,15 @@ import { TaskPayload } from '../model/task-types';
 export interface TaskFormProps {
   onSubmit: (data: TaskPayload) => void;
   trigger?: React.ReactElement<typeof Button>;
+  defaultProject?: string | null;
 }
 
-export function TaskForm({ onSubmit, trigger }: TaskFormProps) {
-  const form = useTaskForm();
+export function TaskForm({ onSubmit, trigger, defaultProject }: TaskFormProps) {
+  const form = useTaskForm({
+    defaultValues: {
+      project: defaultProject ?? undefined,
+    },
+  });
 
   const handleSubmit = (data: TaskSchemaType) => {
     onSubmit({

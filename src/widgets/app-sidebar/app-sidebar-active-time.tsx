@@ -29,18 +29,18 @@ export function AppSidebarActiveTime() {
           </div>
         </div>
         <div className="flex flex-col gap-1">
-          {activeTimeEntry.project ? (
-            <ProjectBadge project={activeTimeEntry.project} />
-          ) : (
-            <span className="text-muted-foreground text-xs">Проект не указан</span>
-          )}
           <p
-            className={cn('text-muted-foreground line-clamp-2 text-xs', {
+            className={cn('text-muted-foreground line-clamp-3 text-xs', {
               italic: !activeTimeEntry.description,
             })}
           >
             {activeTimeEntry.description || 'Без описания'}
           </p>
+          {activeTimeEntry.project ? (
+            <ProjectBadge project={activeTimeEntry.project} />
+          ) : (
+            <span className="text-muted-foreground text-xs">Проект не указан</span>
+          )}
         </div>
       </div>
     );

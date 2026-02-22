@@ -27,6 +27,8 @@ export interface TaskListPanelProps {
 
   projectValue: TaskListProjectSelectProps['value'];
   onProjectChange: TaskListProjectSelectProps['onProjectSelect'];
+
+  defaultProject?: string | null;
 }
 
 export function TaskListPanel({
@@ -38,6 +40,7 @@ export function TaskListPanel({
   onSortChange,
   projectValue,
   onProjectChange,
+  defaultProject,
 }: TaskListPanelProps) {
   return (
     <div className="flex items-center gap-2">
@@ -45,7 +48,7 @@ export function TaskListPanel({
       <TaskListSearch onSearch={onSearchChange} defaultValue={searchDefaultValue} />
       <TaskListSortSelect onOrderChange={onSortChange} value={sortValue} />
       <TaskListProjectSelect onProjectSelect={onProjectChange} value={projectValue} />
-      <CreateTaskDialog />
+      <CreateTaskDialog defaultProject={defaultProject} />
     </div>
   );
 }

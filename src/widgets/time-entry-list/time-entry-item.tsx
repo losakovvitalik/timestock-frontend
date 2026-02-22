@@ -1,3 +1,5 @@
+'use client';
+
 import { ProjectBadge } from '@/entities/project/ui/project-badge';
 import { timeEntryApiHooks } from '@/entities/time-entry/api/time-entry-api-hooks';
 import { TimeEntry, TimeEntryPayload } from '@/entities/time-entry/model/types';

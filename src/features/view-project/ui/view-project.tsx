@@ -13,7 +13,6 @@ import { Edit, Trash2 } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
-import { ViewProjectChart } from './view-project-chart';
 
 export interface ViewProjectProps {
   projectId: string;
@@ -78,7 +77,6 @@ export function ViewProject({ projectId }: ViewProjectProps) {
           {project.description && <CardDescription>{project.description}</CardDescription>}
         </CardHeader>
       </Card>
-      <ViewProjectChart projectId={projectId} />
 
       <ConfirmPopup
         open={isDeleteDialogOpen}

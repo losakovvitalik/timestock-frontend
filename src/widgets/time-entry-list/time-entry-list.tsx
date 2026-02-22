@@ -19,6 +19,7 @@ import { SwipeActionsContext } from './model/time-entry-list.context';
 import { createTimeEntryListStore } from './model/time-entry-list.store';
 import { TimeEntryEmptyState } from './time-entry-empty-state';
 import { TimeEntryItem } from './time-entry-item';
+import { TimeEntryNotFoundState } from './time-entry-not-found-state';
 
 export interface TimeEntryListProps {
   params?: Omit<ApiGetParams<TimeEntryDTO>, 'populate' | 'pagination'>;
@@ -77,7 +78,7 @@ export function TimeEntryList({ params, className }: TimeEntryListProps) {
       },
     },
     options: {
-      queryKey: timeEntryApiHooks.keys.lists(),
+      queryKey: timeEntryApiHooks.keys.list(params),
     },
   });
 
@@ -100,7 +101,8 @@ export function TimeEntryList({ params, className }: TimeEntryListProps) {
     enabled: dateRange !== null,
   });
   const isLoading = timeEntries.isLoading;
-  const isEmpty = !isLoading && flatData.length === 0;
+  const isEmpty = !params && !isLoading && flatData.length === 0;
+  const isNotFound = params && !isLoading && flatData.length === 0;
 
   const { ref, rootRef } = useInView({
     onInView: () => timeEntries.fetchNextPage(),
@@ -115,40 +117,46 @@ export function TimeEntryList({ params, className }: TimeEntryListProps) {
     );
   }
 
+  if (isNotFound) {
+    return (
+      <div className={cn('flex h-full flex-col gap-2', className)}>
+        <Typography variant="subtitle">Последние записи</Typography>
+        <TimeEntryNotFoundState />
+      </div>
+    );
+  }
+
   return (
     <SwipeActionsContext.Provider value={{ store: swipeStore }}>
       <div className={cn('flex h-full flex-col gap-2 overflow-auto', className)}>
         <Typography variant="subtitle">Последние записи</Typography>
         <ul ref={rootRef} className="z-20 flex h-full flex-col gap-2 overflow-auto pr-1 pb-2">
-          {flatData.length > 0 ? (
-            flatData.map((timeEntry, index) => {
-              const nextTimeEntry = flatData[index + 1] as TimeEntry | undefined;
+          {flatData.map((timeEntry, index) => {
+            const nextTimeEntry = flatData[index + 1] as TimeEntry | undefined;
 
-              return (
-                <React.Fragment key={timeEntry.documentId}>
-                  {index === 0 && (
-                    <DayHeader
-                      date={timeEntry.start_time}
-                      dailyTotals={dailyTotals.data}
-                      isDailyTotalsLoading={dailyTotals.isLoading}
-                    />
-                  )}
-                  <li>
-                    <TimeEntryItem entry={timeEntry} />
-                  </li>
-                  {nextTimeEntry && !isSameDay(nextTimeEntry.start_time, timeEntry.start_time) && (
-                    <DayHeader
-                      date={nextTimeEntry.start_time}
-                      dailyTotals={dailyTotals.data}
-                      isDailyTotalsLoading={dailyTotals.isLoading}
-                    />
-                  )}
-                </React.Fragment>
-              );
-            })
-          ) : (
-            <Loader absolute />
-          )}
+            return (
+              <React.Fragment key={timeEntry.documentId}>
+                {index === 0 && (
+                  <DayHeader
+                    date={timeEntry.start_time}
+                    dailyTotals={dailyTotals.data}
+                    isDailyTotalsLoading={dailyTotals.isLoading}
+                  />
+                )}
+                <li>
+                  <TimeEntryItem entry={timeEntry} />
+                </li>
+                {nextTimeEntry && !isSameDay(nextTimeEntry.start_time, timeEntry.start_time) && (
+                  <DayHeader
+                    date={nextTimeEntry.start_time}
+                    dailyTotals={dailyTotals.data}
+                    isDailyTotalsLoading={dailyTotals.isLoading}
+                  />
+                )}
+              </React.Fragment>
+            );
+          })}
+          {isLoading && <Loader absolute />}
           <div className="min-h-1" ref={ref} />
           {timeEntries.isFetchingNextPage && <Loader className="my-4" />}
         </ul>

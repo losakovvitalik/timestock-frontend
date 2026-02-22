@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form';
 import { taskSchema, TaskSchemaType } from '../model/task-schema';
 
 export interface UseTaskFormOptions {
-  defaultValues?: TaskSchemaType;
+  defaultValues?: Partial<TaskSchemaType>;
 }
 
 export function useTaskForm(opt?: UseTaskFormOptions) {

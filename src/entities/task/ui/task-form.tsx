@@ -18,7 +18,7 @@ export interface TaskFormProps {
 export function TaskForm({ onSubmit, trigger, defaultProject }: TaskFormProps) {
   const form = useTaskForm({
     defaultValues: {
-      project: defaultProject ?? undefined,
+      project: defaultProject,
     },
   });
 

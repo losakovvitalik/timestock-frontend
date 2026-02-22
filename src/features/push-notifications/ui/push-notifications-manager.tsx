@@ -17,7 +17,11 @@ export function PushNotificationManager({ className }: PushNotificationManagerPr
   return (
     <label className={cn('flex cursor-pointer items-center justify-between gap-2', className)}>
       <span className={cn('flex items-center gap-1', isPending && 'text-muted-foreground')}>
-        {isEnabled ? <Bell className="size-4 text-green-300" /> : <BellOff className="size-4" />}
+        {isEnabled ? (
+          <Bell className="size-4 fill-green-300 text-green-300" />
+        ) : (
+          <BellOff className="text-muted-foreground size-4" />
+        )}
         Уведомления
       </span>
       <Switch checked={isEnabled} disabled={isPending} onCheckedChange={toggle} />

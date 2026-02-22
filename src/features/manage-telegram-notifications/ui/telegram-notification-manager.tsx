@@ -62,8 +62,8 @@ export function TelegramNotificationManager({ className }: TelegramNotificationM
         <span className={cn('flex items-center gap-1', isTogglePending && 'text-muted-foreground')}>
           <Send
             className={cn(
-              'text-muted-foreground size-4',
-              status.notificationsEnabled && 'text-sky-300',
+              'text-muted-foreground fill-muted-foreground size-4',
+              status.notificationsEnabled && 'fill-sky-300 text-sky-300',
             )}
           />
           Telegram уведомления
@@ -77,7 +77,7 @@ export function TelegramNotificationManager({ className }: TelegramNotificationM
       <Button
         className="w-max"
         disabled={isDisconnectPending}
-        variant="outline"
+        variant="destructive"
         size="sm"
         onClick={disconnect}
       >

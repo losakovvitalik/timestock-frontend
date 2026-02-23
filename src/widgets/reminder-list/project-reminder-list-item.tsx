@@ -94,11 +94,11 @@ export function ProjectReminderListItem({ item, projectId }: ProjectReminderList
                 <TooltipProvider>
                   <Tooltip>
                     <TooltipTrigger asChild>
-                      <time dateTime={item.next_at} title={nextAbs} className="cursor-default">
+                      <time dateTime={item.next_at} className="cursor-default">
                         Следующее: {nextRel}
                       </time>
                     </TooltipTrigger>
-                    <TooltipContent>{nextAbs}</TooltipContent>
+                    <TooltipContent side="bottom">{nextAbs}</TooltipContent>
                   </Tooltip>
                 </TooltipProvider>
               </div>
@@ -122,32 +122,23 @@ export function ProjectReminderListItem({ item, projectId }: ProjectReminderList
             </div>
 
             <div className="hidden items-center gap-3 md:flex">
-              <TooltipProvider>
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <Button size="icon" onClick={() => setEditOpen(true)}>
-                      <Edit />
-                    </Button>
-                  </TooltipTrigger>
-                  <TooltipContent>Редактировать</TooltipContent>
-                </Tooltip>
-              </TooltipProvider>
+              <Button size="icon" onClick={() => setEditOpen(true)} aria-label="Редактировать">
+                <Edit />
+              </Button>
               <EditProjectReminderDialog
                 open={editOpen}
                 setOpen={setEditOpen}
                 projectReminder={item}
               />
 
-              <TooltipProvider>
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <Button variant="destructive" size="icon" onClick={() => setDeleteOpen(true)}>
-                      <Trash2 />
-                    </Button>
-                  </TooltipTrigger>
-                  <TooltipContent>Удалить</TooltipContent>
-                </Tooltip>
-              </TooltipProvider>
+              <Button
+                variant="destructive"
+                size="icon"
+                onClick={() => setDeleteOpen(true)}
+                aria-label="Удалить"
+              >
+                <Trash2 />
+              </Button>
             </div>
             <DeleteProjectReminderDialog
               open={deleteOpen}

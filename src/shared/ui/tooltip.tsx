@@ -67,7 +67,7 @@ function TooltipContent({
         {children}
         <TooltipPrimitive.Arrow
           className={cn(
-            'z-50 size-2.5 translate-y-[calc(-50%_-_2px)] rotate-45 rounded-[2px]',
+            'z-50 size-2.5 translate-y-[calc(-50%-2px)] rotate-45 rounded-[2px]',
             variant === 'primary' && 'bg-primary fill-primary',
             variant === 'secondary' && 'bg-secondary fill-secondary',
             variant === 'destructive' && 'bg-destructive fill-destructive',

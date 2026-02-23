@@ -10,7 +10,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from '@/shared/ui/sidebar';
-import { CircleCheckBig, Clock, FolderOpen, Menu } from 'lucide-react';
+import { ChartNoAxesCombined, CircleCheckBig, Clock, FolderOpen, Menu } from 'lucide-react';
 import Link from 'next/link';
 import { AppSidebarActiveTime } from './app-sidebar-active-time';
 
@@ -29,6 +29,11 @@ const items = [
     title: 'Задачи',
     url: paths.task.list,
     icon: CircleCheckBig,
+  },
+  {
+    title: 'Аналитика',
+    url: paths.project.list,
+    icon: ChartNoAxesCombined,
   },
   {
     title: 'Меню',

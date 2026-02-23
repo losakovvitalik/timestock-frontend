@@ -1,6 +1,6 @@
 'use client';
 
-import { useGetDailyAggregateByProject } from '@/entities/daily-aggregate/hooks/use-get-daily-aggregate-by-project';
+import { useGetDailyAggregateByProject } from '@/entities/daily-aggregate';
 import { formatDisplayDate } from '@/shared/lib/date/format-display-date';
 import { pluralize } from '@/shared/lib/pluralize';
 import { Badge } from '@/shared/ui/badge';

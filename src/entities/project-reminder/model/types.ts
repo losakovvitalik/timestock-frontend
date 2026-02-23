@@ -3,6 +3,7 @@ import { ProjectDTO } from '@/entities/project/models/types';
 interface RecurrenceOptions {
   time: string; // формат "HH:mm"
   interval: 'DAILY';
+  daysOfWeek?: number[]; // 1 (пн) — 7 (вс)
 }
 
 export interface ProjectReminderDTO {

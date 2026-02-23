@@ -1,11 +1,12 @@
+import { cn } from '@/shared/lib/utils';
 import { Button } from '@/shared/ui/button';
 import { TextField } from '@/shared/ui/fields';
 import { BooleanField } from '@/shared/ui/fields/boolean-field';
 import { DurationField } from '@/shared/ui/fields/duration-field';
-import { SelectField } from '@/shared/ui/fields/select-field';
-import { Form } from '@/shared/ui/form';
+import { Form, FormItem, FormLabel } from '@/shared/ui/form';
+import { useController, useWatch } from 'react-hook-form';
 import { useProjectReminderForm } from '../hooks/use-project-reminder-form';
-import { INTERVAL_OPTIONS } from '../model/constants';
+import { DAYS_OF_WEEK } from '../model/constants';
 import { ProjectReminderDTO, ProjectReminderPayload } from '../model/types';
 
 export interface ProjectReminderActionContext {
@@ -27,8 +28,6 @@ export function ProjectReminderForm({
 }: ProjectReminderFormProps) {
   const form = useProjectReminderForm({ defaultValues: { repeatable: true, ...defaultValues } });
 
-  console.log(form.getValues(), form.formState.errors);
-
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)}>
@@ -39,14 +38,6 @@ export function ProjectReminderForm({
               name="text"
               label="Текст уведомления"
               description="Этот текст будет отображаться в пуш-уведомлении"
-            />
-            <SelectField
-              control={form.control}
-              label="Частота повторения"
-              name="recurrence_options.interval"
-              labelKey="label"
-              valueKey="value"
-              options={INTERVAL_OPTIONS}
             />
             <DurationField
               control={form.control}
@@ -61,6 +52,7 @@ export function ProjectReminderForm({
               fieldClassName="grid-cols-[1fr_auto]"
               label="Повторять уведомления"
             />
+            <DaysOfWeekField control={form.control} />
           </div>
         </fieldset>
 
@@ -75,5 +67,48 @@ export function ProjectReminderForm({
         </div>
       </form>
     </Form>
+  );
+}
+
+function DaysOfWeekField({
+  control,
+}: {
+  control: ReturnType<typeof useProjectReminderForm>['control'];
+}) {
+  const repeatable = useWatch({ control, name: 'repeatable' });
+  const { field } = useController({
+    control,
+    name: 'recurrence_options.daysOfWeek' as const,
+  });
+
+  if (!repeatable) return null;
+
+  const selected: number[] = field.value ?? [];
+
+  const toggle = (day: number) => {
+    const next = selected.includes(day)
+      ? selected.filter((d: number) => d !== day)
+      : [...selected, day];
+    field.onChange(next);
+  };
+
+  return (
+    <FormItem>
+      <FormLabel>Дни недели</FormLabel>
+      <div className="grid grid-cols-7 gap-1">
+        {DAYS_OF_WEEK.map(({ label, value }) => (
+          <Button
+            key={value}
+            type="button"
+            size="sm"
+            variant={selected.includes(value) ? 'default' : 'outline'}
+            className={cn('flex-1')}
+            onClick={() => toggle(value)}
+          >
+            {label}
+          </Button>
+        ))}
+      </div>
+    </FormItem>
   );
 }

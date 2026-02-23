@@ -119,12 +119,7 @@ export function TimeEntryForm({ className, onSubmit, defaultValues }: TimeEntryF
       <form className={cn('flex flex-col gap-4', className)}>
         <TextareaField control={form.control} name="description" placeholder="Описание" />
         <SelectProjectField control={form.control} name="project" />
-        <DurationField
-          control={form.control}
-          name="duration"
-          label="Длительность"
-          format="HH:mm:ss"
-        />
+        <DurationField control={form.control} name="duration" format="HH:mm:ss" />
 
         <DateTimePickerField
           control={form.control}

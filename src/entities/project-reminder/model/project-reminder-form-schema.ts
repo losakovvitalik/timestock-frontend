@@ -6,6 +6,7 @@ export const projectReminderFormSchema = z.object({
   recurrence_options: z.object({
     interval: z.enum(['DAILY']),
     time: z.string(),
+    daysOfWeek: z.array(z.number()).default([1, 2, 3, 4, 5, 6, 7]),
   }),
   repeatable: z.boolean().default(false),
 });

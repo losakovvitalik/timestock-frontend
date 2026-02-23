@@ -1,26 +1,16 @@
-import { Switch } from '../switch';
+import { forwardRef } from 'react';
+import { Switch, SwitchProps } from '../switch';
 import { withFieldControl } from './with-field-control';
 
-// export interface BooleanFieldProps<T extends FieldValues>
-//   extends Omit<FieldControlProps<T>, 'render'>,
-//     Omit<SwitchProps, 'onChange' | 'value' | 'name'> {}
+const SwitchAdapter = forwardRef<
+  HTMLButtonElement,
+  Omit<SwitchProps, 'checked' | 'onCheckedChange'> & {
+    value?: boolean;
+    onChange?: (value: boolean) => void;
+  }
+>(({ value, onChange, ...props }, ref) => (
+  <Switch ref={ref} checked={value} onCheckedChange={onChange} {...props} />
+));
+SwitchAdapter.displayName = 'SwitchAdapter';
 
-// export function BooleanField<T extends FieldValues>({
-//   control,
-//   name,
-//   description,
-//   label,
-//   ...props
-// }: BooleanFieldProps<T>) {
-//   return (
-//     <FieldControl
-//       name={name}
-//       control={control}
-//       description={description}
-//       label={label}
-//       render={({ field }) => <Switch {...field} {...props} />}
-//     />
-//   );
-// }
-
-export const BooleanField = withFieldControl(Switch);
+export const BooleanField = withFieldControl(SwitchAdapter);

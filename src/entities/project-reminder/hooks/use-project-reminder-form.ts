@@ -15,6 +15,7 @@ export function useProjectReminderForm({ defaultValues }: UseProjectFormProps) {
   return useForm({
     resolver: zodResolver(projectReminderFormSchema),
     defaultValues: {
+      enabled: true,
       ...defaultValues,
       recurrence_options: {
         interval: 'DAILY' as const,

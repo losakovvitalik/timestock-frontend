@@ -26,7 +26,9 @@ export function ProjectReminderForm({
   renderActions,
   submitBtnText = 'Сохранить',
 }: ProjectReminderFormProps) {
-  const form = useProjectReminderForm({ defaultValues: { repeatable: true, ...defaultValues } });
+  console.log(defaultValues);
+
+  const form = useProjectReminderForm({ defaultValues });
 
   return (
     <Form {...form}>

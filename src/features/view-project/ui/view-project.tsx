@@ -71,9 +71,6 @@ export function ViewProject({ projectId }: ViewProjectProps) {
               </Button>
             </div>
           </div>
-          {project?.description && (
-            <p className="text-muted-foreground mt-1 text-sm">{project.description}</p>
-          )}
           {project.description && <CardDescription>{project.description}</CardDescription>}
         </CardHeader>
       </Card>

@@ -54,7 +54,7 @@ function TooltipContent({
   className,
   sideOffset = 0,
   children,
-  variant,
+  variant = 'primary',
   ...props
 }: TooltipContentProps) {
   return (

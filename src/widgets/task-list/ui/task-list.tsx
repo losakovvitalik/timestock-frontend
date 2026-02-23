@@ -31,10 +31,7 @@ export function TaskList({ params: { status, search, sort, project } }: TaskList
         ...buildTaskFilter({ status, search, project }),
         is_archived: false,
       },
-      sort: {
-        is_important: 'desc',
-        [sortKey]: sortOrder,
-      },
+      sort: [`is_important:desc`, `${sortKey}:${sortOrder}`],
       populate: {
         project: {
           populate: {

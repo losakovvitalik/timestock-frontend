@@ -30,7 +30,7 @@ export interface Pagination {
 export interface ApiGetParams<T = Record<any, any>> {
   filters?: Partial<Record<keyof T, any>>;
   populate?: Partial<Record<keyof T, any>>;
-  sort?: Partial<Record<keyof T, 'asc' | 'desc'>>;
+  sort?: string[] | Partial<Record<keyof T, 'asc' | 'desc'>>;
   pagination?: {
     page?: number | string;
     pageSize?: number | string;

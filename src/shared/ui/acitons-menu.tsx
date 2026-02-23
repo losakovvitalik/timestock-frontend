@@ -10,7 +10,7 @@ import {
 import { MoreHorizontal } from 'lucide-react';
 import React from 'react';
 
-interface Action {
+export interface Action {
   label: string;
   icon?: React.ReactNode;
   onClick: () => void;

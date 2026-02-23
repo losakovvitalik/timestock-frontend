@@ -13,13 +13,19 @@ export interface TaskDTO extends ApiEntityBase {
   time_entries?: TimeEntryDTO[];
   is_completed: boolean;
   is_archived: boolean;
+  is_important: boolean;
   due_date?: string;
 }
 
-export interface TaskPayload
-  extends Pick<
-    TaskDTO,
-    'name' | 'description' | 'estimated_time' | 'time_spent' | 'is_completed' | 'due_date'
-  > {
+export interface TaskPayload extends Pick<
+  TaskDTO,
+  | 'name'
+  | 'description'
+  | 'estimated_time'
+  | 'time_spent'
+  | 'is_completed'
+  | 'is_important'
+  | 'due_date'
+> {
   project?: string;
 }

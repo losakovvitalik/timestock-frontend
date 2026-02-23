@@ -32,6 +32,7 @@ export function TaskList({ params: { status, search, sort, project } }: TaskList
         is_archived: false,
       },
       sort: {
+        is_important: 'desc',
         [sortKey]: sortOrder,
       },
       populate: {

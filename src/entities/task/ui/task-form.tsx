@@ -29,6 +29,7 @@ export function TaskForm({ onSubmit, trigger, defaultProject }: TaskFormProps) {
       project: data.project || undefined,
       description: data.description,
       is_completed: false,
+      is_important: false,
       due_date: data.due_date?.toISOString(),
     });
   };

@@ -10,12 +10,12 @@ export interface TaskItemProgressProps {
 export function TaskItemProgress({ task: { time_spent, estimated_time } }: TaskItemProgressProps) {
   return (
     <div
-      className={cn('ml-auto grid max-w-72 grid-cols-1 items-center gap-3', {
+      className={cn('ml-auto flex max-w-72 items-center gap-3', {
         'w-full': estimated_time,
       })}
     >
       {estimated_time && (
-        <div className="bg-secondary h-3 rounded-md">
+        <div className="bg-secondary h-3 flex-1 rounded-md">
           <div
             style={{
               width: `${Math.min(round((time_spent || 0) / estimated_time) * 100, 100)}%`,

@@ -26,10 +26,12 @@ import { TaskItemProgress } from './task-item-progress';
 
 export interface TaskItemProps {
   item: TaskDTO;
+  highlightImportant?: boolean;
 }
 
-export function TaskItem({ item }: TaskItemProps) {
+export function TaskItem({ item, highlightImportant = true }: TaskItemProps) {
   const { name, project, is_important } = item;
+  const showImportantStyles = is_important && highlightImportant;
   const { toggleImportance } = useTaskImportance({ taskId: item.documentId });
   const archiveTask = useArchiveTask({
     onSuccess: () => {
@@ -45,7 +47,7 @@ export function TaskItem({ item }: TaskItemProps) {
   const actions: Action[] = [
     {
       icon: is_important ? <Flag className="fill-yellow-300/80 stroke-yellow-300/80" /> : <Flag />,
-      label: 'В приоритет',
+      label: 'Отметить важной',
       onClick: () => toggleImportance(is_important),
     },
     {
@@ -72,8 +74,8 @@ export function TaskItem({ item }: TaskItemProps) {
       <ContextMenuTrigger>
         <Card
           className={cn(
-            'py-3',
-            is_important ? 'border-primary/40 border-2 py-2.5' : 'border-none',
+            'border-card border-2 py-2.5',
+            showImportantStyles && 'border-primary/40',
             isArchiving && 'pointer-events-none opacity-50',
           )}
         >

@@ -13,6 +13,9 @@ export function buildTaskFilter({ status, search, project }: BuildTaskFilterPara
     case TASK_STATUSES.COMPLETED:
       filters.is_completed = true;
       break;
+    case TASK_STATUSES.ARCHIVED:
+      filters.is_archived = true;
+      break;
   }
 
   if (search) {

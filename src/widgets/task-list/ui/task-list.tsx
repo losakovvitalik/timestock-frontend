@@ -1,12 +1,12 @@
 'use client';
 
-import { taskApiHooks } from '@/entities/task/api/task-api-hooks';
-import { useUser } from '@/entities/user/hooks/use-user';
+import { taskApiHooks } from '@/entities/task';
+import { useUser } from '@/entities/user';
 import { extractInfiniteData } from '@/shared/lib/react-query/extract-infinite-data';
 import { Skeleton } from '@/shared/ui/skeleton';
 import { TaskItem } from '@/widgets/task-list/ui/task-item/task-item';
 import { TaskListEmptyState } from '@/widgets/task-list/ui/task-list-empty-state';
-import { TaskStatus } from '@/widgets/task-list/ui/task-list-status-filter';
+import { TASK_STATUSES, TaskStatus } from '@/widgets/task-list/ui/task-list-status-filter';
 import { buildTaskFilter } from '@/widgets/task-list/utils/build-task-filter';
 
 export interface TaskListProps {
@@ -21,17 +21,23 @@ export interface TaskListProps {
 export function TaskList({ params: { status, search, sort, project } }: TaskListProps) {
   const { user } = useUser();
 
+  const highlightImportant = status === TASK_STATUSES.NOT_COMPLETED || status === TASK_STATUSES.ALL;
+
   const [sortKey, sortOrder] = sort.split(':');
+  const sortRules = highlightImportant
+    ? [`is_important:desc`, `${sortKey}:${sortOrder}`]
+    : [`${sortKey}:${sortOrder}`];
+
   const { data, isLoading } = taskApiHooks.useInfinityList({
     params: {
       filters: {
         author: {
           documentId: user?.documentId,
         },
-        ...buildTaskFilter({ status, search, project }),
         is_archived: false,
+        ...buildTaskFilter({ status, search, project }),
       },
-      sort: [`is_important:desc`, `${sortKey}:${sortOrder}`],
+      sort: sortRules,
       populate: {
         project: {
           populate: {
@@ -66,7 +72,7 @@ export function TaskList({ params: { status, search, sort, project } }: TaskList
       {flatData.map((item) => {
         return (
           <li key={item.documentId}>
-            <TaskItem item={item} />
+            <TaskItem item={item} highlightImportant={highlightImportant} />
           </li>
         );
       })}
